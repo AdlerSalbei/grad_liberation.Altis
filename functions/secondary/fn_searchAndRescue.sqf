@@ -1,5 +1,5 @@
 
-private _spawn_marker = [ 3000, 999999, false ] call F_findOpforSpawnPoint;
+private _spawn_marker = [ 3000, 999999, false ] call grad_liberation_shared_fnc_findOpforSpawnPoint;
 if ( _spawn_marker == "" ) exitWith { diag_log "[KP LIBERATION] [ERROR] Could not find position for search and rescue mission"; };
 used_positions pushbackUnique _spawn_marker;
 
@@ -36,7 +36,7 @@ private _patrolcorners = [
 	[ (getpos _helowreck select 0) - 40, (getpos _helowreck select 1) + 40, 0 ]
 ];
 
-{ _x createUnit [ _patrolcorners select 0, _grppatrol,"this addMPEventHandler [""MPKilled"", {_this spawn kill_manager}]", 0.5, "private"]; } foreach (["army"] call F_getAdaptiveSquadComp);
+{ _x createUnit [ _patrolcorners select 0, _grppatrol,"this addMPEventHandler [""MPKilled"", {_this spawn kill_manager}]", 0.5, "private"]; } foreach (["army"] call grad_liberation_shared_fnc_getAdaptiveSquadComp);
 
 while {(count (waypoints _grppatrol)) != 0} do {deleteWaypoint ((waypoints _grppatrol) select 0);};
 {
@@ -71,7 +71,7 @@ if ( combat_readiness < 50 ) then {
 private _vehtospawn = [];
 private _spawnchances = [75,50,15];
 {if (random 100 < _x) then {_vehtospawn pushBack (selectRandom _vehicle_pool);};} foreach _spawnchances;
-{ ( [ [ getpos _helowreck, 30 + (random 30), random 360 ] call BIS_fnc_relPos , _x, true ] call F_libSpawnVehicle ) addMPEventHandler ['MPKilled', {_this spawn kill_manager}]; } foreach _vehtospawn;
+{ ( [ [ getpos _helowreck, 30 + (random 30), random 360 ] call BIS_fnc_relPos , _x, true ] call grad_liberation_shared_fnc_libSpawnVehicle ) addMPEventHandler ['MPKilled', {_this spawn kill_manager}]; } foreach _vehtospawn;
 
 secondary_objective_position = getpos _helowreck;
 secondary_objective_position_marker = [ secondary_objective_position, 800, random 360 ] call BIS_fnc_relPos;
@@ -82,7 +82,7 @@ GRLIB_secondary_in_progress = 2; publicVariable "GRLIB_secondary_in_progress";
 
 waitUntil {
 	sleep 5;
-	{ ( alive _x ) && ( _x distance ( [ getpos _x ] call F_getNearestFob ) > 50 ) } count _pilotUnits == 0
+	{ ( alive _x ) && ( _x distance ( [ getpos _x ] call grad_liberation_shared_fnc_getNearestFob ) > 50 ) } count _pilotUnits == 0
 };
 
 sleep 5;

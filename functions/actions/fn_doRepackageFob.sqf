@@ -13,7 +13,7 @@ if ( dorepackage > 0 ) then {
 	closeDialog 0;
 	waitUntil { !dialog };
 
-	_fob = [] call F_getNearestFob;
+	_fob = [] call grad_liberation_shared_fnc_getNearestFob;
 
 	if ( count _fob > 0 ) then {
 		GRLIB_all_fobs = GRLIB_all_fobs - [ _fob ];
@@ -32,7 +32,7 @@ if ( dorepackage > 0 ) then {
 
 	if ( dorepackage == 1 ) then {
 		_fobbox = FOB_box_typename createVehicle _spawnpos;
-		_fobbox call F_setFobMass;
+		_fobbox call grad_liberation_shared_fnc_setFobMass;
 	};
 
 	if ( dorepackage == 2 ) then {

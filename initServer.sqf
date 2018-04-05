@@ -67,7 +67,7 @@ if (!KP_liberation_ace) then {[] spawn compileFinal preprocessFileLineNumbers "s
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\patrols\civilian_patrols.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\patrols\manage_patrols.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\patrols\reinforcements_resetter.sqf";
-if (KP_liberation_ailogistics) then {[] spawn compileFinal preprocessFileLineNumbers "scripts\server\resources\manage_logistics.sqf";};
+if (liberation_ailogistics) then {[] spawn compileFinal preprocessFileLineNumbers "scripts\server\resources\manage_logistics.sqf";};
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\resources\manage_resources.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\resources\recalculate_resources.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\resources\recalculate_timer.sqf";
@@ -92,6 +92,6 @@ if (KP_liberation_ailogistics) then {[] spawn compileFinal preprocessFileLineNum
 } foreach allUnits;
 
 // Server Restart Script from K4s0
-if (KP_liberation_restart > 0) then {
+if (liberation_restart > 0) then {
 	[] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\server_restart.sqf";
 };

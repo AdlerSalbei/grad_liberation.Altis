@@ -8,7 +8,7 @@ if (isServer && alive _informant) then {
 	sleep 6;
 	
 	if ((random 100) <= KP_liberation_civinfo_task_chance) then {
-		private _hc = [] call F_lessLoadedHC;
+		private _hc = [] call grad_liberation_shared_fnc_lessLoadedHC;
 
 		if (isNull _hc) then {
 			[] spawn civinfo_task;

@@ -3,7 +3,7 @@ private [ "_attacktime", "_ownership", "_grp", "_squad_type" ];
 
 sleep 5;
 
-_ownership = [ markerpos _sector ] call F_sectorOwnership;
+_ownership = [ markerpos _sector ] call grad_liberation_shared_fnc_sectorOwnership;
 if ( _ownership != GRLIB_side_enemy ) exitWith {};
 
 _squad_type = blufor_squad_inf_light;
@@ -11,7 +11,7 @@ if ( _sector in sectors_military ) then {
 	_squad_type = blufor_squad_inf;
 };
 
-if ( GRLIB_blufor_defenders ) then {
+if ( liberation_blufor_defenders ) then {
 	_grp = creategroup GRLIB_side_friendly;
 	{ _x createUnit [ markerpos _sector, _grp,'this addMPEventHandler ["MPKilled", {_this spawn kill_manager}]']; } foreach _squad_type;
 	sleep 3;
@@ -20,9 +20,9 @@ if ( GRLIB_blufor_defenders ) then {
 
 sleep 60;
 
-_ownership = [ markerpos _sector ] call F_sectorOwnership;
+_ownership = [ markerpos _sector ] call grad_liberation_shared_fnc_sectorOwnership;
 if ( _ownership == GRLIB_side_friendly ) exitWith {
-	if ( GRLIB_blufor_defenders ) then {
+	if ( liberation_blufor_defenders ) then {
 		{
 			if ( alive _x ) then { deleteVehicle _x };
 		} foreach units _grp;
@@ -33,18 +33,18 @@ if ( _ownership == GRLIB_side_friendly ) exitWith {
 _attacktime = GRLIB_vulnerability_timer;
 
 while { _attacktime > 0 && ( _ownership == GRLIB_side_enemy || _ownership == GRLIB_side_resistance ) } do {
-	_ownership = [markerpos _sector] call F_sectorOwnership;
+	_ownership = [markerpos _sector] call grad_liberation_shared_fnc_sectorOwnership;
 	_attacktime = _attacktime - 1;
 	sleep 1;
 };
 
 waitUntil {
 	sleep 1;
-	[markerpos _sector] call F_sectorOwnership != GRLIB_side_resistance;
+	[markerpos _sector] call grad_liberation_shared_fnc_sectorOwnership != GRLIB_side_resistance;
 };
 
 if ( GRLIB_endgame == 0 ) then {
-	if ( _attacktime <= 1 && ( [markerpos _sector] call F_sectorOwnership == GRLIB_side_enemy ) ) then {
+	if ( _attacktime <= 1 && ( [markerpos _sector] call grad_liberation_shared_fnc_sectorOwnership == GRLIB_side_enemy ) ) then {
 		blufor_sectors = blufor_sectors - [ _sector ];
 		publicVariable "blufor_sectors";
 		[_sector, 2] remoteExec ["remote_call_sector"];
@@ -72,7 +72,7 @@ if ( GRLIB_endgame == 0 ) then {
 
 sleep 60;
 
-if ( GRLIB_blufor_defenders ) then {
+if ( liberation_blufor_defenders ) then {
 	{
 		if ( alive _x ) then { deleteVehicle _x };
 	} foreach units _grp;

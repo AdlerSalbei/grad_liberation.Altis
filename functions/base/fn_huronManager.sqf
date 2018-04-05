@@ -27,7 +27,7 @@ while { true } do {
 
 	huron AnimateDoor ["Door_rear_source", 1, true];
 	publicVariable "huron";
-	if(KP_liberation_clear_cargo) then {
+	if(liberation_clear_cargo) then {
 		clearWeaponCargoGlobal huron;
 		clearMagazineCargoGlobal huron;
 		clearItemCargoGlobal huron;

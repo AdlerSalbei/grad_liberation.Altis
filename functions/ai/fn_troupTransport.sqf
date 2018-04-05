@@ -1,7 +1,7 @@
 _troup_transport = _this select 0;
 _transport_group = (group (driver _troup_transport));
 _start_pos = getpos _troup_transport;
-_dat_objective =  ([getpos _troup_transport] call F_getNearestBluforObjective) select 0;
+_dat_objective =  ([getpos _troup_transport] call grad_liberation_shared_fnc_getNearestBluforObjective) select 0;
 _unload_distance = 1000;
 sleep 1;
 _initial_crewcount = count crew _troup_transport;
@@ -15,7 +15,7 @@ if ((alive _troup_transport) && (alive (driver _troup_transport))) then {
 
 	{
 		_x createUnit [_start_pos, _troupgrp,"this addMPEventHandler [""MPKilled"", {_this spawn kill_manager}]", 0.5, "private"];
-	} foreach (["army"] call F_getAdaptiveSquadComp);
+	} foreach (["army"] call grad_liberation_shared_fnc_getAdaptiveSquadComp);
 
 	{ _x moveInCargo _troup_transport } foreach (units _troupgrp);
 	while {(count (waypoints _troupgrp)) != 0} do {deleteWaypoint ((waypoints _troupgrp) select 0);};

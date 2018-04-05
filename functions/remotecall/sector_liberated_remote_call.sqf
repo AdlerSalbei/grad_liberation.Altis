@@ -3,19 +3,19 @@ params ["_liberated_sector"];
 private _combat_readiness_increase = 0;
 
 if (_liberated_sector in sectors_bigtown) then {
-	_combat_readiness_increase = (floor (random 10)) * GRLIB_difficulty_modifier;
+	_combat_readiness_increase = (floor (random 10)) * liberation_difficulty_modifier;
 };
 
 if (_liberated_sector in sectors_capture) then {
-	_combat_readiness_increase = (floor (random 6)) * GRLIB_difficulty_modifier;
+	_combat_readiness_increase = (floor (random 6)) * liberation_difficulty_modifier;
 };
 
 if (_liberated_sector in sectors_military) then {
-	_combat_readiness_increase = (5 + (floor (random 11))) * GRLIB_difficulty_modifier;
+	_combat_readiness_increase = (5 + (floor (random 11))) * liberation_difficulty_modifier;
 };
 
 if (_liberated_sector in sectors_factory) then {
-	_combat_readiness_increase = (3 + (floor (random 7))) * GRLIB_difficulty_modifier;
+	_combat_readiness_increase = (3 + (floor (random 7))) * liberation_difficulty_modifier;
 };
 
 if (_liberated_sector in sectors_tower) then {
@@ -23,7 +23,7 @@ if (_liberated_sector in sectors_tower) then {
 };
 
 combat_readiness = combat_readiness + _combat_readiness_increase;
-if (combat_readiness > 100.0 && GRLIB_difficulty_modifier <= 2.0) then {combat_readiness = 100.0};
+if (combat_readiness > 100.0 && liberation_difficulty_modifier <= 2.0) then {combat_readiness = 100.0};
 stats_readiness_earned = stats_readiness_earned + _combat_readiness_increase;
 [_liberated_sector, 0] remoteExec ["remote_call_sector"];
 
@@ -76,7 +76,7 @@ trigger_server_save = true;
 sleep 45;
 
 if (GRLIB_endgame == 0) then {
-	if ((!(_liberated_sector in sectors_tower)) && (((random (200.0 / (GRLIB_difficulty_modifier * GRLIB_csat_aggressivity))) < (combat_readiness - 20)) || (_liberated_sector in sectors_bigtown)) && ([] call F_opforCap < GRLIB_battlegroup_cap)) then {
+	if ((!(_liberated_sector in sectors_tower)) && (((random (200.0 / (liberation_difficulty_modifier * liberation_csat_aggressivity))) < (combat_readiness - 20)) || (_liberated_sector in sectors_bigtown)) && ([] call grad_liberation_shared_fnc_opforCap < GRLIB_battlegroup_cap)) then {
 		[_liberated_sector] spawn spawn_battlegroup;
 	};
 };

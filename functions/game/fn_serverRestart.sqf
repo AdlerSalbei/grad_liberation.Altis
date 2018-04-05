@@ -2,7 +2,7 @@ if (!isDedicated) exitWith {};
 
 private ["_serverDuration","_timeStart","_timeSinceStart","_shutdownSuccess","_timeUntilRestart","_30minspassed","_15minspassed","_5minspassed","_60secondspassed"];
 
-_serverDuration = (KP_liberation_restart * 60 * 60);
+_serverDuration = (liberation_restart * 60 * 60);
 
 diag_log format ["[KP LIBERATION] [RESTART] Restart Timer Set To %1", _serverDuration];
 

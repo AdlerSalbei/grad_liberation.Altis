@@ -4,7 +4,7 @@ waitUntil {!isNil "save_is_loaded"};
 
 if (count GRLIB_all_fobs == 0) then {
 
-	if (GRLIB_build_first_fob) then {
+	if (liberation_build_first_fob) then {
 		_potentialplaces = [];
 		{
 			_nextsector = _x;
@@ -30,7 +30,7 @@ if (count GRLIB_all_fobs == 0) then {
 			_fobbox setdir getDir base_boxspawn;
 			_fobbox setposATL (getposATL base_boxspawn);	
 
-			_fobbox call F_setFobMass;
+			_fobbox call grad_liberation_shared_fnc_setFobMass;
 
 			sleep 3;
 
@@ -62,7 +62,7 @@ if (count GRLIB_all_fobs == 0) then {
 		clearItemCargoGlobal _crate;
 		clearBackpackCargoGlobal _crate;
 		_crate setVariable ["KP_liberation_crate_value", 100, true];
-		[_crate, 500] remoteExec ["F_setMass",_crate];
+		[_crate, 500] remoteExec ["grad_liberation_shared_fnc_setMass",_crate];
 		[objNull, _crate] call BIS_fnc_curatorObjectEdited;
 		if(KP_liberation_ace) then {[_crate, true, [0, 1.5, 0], 0] remoteExec ["ace_dragging_fnc_setCarryable"];};
 		_crateArray pushBack _crate;

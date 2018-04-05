@@ -1,14 +1,14 @@
 params ["_sector"];
 
-if (KP_liberation_asymmetric_debug > 0) then {private _text = format ["[KP LIBERATION] [ASYMMETRIC] Sector %1 (%2) - sector_guerilla spawned on: %3", (markerText _sector), _sector, debug_source];_text remoteExec ["diag_log",2];};
+if (liberation_asymmetric_debug > 0) then {private _text = format ["[KP LIBERATION] [ASYMMETRIC] Sector %1 (%2) - sector_guerilla spawned on: %3", (markerText _sector), _sector, debug_source];_text remoteExec ["diag_log",2];};
 
 private _startpos = (markerPos _sector) getPos [(1200 + (round (random 400))), (random 360)];
 
-while {(([_startpos, 500, GRLIB_side_friendly] call F_getUnitsCount) > 0) || (surfaceIsWater _startpos)} do {
+while {(([_startpos, 500, GRLIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount) > 0) || (surfaceIsWater _startpos)} do {
 	_startpos = (markerPos _sector) getPos [(1200 + (round (random 400))), (random 360)];
 };
 
-private _grp = [_startpos] call F_spawnGuerillaGroup;
+private _grp = [_startpos] call grad_liberation_shared_fnc_spawnGuerillaGroup;
 
 while {(count (waypoints _grp)) != 0} do {deleteWaypoint ((waypoints _grp) select 0);};
 {_x doFollow (leader _grp)} forEach (units _grp);
@@ -48,4 +48,4 @@ if (!isNull _grp) then {
 	};
 };
 
-if (KP_liberation_asymmetric_debug > 0) then {private _text = format ["[KP LIBERATION] [ASYMMETRIC] Sector %1 (%2) - sector_guerilla dropped on: %3", (markerText _sector), _sector, debug_source];_text remoteExec ["diag_log",2];};
+if (liberation_asymmetric_debug > 0) then {private _text = format ["[KP LIBERATION] [ASYMMETRIC] Sector %1 (%2) - sector_guerilla dropped on: %3", (markerText _sector), _sector, debug_source];_text remoteExec ["diag_log",2];};

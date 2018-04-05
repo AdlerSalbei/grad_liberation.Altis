@@ -3,20 +3,20 @@ active_sectors = [];
 waitUntil {!isNil "blufor_sectors"};
 waitUntil {!isNil "sectors_allSectors"};
 
-if (KP_liberation_sectorspawn_debug > 0) then {diag_log format ["[KP LIBERATION] [SECTORSPAWN] Sector Manager started at %1", time];};
+if (liberation_sectorspawn_debug > 0) then {diag_log format ["[KP LIBERATION] [SECTORSPAWN] Sector Manager started at %1", time];};
 
 private _timer = 0;
 
 while {GRLIB_endgame == 0} do {
 	{
 		private _nextsector = _x;
-		private _opforcount =  [] call F_opforCap;
+		private _opforcount =  [] call grad_liberation_shared_fnc_opforCap;
 
 		if (_opforcount < GRLIB_sector_cap) then {
 
-			if (([getmarkerpos _nextsector, [_opforcount] call F_getCorrectedSectorRange, GRLIB_side_friendly] call F_getUnitsCount > 0) && !(_nextsector in active_sectors)) then {
+			if (([getmarkerpos _nextsector, [_opforcount] call grad_liberation_shared_fnc_getCorrectedSectorRange, GRLIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount > 0) && !(_nextsector in active_sectors)) then {
 
-				_hc = [] call F_lessLoadedHC;
+				_hc = [] call grad_liberation_shared_fnc_lessLoadedHC;
 
 				if (isNull _hc) then {
 					[_nextsector] spawn manage_one_sector;
@@ -36,7 +36,7 @@ while {GRLIB_endgame == 0} do {
 		sleep 0.25;
 	} forEach (sectors_allSectors - blufor_sectors);
 	
-	if (KP_liberation_sectorspawn_debug > 0) then {
+	if (liberation_sectorspawn_debug > 0) then {
 		_timer = _timer + 1;
 		if ((_timer % 5) == 0) then {
 			private _current_sectors = [];

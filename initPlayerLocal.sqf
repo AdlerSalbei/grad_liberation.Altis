@@ -37,11 +37,11 @@ kp_cr_checkVehicle = compileFinal preprocessFileLineNumbers "scripts\client\civr
 [] call grad_liberation_ui_fnc_build\build_overlay;
 [] call grad_liberation_ui_fnc_build\do_build;
 [] call grad_liberation_ui_fnc_commander\enforce_whitelist;
-if (KP_liberation_mapmarkers) then {[] call grad_liberation_markers_fnc_empty_vehicles_marker;};
+if (liberation_mapmarkers) then {[] call grad_liberation_markers_fnc_empty_vehicles_marker;};
 [] call grad_liberation_markers_fnc_fob_markers;
-if (KP_liberation_mapmarkers) then {[] call grad_liberation_markers_fnc_group_icons;};
+if (liberation_mapmarkers) then {[] call grad_liberation_markers_fnc_group_icons;};
 [] call grad_liberation_markers_fnc_hostile_groups;
-if (KP_liberation_mapmarkers) then {[] call grad_liberation_markers_fnc_huron_marker;} else {deleteMarker "huronmarker"};
+if (liberation_mapmarkers) then {[] call grad_liberation_markers_fnc_huron_marker;} else {deleteMarker "huronmarker"};
 [] call grad_liberation_markers_fnc_sector_manager;
 [] call grad_liberation_markers_fnc_spot_timer;
 [] call grad_liberation_misc_fnc_broadcast_squad_colors;

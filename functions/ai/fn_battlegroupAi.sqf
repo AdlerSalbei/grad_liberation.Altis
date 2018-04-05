@@ -13,7 +13,7 @@ while { ( count units _grp != 0 ) && ( GRLIB_endgame == 0 ) } do {
 
 	sleep (5 + (random 5));
 
-	private _objectivepos = ([getpos (leader _grp)] call F_getNearestBluforObjective) select 0;
+	private _objectivepos = ([getpos (leader _grp)] call grad_liberation_shared_fnc_getNearestBluforObjective) select 0;
 
 	[_objectivepos] remoteExec ["remote_call_incoming"];
 

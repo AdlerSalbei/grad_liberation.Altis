@@ -8,7 +8,7 @@ for [{_i=0}, {!isNil ("littlebird_" + str _i)}, {_i = _i + 1}] do {
 	_KP_liberation_little_bird allowdamage false;
 	_KP_liberation_little_bird setDir (getDir _KP_liberation_little_bird_pad);
 	_KP_liberation_little_bird setposATL [((getposATL _KP_liberation_little_bird_pad) select 0),((getposATL _KP_liberation_little_bird_pad) select 1),((getposATL _KP_liberation_little_bird_pad) select 2) + 0.1];
-	if(KP_liberation_clear_cargo) then {
+	if(liberation_clear_cargo) then {
 		clearWeaponCargoGlobal _KP_liberation_little_bird;
 		clearMagazineCargoGlobal _KP_liberation_little_bird;
 		clearItemCargoGlobal _KP_liberation_little_bird;
@@ -28,7 +28,7 @@ for [{_i=0}, {!isNil ("boat_" + str _i)}, {_i = _i + 1}] do {
 	_KP_liberation_boat allowdamage false;
 	_KP_liberation_boat setDir (getDir _KP_liberation_boat_spawn);
 	_KP_liberation_boat setposATL (getposATL _KP_liberation_boat_spawn);
-	if(KP_liberation_clear_cargo) then {
+	if(liberation_clear_cargo) then {
 		clearWeaponCargoGlobal _KP_liberation_boat;
 		clearMagazineCargoGlobal _KP_liberation_boat;
 		clearItemCargoGlobal _KP_liberation_boat;

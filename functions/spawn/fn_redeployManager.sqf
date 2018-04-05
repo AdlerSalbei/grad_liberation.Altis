@@ -36,7 +36,7 @@ while {true} do {
 
 	GRLIB_force_redeploy = false;
 
-	if (!GRLIB_fatigue) then {
+	if (!liberation_fatigue) then {
 		player enableStamina false;
 	};
 
@@ -83,9 +83,9 @@ while {true} do {
 			choiceslist = choiceslist + [[format ["FOB %1 - %2", (military_alphabet select _idx),mapGridPosition (GRLIB_all_fobs select _idx)],GRLIB_all_fobs select _idx]];
 		};
 
-		if (KP_liberation_mobilerespawn) then {
+		if (liberation_mobilerespawn) then {
 			if (KP_liberation_respawn_time <= time) then {
-				private _respawn_trucks = call F_getMobileRespawns;
+				private _respawn_trucks = call grad_liberation_shared_fnc_getMobileRespawns;
 
 				for [ {_idx=0},{_idx < count _respawn_trucks},{_idx=_idx+1} ] do {
 					choiceslist = choiceslist + [[format ["%1 - %2", localize "STR_RESPAWN_TRUCK",mapGridPosition (getposATL (_respawn_trucks select _idx))],getposATL (_respawn_trucks select _idx),(_respawn_trucks select _idx)]];
@@ -180,16 +180,16 @@ while {true} do {
 	if (alive player && deploy == 1) then {
 		[_spawn_str] spawn spawn_camera;
 		if (KP_liberation_respawn_mobile_done) then {
-			KP_liberation_respawn_time = time + KP_liberation_respawn_cooldown;
+			KP_liberation_respawn_time = time + liberation_respawn_cooldown;
 			KP_liberation_respawn_mobile_done = false;
 		};
 	};
 	
-	if (KP_liberation_arsenalUsePreset) then {
-		[_backpack] call F_checkGear;
+	if (liberation_arsenalUsePreset) then {
+		[_backpack] call grad_liberation_shared_fnc_checkGear;
 	};
 
-	if (KP_liberation_mobilerespawn && (KP_liberation_respawn_time > time)) then {
+	if (liberation_mobilerespawn && (KP_liberation_respawn_time > time)) then {
 		hint format [localize "STR_RESPAWN_COOLDOWN_HINT", ceil ((KP_liberation_respawn_time - time) / 60)];
 		uiSleep 12;
 		hint "";
@@ -200,7 +200,7 @@ while {true} do {
 		waitUntil {sleep 1; (!isNil "KP_liberation_suppMod_grp") && (!isNil "KP_liberation_suppMod_arty")};
 		private _access = false;
 		switch (KP_liberation_suppMod_enb) do {
-			case 1: {if (player == ([] call F_getCommander)) then {_access = true};};
+			case 1: {if (player == ([] call grad_liberation_shared_fnc_getCommander)) then {_access = true};};
 			case 2: {if ((getPlayerUID player) in KP_liberation_suppMod_whitelist) then {_access = true};};
 			default {_access = true;};
 		};

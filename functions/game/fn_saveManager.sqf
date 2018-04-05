@@ -1,15 +1,15 @@
-if (KP_liberation_savegame_debug > 0) then {diag_log format ["[KP LIBERATION] [SAVE] save_manager.sqf started - time: %1", diag_tickTime];};
+if (liberation_savegame_debug > 0) then {diag_log format ["[KP LIBERATION] [SAVE] save_manager.sqf started - time: %1", diag_tickTime];};
 
-if (!(isNil "GRLIB_param_wipe_savegame_1") && !(isNil "GRLIB_param_wipe_savegame_2")) then {
-	if (GRLIB_param_wipe_savegame_1 == 1 && GRLIB_param_wipe_savegame_2 == 1) then {
+if (!(isNil "liberation_param_wipe_savegame_1") && !(isNil "liberation_param_wipe_savegame_2")) then {
+	if (liberation_param_wipe_savegame_1 == 1 && liberation_param_wipe_savegame_2 == 1) then {
 		profileNamespace setVariable [GRLIB_save_key,nil];
 		saveProfileNamespace;
-		if (KP_liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Save wiped";};
+		if (liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Save wiped";};
 	} else {
-		if (KP_liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] No save wipe";};
+		if (liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] No save wipe";};
 	};
 } else {
-	if (KP_liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Wipe params where nil";};
+	if (liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Wipe params where nil";};
 };
 
 date_year = date select 0;
@@ -172,7 +172,7 @@ if (!isNil "greuh_liberation_savegame") then {
 			GRLIB_side_resistance setFriend [GRLIB_side_enemy, 0];
 			GRLIB_side_enemy setFriend [GRLIB_side_resistance, 0];
 		};
-		if (KP_liberation_civrep_debug > 0) then {diag_log format ["[KP LIBERATION] [CIVREP] %1 getFriend %2: %3 - %1 getFriend %4: %5", GRLIB_side_resistance, GRLIB_side_enemy, (GRLIB_side_resistance getFriend GRLIB_side_enemy), GRLIB_side_friendly, (GRLIB_side_resistance getFriend GRLIB_side_friendly)];};
+		if (liberation_civrep_debug > 0) then {diag_log format ["[KP LIBERATION] [CIVREP] %1 getFriend %2: %3 - %1 getFriend %4: %5", GRLIB_side_resistance, GRLIB_side_enemy, (GRLIB_side_resistance getFriend GRLIB_side_enemy), GRLIB_side_friendly, (GRLIB_side_resistance getFriend GRLIB_side_friendly)];};
 	};
 
 	if (count greuh_liberation_savegame > 16) then {
@@ -238,7 +238,7 @@ if (!isNil "greuh_liberation_savegame") then {
 			};*/
 
 			if (_hascrew) then {
-				[ _nextbuilding ] call F_forceBluforCrew;
+				[ _nextbuilding ] call grad_liberation_shared_fnc_forceBluforCrew;
 			};
 
 			if !(_nextclass in no_kill_handler_classnames) then {
@@ -270,7 +270,7 @@ if (!isNil "greuh_liberation_savegame") then {
 			};
 
 			if !(_nextclass in KP_liberation_ace_crates) then {
-				if(KP_liberation_clear_cargo || !(_nextclass isKindOf "AllVehicles")) then {
+				if(liberation_clear_cargo || !(_nextclass isKindOf "AllVehicles")) then {
 					clearWeaponCargoGlobal _nextbuilding;
 					clearMagazineCargoGlobal _nextbuilding;
 					clearBackpackCargoGlobal _nextbuilding;
@@ -290,7 +290,7 @@ if (!isNil "greuh_liberation_savegame") then {
 		};
 	} forEach buildings_to_save;
 
-	if (KP_liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Saved buildings placed";};
+	if (liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Saved buildings placed";};
 	
 	{
 		private _nextclass = _x select 0;
@@ -326,8 +326,8 @@ if (!isNil "greuh_liberation_savegame") then {
 					_amount = _supply;
 				};
 				_supply = _supply - _amount;
-				private _crate = [KP_liberation_supply_crate, _amount, _nextpos] call F_createCrate;
-				[_crate, _nextbuilding] call F_crateToStorage;
+				private _crate = [KP_liberation_supply_crate, _amount, _nextpos] call grad_liberation_shared_fnc_createCrate;
+				[_crate, _nextbuilding] call grad_liberation_shared_fnc_crateToStorage;
 			};
 
 			while {_ammo > 0} do {
@@ -336,8 +336,8 @@ if (!isNil "greuh_liberation_savegame") then {
 					_amount = _ammo;
 				};
 				_ammo = _ammo - _amount;
-				private _crate = [KP_liberation_ammo_crate, _amount, _nextpos] call F_createCrate;
-				[_crate, _nextbuilding] call F_crateToStorage;
+				private _crate = [KP_liberation_ammo_crate, _amount, _nextpos] call grad_liberation_shared_fnc_createCrate;
+				[_crate, _nextbuilding] call grad_liberation_shared_fnc_crateToStorage;
 			};
 
 			while {_fuel > 0} do {
@@ -346,13 +346,13 @@ if (!isNil "greuh_liberation_savegame") then {
 					_amount = _fuel;
 				};
 				_fuel = _fuel - _amount;
-				private _crate = [KP_liberation_fuel_crate, _amount, _nextpos] call F_createCrate;
-				[_crate, _nextbuilding] call F_crateToStorage;
+				private _crate = [KP_liberation_fuel_crate, _amount, _nextpos] call grad_liberation_shared_fnc_createCrate;
+				[_crate, _nextbuilding] call grad_liberation_shared_fnc_crateToStorage;
 			};
 		};
 	} forEach KP_liberation_storages;
 
-	if (KP_liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Saved storages placed"};
+	if (liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Saved storages placed"};
 
 	{
 		private _storage = _x select 3;
@@ -385,8 +385,8 @@ if (!isNil "greuh_liberation_savegame") then {
 					_amount = _supply;
 				};
 				_supply = _supply - _amount;
-				private _crate = [KP_liberation_supply_crate, _amount, _nextpos] call F_createCrate;
-				[_crate, _nextbuilding] call F_crateToStorage;
+				private _crate = [KP_liberation_supply_crate, _amount, _nextpos] call grad_liberation_shared_fnc_createCrate;
+				[_crate, _nextbuilding] call grad_liberation_shared_fnc_crateToStorage;
 			};
 
 			while {_ammo > 0} do {
@@ -395,8 +395,8 @@ if (!isNil "greuh_liberation_savegame") then {
 					_amount = _ammo;
 				};
 				_ammo = _ammo - _amount;
-				private _crate = [KP_liberation_ammo_crate, _amount, _nextpos] call F_createCrate;
-				[_crate, _nextbuilding] call F_crateToStorage;
+				private _crate = [KP_liberation_ammo_crate, _amount, _nextpos] call grad_liberation_shared_fnc_createCrate;
+				[_crate, _nextbuilding] call grad_liberation_shared_fnc_crateToStorage;
 			};
 
 			while {_fuel > 0} do {
@@ -405,13 +405,13 @@ if (!isNil "greuh_liberation_savegame") then {
 					_amount = _fuel;
 				};
 				_fuel = _fuel - _amount;
-				private _crate = [KP_liberation_fuel_crate, _amount, _nextpos] call F_createCrate;
-				[_crate, _nextbuilding] call F_crateToStorage;
+				private _crate = [KP_liberation_fuel_crate, _amount, _nextpos] call grad_liberation_shared_fnc_createCrate;
+				[_crate, _nextbuilding] call grad_liberation_shared_fnc_crateToStorage;
 			};
 		};
 	} forEach KP_liberation_production;
 
-	if (KP_liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Saved sector storages placed";};
+	if (liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Saved sector storages placed";};
 	
 	{
 		private _nextgroup = _x;
@@ -427,9 +427,9 @@ if (!isNil "greuh_liberation_savegame") then {
 		} forEach _nextgroup;
 	} forEach ai_groups;
 
-	if (KP_liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Save loading finished";};
+	if (liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Save loading finished";};
 } else {
-	if (KP_liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Save nil";};
+	if (liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Save nil";};
 };
 
 publicVariable "blufor_sectors";
@@ -449,7 +449,7 @@ if (count GRLIB_vehicle_to_military_base_links == 0) then {
 } else {
 	private _classnames_to_check = GRLIB_vehicle_to_military_base_links;
 	{
-		if !([_x select 0] call F_checkClass) then {
+		if !([_x select 0] call grad_liberation_shared_fnc_checkClass) then {
 			GRLIB_vehicle_to_military_base_links = GRLIB_vehicle_to_military_base_links - [_x];
 		};
 	} forEach _classnames_to_check;
@@ -459,7 +459,7 @@ publicVariable "GRLIB_permissions";
 publicVariable "KP_liberation_cr_vehicles";
 save_is_loaded = true; publicVariable "save_is_loaded";
 
-if (KP_liberation_savegame_debug > 0) then {diag_log format ["[KP LIBERATION] [SAVE] save_manager.sqf done - time: %1", diag_tickTime];};
+if (liberation_savegame_debug > 0) then {diag_log format ["[KP LIBERATION] [SAVE] save_manager.sqf done - time: %1", diag_tickTime];};
 
 while {true} do {
 	waitUntil {
@@ -467,7 +467,7 @@ while {true} do {
 		trigger_server_save || GRLIB_endgame == 1;
 	};
 
-	if (KP_liberation_savegame_debug > 0) then {diag_log format ["[KP LIBERATION] [SAVE] Save interval started - time: %1", time];};
+	if (liberation_savegame_debug > 0) then {diag_log format ["[KP LIBERATION] [SAVE] Save interval started - time: %1", time];};
 
 	if (GRLIB_endgame == 1) then {
 		profileNamespace setVariable [GRLIB_save_key, nil];
@@ -636,6 +636,6 @@ while {true} do {
 		profileNamespace setVariable [GRLIB_save_key, greuh_liberation_savegame];
 		saveProfileNamespace;
 
-		if (KP_liberation_savegame_debug > 0) then {diag_log format ["[KP LIBERATION] [SAVE] Save interval finished - time: %1", time];};
+		if (liberation_savegame_debug > 0) then {diag_log format ["[KP LIBERATION] [SAVE] Save interval finished - time: %1", time];};
 	};
 };

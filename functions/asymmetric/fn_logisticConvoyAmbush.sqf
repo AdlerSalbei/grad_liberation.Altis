@@ -1,6 +1,6 @@
 params ["_convoy"];
 
-if (KP_liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1: spawning ambush", (_convoy select 0)];};
+if (liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1: spawning ambush", (_convoy select 0)];};
 
 private _pos = [0,0,0];
 
@@ -14,7 +14,7 @@ if (_pos isEqualTo [0,0,0]) exitWith {diag_log format ["[KP LIBERATION] [ERROR] 
 
 private _roadObj = [_pos, 400, []] call BIS_fnc_nearestRoad;
 if (isNull _roadObj) exitWith {
-	if (KP_liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1 ambush: no road near current convoy position", (_convoy select 0)];};
+	if (liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1 ambush: no road near current convoy position", (_convoy select 0)];};
 	KP_liberation_convoy_ambush_check = 1;
 };
 
@@ -41,7 +41,7 @@ for "_i" from 1 to (_convoy select 1) do {
 	private _driver = createVehicle [crewman_classname, getPos _veh, [], 12, "NONE"];
 	_driver setDamage 1;
 };
-if (KP_liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1 ambush: truck spawning done", (_convoy select 0)];};
+if (liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1 ambush: truck spawning done", (_convoy select 0)];};
 
 private _supplies = (_convoy select 6) select 0;
 private _ammo = (_convoy select 6) select 1;
@@ -54,7 +54,7 @@ while {_supplies > 0} do {
 		_amount = _supplies;
 	};
 	_supplies = _supplies - _amount;
-	private _crate = [KP_liberation_supply_crate, _amount, getPos _roadObj] call F_createCrate;
+	private _crate = [KP_liberation_supply_crate, _amount, getPos _roadObj] call grad_liberation_shared_fnc_createCrate;
 	_crate setPos (_crate getPos [random 60, random 360]);
 	_crateArray pushBack [_crate];
 };
@@ -65,7 +65,7 @@ while {_ammo > 0} do {
 		_amount = _ammo;
 	};
 	_ammo = _ammo - _amount;
-	private _crate = [KP_liberation_ammo_crate, _amount, getPos _roadObj] call F_createCrate;
+	private _crate = [KP_liberation_ammo_crate, _amount, getPos _roadObj] call grad_liberation_shared_fnc_createCrate;
 	_crate setPos (_crate getPos [random 60, random 360]);
 	_crateArray pushBack [_crate];
 };
@@ -76,13 +76,13 @@ while {_fuel > 0} do {
 		_amount = _fuel;
 	};
 	_fuel = _fuel - _amount;
-	private _crate = [KP_liberation_fuel_crate, _amount, getPos _roadObj] call F_createCrate;
+	private _crate = [KP_liberation_fuel_crate, _amount, getPos _roadObj] call grad_liberation_shared_fnc_createCrate;
 	_crate setPos (_crate getPos [random 60, random 360]);
 	_crateArray pushBack [_crate];
 };
-if (KP_liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1 ambush: resource spawning done", (_convoy select 0)];};
+if (liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1 ambush: resource spawning done", (_convoy select 0)];};
 
-private _grp = [getPos _roadObj] call F_spawnGuerillaGroup;
+private _grp = [getPos _roadObj] call grad_liberation_shared_fnc_spawnGuerillaGroup;
 
 private _waypoint = _grp addWaypoint [getPos _roadObj, 150];
 _waypoint setWaypointType "SAD";
@@ -96,7 +96,7 @@ _waypoint setWaypointCompletionRadius 10;
 _waypoint = _grp addWaypoint [getPos _roadObj, 150];
 _waypoint setWaypointType "CYCLE";
 _waypoint setWaypointCompletionRadius 10;
-if (KP_liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1 ambush: guerillas spawning done", (_convoy select 0)];};
+if (liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1 ambush: guerillas spawning done", (_convoy select 0)];};
 
 private _waitingTime = KP_liberation_convoy_ambush_duration;
 
@@ -111,7 +111,7 @@ while {(({alive _x} count (units _grp)) > 0) && (_waitingTime > 0)} do {
 		_waitingTime = _waitingTime - 1;
 	};
 };
-if (KP_liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1 ambush: ambush finished", (_convoy select 0)];};
+if (liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1 ambush: ambush finished", (_convoy select 0)];};
 
 KP_liberation_convoy_ambush_inProgress = false;
 
@@ -133,8 +133,8 @@ if ((_waitingTime <= 0) && (({alive _x} count (units _grp)) > 0)) then {
 		deleteVehicle (_x select 0);
 	} forEach _crateArray;
 	KP_liberation_guerilla_strength = KP_liberation_guerilla_strength + _gain;
-	if (KP_liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1 ambush: guerillas escaped", (_convoy select 0)];};
+	if (liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1 ambush: guerillas escaped", (_convoy select 0)];};
 } else {
 	[1] remoteExec ["asymm_notifications"];
-	if (KP_liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1 ambush: guerillas defeated", (_convoy select 0)];};
+	if (liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1 ambush: guerillas defeated", (_convoy select 0)];};
 };

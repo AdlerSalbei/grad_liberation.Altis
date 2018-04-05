@@ -3,10 +3,10 @@ private [ "_attacktime", "_ownership", "_grp" ];
 
 sleep 5;
 
-_ownership = [ _thispos ] call F_sectorOwnership;
+_ownership = [ _thispos ] call grad_liberation_shared_fnc_sectorOwnership;
 if ( _ownership != GRLIB_side_enemy ) exitWith {};
 
-if ( GRLIB_blufor_defenders ) then {
+if ( liberation_blufor_defenders ) then {
 	_grp = creategroup GRLIB_side_friendly;
 	{ _x createUnit [ _thispos, _grp,'this addMPEventHandler ["MPKilled", {_this spawn kill_manager}]']; } foreach blufor_squad_inf;
 	sleep 3;
@@ -15,9 +15,9 @@ if ( GRLIB_blufor_defenders ) then {
 
 sleep 60;
 
-_ownership = [ _thispos ] call F_sectorOwnership;
+_ownership = [ _thispos ] call grad_liberation_shared_fnc_sectorOwnership;
 if ( _ownership == GRLIB_side_friendly ) exitWith {
-	if ( GRLIB_blufor_defenders ) then {
+	if ( liberation_blufor_defenders ) then {
 		{
 			if ( alive _x ) then { deleteVehicle _x };
 		} foreach units _grp;
@@ -28,18 +28,18 @@ if ( _ownership == GRLIB_side_friendly ) exitWith {
 _attacktime = GRLIB_vulnerability_timer;
 
 while { _attacktime > 0 && ( _ownership == GRLIB_side_enemy || _ownership == GRLIB_side_resistance ) } do {
-	_ownership = [ _thispos ] call F_sectorOwnership;
+	_ownership = [ _thispos ] call grad_liberation_shared_fnc_sectorOwnership;
 	_attacktime = _attacktime - 1;
 	sleep 1;
 };
 
 waitUntil {
 	sleep 1;
-	[ _thispos ] call F_sectorOwnership != GRLIB_side_resistance;
+	[ _thispos ] call grad_liberation_shared_fnc_sectorOwnership != GRLIB_side_resistance;
 };
 
 if ( GRLIB_endgame == 0 ) then {
-	if ( _attacktime <= 1 && ( [ _thispos ] call F_sectorOwnership == GRLIB_side_enemy ) ) then {
+	if ( _attacktime <= 1 && ( [ _thispos ] call grad_liberation_shared_fnc_sectorOwnership == GRLIB_side_enemy ) ) then {
 		[_thispos, 2] remoteExec ["remote_call_fob"];
 		sleep 3;
 		GRLIB_all_fobs = GRLIB_all_fobs - [_thispos];
@@ -56,7 +56,7 @@ if ( GRLIB_endgame == 0 ) then {
 
 sleep 60;
 
-if ( GRLIB_blufor_defenders ) then {
+if ( liberation_blufor_defenders ) then {
 	{
 		if ( alive _x ) then { deleteVehicle _x };
 	} foreach units _grp;

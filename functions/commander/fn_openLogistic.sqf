@@ -9,7 +9,7 @@ _detailControls = [
 	758019,758020,758021,758022,758023,758024,758025,758026,758027,758028,758029,758030,758031,
 	758032,758080,758081
 ];
-_nearfob = [] call F_getNearestFob;
+_nearfob = [] call grad_liberation_shared_fnc_getNearestFob;
 _logi_destinations = [];
 
 {

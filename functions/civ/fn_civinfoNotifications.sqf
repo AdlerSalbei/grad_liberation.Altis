@@ -2,11 +2,11 @@ if (isDedicated) exitWith {};
 
 params ["_notif_id", ["_pos", getpos player]];
 
-if (KP_liberation_civinfo_debug > 0) then {private _text = format ["[KP LIBERATION] [CIVINFO] civinfo_notifications called on: %1 - Parameters: [%2, %3] ", debug_source, _notif_id, _pos];_text remoteExec ["diag_log",2];};
+if (liberation_civinfo_debug > 0) then {private _text = format ["[KP LIBERATION] [CIVINFO] civinfo_notifications called on: %1 - Parameters: [%2, %3] ", debug_source, _notif_id, _pos];_text remoteExec ["diag_log",2];};
 
 switch (_notif_id) do {
 	case 0: {
-		["lib_civ_informant_start", [markertext ([10000, _pos] call F_getNearestSector)]] call BIS_fnc_showNotification;
+		["lib_civ_informant_start", [markertext ([10000, _pos] call grad_liberation_shared_fnc_getNearestSector)]] call BIS_fnc_showNotification;
 		private _informant_marker = createMarkerLocal ["informantmarker", _pos];
 		_informant_marker setMarkerColorLocal "ColorCIV";
 		_informant_marker setMarkerTypeLocal "hd_unknown";
@@ -24,7 +24,7 @@ switch (_notif_id) do {
 		deleteMarkerLocal "informantmarker";
 	};
 	case 4: {
-		["lib_civ_hvt_start", [markertext ([10000, _pos] call F_getNearestSector)]] call BIS_fnc_showNotification;
+		["lib_civ_hvt_start", [markertext ([10000, _pos] call grad_liberation_shared_fnc_getNearestSector)]] call BIS_fnc_showNotification;
 		private _marker = createMarker ["HVT_marker", _pos];
 		_marker setMarkerColor GRLIB_color_enemy_bright;
 		_marker setMarkerType "hd_unknown";

@@ -69,10 +69,10 @@ while { dialog && (alive player) && edit_loadout == 0 } do {
 	if ( load_loadout > 0 ) then {
 		private _loaded_loadout = _loadouts_data select (lbCurSel 201);
 		[player, [profileNamespace, _loaded_loadout]] call bis_fnc_loadInventory;
-		[player] call F_correctLaserBatteries;
+		[player] call grad_liberation_shared_fnc_correctLaserBatteries;
 
-		if (KP_liberation_arsenalUsePreset) then {
-			if ([_backpack] call F_checkGear) then {
+		if (liberation_arsenalUsePreset) then {
+			if ([_backpack] call grad_liberation_shared_fnc_checkGear) then {
 				hint format [ localize "STR_HINT_LOADOUT_LOADED", _loaded_loadout];
 			};
 		} else {
@@ -86,7 +86,7 @@ while { dialog && (alive player) && edit_loadout == 0 } do {
 	};
 
 	if ( respawn_loadout > 0 ) then {
-		GRLIB_respawn_loadout = [ player, ["repetitive"] ] call F_getLoadout;
+		GRLIB_respawn_loadout = [ player, ["repetitive"] ] call grad_liberation_shared_fnc_getLoadout;
 		hint localize "STR_MAKE_RESPAWN_LOADOUT_HINT";
 		respawn_loadout = 0;
 	};
@@ -94,7 +94,7 @@ while { dialog && (alive player) && edit_loadout == 0 } do {
 	if ( load_from_player >= 0 ) then {
 		private _playerselected = ( _loadplayers select load_from_player ) select 1;
 		if ( alive _playerselected ) then {
-			[ player,  [ _playerselected, ["repetitive"] ] call F_getLoadout ] call F_setLoadout;
+			[ player,  [ _playerselected, ["repetitive"] ] call grad_liberation_shared_fnc_getLoadout ] call grad_liberation_shared_fnc_setLoadout;
 			hint format [ localize "STR_LOAD_PLAYER_LOADOUT_HINT", name _playerselected ];
 		};
 		load_from_player = -1;
@@ -108,9 +108,9 @@ if ( edit_loadout > 0 ) then {
 	waitUntil { !dialog };
 	[ "Open", false ] spawn BIS_fnc_arsenal;
 	
-	if (KP_liberation_arsenalUsePreset) then {
+	if (liberation_arsenalUsePreset) then {
 		uiSleep 5;
 		waitUntil {sleep 1; isNull (uinamespace getvariable "RSCDisplayArsenal")};
-		[_backpack] call F_checkGear;
+		[_backpack] call grad_liberation_shared_fnc_checkGear;
 	};
 };

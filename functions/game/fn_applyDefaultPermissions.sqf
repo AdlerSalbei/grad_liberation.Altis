@@ -1,4 +1,4 @@
-if ( !GRLIB_permissions_param ) exitWith {};
+if ( !liberation_permissions_param ) exitWith {};
 
 private [ "_default_permissions", "_all_players_uids", "_old_count" ];
 

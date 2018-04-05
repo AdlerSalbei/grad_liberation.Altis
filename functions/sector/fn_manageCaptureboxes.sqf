@@ -6,7 +6,7 @@ if (!(_sector in KP_capture_sectors_already_activated)) then {
 
 	KP_capture_sectors_already_activated pushback _sector;
 
-	private _crates_amount = ((ceil (random 3)) * GRLIB_resources_multiplier);
+	private _crates_amount = ((ceil (random 3)) * liberation_resources_multiplier);
 
 	for [{_i=0},{_i < _crates_amount},{_i=_i+1}] do {
 
@@ -18,7 +18,7 @@ if (!(_sector in KP_capture_sectors_already_activated)) then {
 
 		private _spawnclass = selectRandom KP_liberation_crates;
 
-		private _newbox = [selectRandom KP_liberation_crates, 100, _spawnpos] call F_createCrate;
+		private _newbox = [selectRandom KP_liberation_crates, 100, _spawnpos] call grad_liberation_shared_fnc_createCrate;
 		_newbox setdir (random 360);
 		_newbox setpos _spawnpos;
 	};

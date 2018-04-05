@@ -1,5 +1,5 @@
 
-_defenders_amount = 15 * ( sqrt ( GRLIB_unitcap ) );
+_defenders_amount = 15 * ( sqrt ( liberation_unitcap ) );
 if ( _defenders_amount > 15 ) then { _defenders_amount = 15 };
 _fob_templates = [
 "scripts\fob_templates\template5.sqf",
@@ -9,7 +9,7 @@ _fob_templates = [
 "scripts\fob_templates\template1.sqf"
 ];
 
-_spawn_marker = [2000,999999,false] call F_findOpforSpawnPoint;
+_spawn_marker = [2000,999999,false] call grad_liberation_shared_fnc_findOpforSpawnPoint;
 if ( _spawn_marker == "" ) exitWith { diag_log "[KP LIBERATION] [ERROR] Could not find position for fob hunting mission"; };
 
 used_positions = used_positions + [ _spawn_marker ];
@@ -86,7 +86,7 @@ while { count _idxselected < _defenders_amount } do {
 	[nextdefender] spawn building_defence_ai;
 } foreach _idxselected;
 
-_sentry = ceil ((3 + (floor (random 4))) * ( sqrt ( GRLIB_unitcap ) ) );
+_sentry = ceil ((3 + (floor (random 4))) * ( sqrt ( liberation_unitcap ) ) );
 
 _grpsentry = createGroup GRLIB_side_enemy;
 _base_sentry_pos = [(_base_position select 0) + ((_base_corners select 0) select 0), (_base_position select 1) + ((_base_corners select 0) select 1),0];
