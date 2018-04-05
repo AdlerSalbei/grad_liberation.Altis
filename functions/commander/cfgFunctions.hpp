@@ -1,8 +1,27 @@
 class grad_liberation {
-    class commander {
-        class enforceWhitelist {};
-        class openLogistic {};
-        class openPermissions {};
-        class openProduction {};
+    class game {
+        class applyDefaultPermissions {};
+        class applySavedScores {};
+        class artyMonitor {};
+        class captureVehicles {};
+        class checkVictoryConditions {};
+        class clean {};
+        class cleanup {};
+        class clean {};
+        class clean {};
+        class clean {};
+        class clean {};
+        class clean {};
+        class clean {};
+        class clean {};
+        class clean {};
+        class clean {};
+        class clean {};
+        class clean {};
+        class clean {};
+        class clean {};
+        class clean {};
+        class clean {};
+
     };
 };
