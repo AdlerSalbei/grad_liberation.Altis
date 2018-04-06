@@ -1,6 +1,6 @@
 waitUntil { !isNil "huron_typename" };
 
-_vehicleClassnames = [huron_typename] + KP_liberation_crates;
+_vehicleClassnames = [huron_typename] + liberation_crates;
 
 
 {

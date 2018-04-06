@@ -1,26 +1,26 @@
 waitUntil {!isNil "save_is_loaded"};
-waitUntil {!isNil "KP_liberation_civ_rep"};
+waitUntil {!isNil "liberation_civ_rep"};
 
 if (liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Loop spawned on: %1", debug_source];};
 
-KP_liberation_asymmetric_sectors = [];
+liberation_asymmetric_sectors = [];
 
 while {LIB_endgame == 0} do {
 	private _sectors_to_remove = [];
 	
 	{
-		if (!(_x in blufor_sectors) || (KP_liberation_civ_rep > -25)) then {
+		if (!(_x in blufor_sectors) || (liberation_civ_rep > -25)) then {
 			_sectors_to_remove pushBack _x;
 		};
-	} forEach KP_liberation_asymmetric_sectors;
+	} forEach liberation_asymmetric_sectors;
 	
-	KP_liberation_asymmetric_sectors = KP_liberation_asymmetric_sectors - _sectors_to_remove;
+	liberation_asymmetric_sectors = liberation_asymmetric_sectors - _sectors_to_remove;
 
-	if (KP_liberation_civ_rep <= -25) then {		
+	if (liberation_civ_rep <= -25) then {		
 		{
 			private _sector = _x;
 			private _blocked = false;
-			private _units_at_sector = [getmarkerpos _sector, LIB_sector_size, LIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount;
+			private _units_at_sector = [getmarkerpos _sector, LIB_sector_size, LIB_side_friendly] call grad_liberation_common_fnc_getUnitsCount;
 			
 			{
 				if ((_x select 0) == _sector) exitWith {
@@ -34,12 +34,12 @@ while {LIB_endgame == 0} do {
 				};
 			} forEach asymm_blocked_sectors;
 			
-			if ((_units_at_sector > 0) && !(_sector in KP_liberation_asymmetric_sectors) && !_blocked) then {
-				KP_liberation_asymmetric_sectors pushBack _sector;
+			if ((_units_at_sector > 0) && !(_sector in liberation_asymmetric_sectors) && !_blocked) then {
+				liberation_asymmetric_sectors pushBack _sector;
 
-				if ((random 100) <= KP_liberation_resistance_ambush_chance) then {
-					private _hc = [] call grad_liberation_shared_fnc_lessLoadedHC;
-					private _ieds = round (([] call grad_liberation_shared_fnc_getMulti) * liberation_difficulty_modifier);
+				if ((random 100) <= liberation_resistance_ambush_chance) then {
+					private _hc = [] call grad_liberation_common_fnc_lessLoadedHC;
+					private _ieds = round (([] call grad_liberation_common_fnc_getMulti) * liberation_difficulty_modifier);
 
 					if (isNull _hc) then {
 						[_sector, _ieds] spawn manage_asymIED;
@@ -51,12 +51,12 @@ while {LIB_endgame == 0} do {
 				};
 			};
 
-			if (!(_units_at_sector > 0) && (_sector in KP_liberation_asymmetric_sectors)) then {
-				KP_liberation_asymmetric_sectors = KP_liberation_asymmetric_sectors - [_sector];
+			if (!(_units_at_sector > 0) && (_sector in liberation_asymmetric_sectors)) then {
+				liberation_asymmetric_sectors = liberation_asymmetric_sectors - [_sector];
 			};
 		} forEach ([(sectors_capture + sectors_bigtown), {_x in blufor_sectors}] call BIS_fnc_conditionalSelect);
 	};
-	publicVariable "KP_liberation_asymmetric_sectors";
+	publicVariable "liberation_asymmetric_sectors";
 	publicVariable "asymm_blocked_sectors";
 	sleep 10;
 };

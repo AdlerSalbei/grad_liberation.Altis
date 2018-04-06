@@ -1,5 +1,5 @@
 [] call grad_liberation_markers_fnc_initMarkers;
-switch (KP_liberation_arsenal) do {
+switch (liberation_arsenal) do {
    case 1: {[] call compileFinal preprocessFileLineNumbers "arsenal_presets\custom";};
    case 2: {[] call compileFinal preprocessFileLineNumbers "arsenal_presets\killahpotatoes";};
    case 3: {[] call compileFinal preprocessFileLineNumbers "arsenal_presets\rhsusaf";};
@@ -59,9 +59,9 @@ if (!liberation_ace) then {[] call grad_liberation_misc_fnc_resupplyManager;};
 [] call grad_liberation_ui_fnc_tutorialManager;
 [] call grad_liberation_markers_fnc_updateProductionSites;
 
-player addMPEventHandler ["MPKilled", {_this call grad_liberation_shared_fnc_killManager;}];
-player addEventHandler ["GetInMan", {[_this select 2] call grad_liberation_shared_fnc_fuelConsumption;}];
-player addEventHandler ["GetInMan", {[_this select 2] call grad_liberation_shared_fnc_checkVehicle;}];
+player addMPEventHandler ["MPKilled", {_this call grad_liberation_common_fnc_killManager;}];
+player addEventHandler ["GetInMan", {[_this select 2] call grad_liberation_common_fnc_fuelConsumption;}];
+player addEventHandler ["GetInMan", {[_this select 2] call grad_liberation_common_fnc_checkVehicle;}];
 
 {
    [_x] call BIS_fnc_drawCuratorLocations;

@@ -6,13 +6,13 @@ disabledAI = true;
 enableDebugConsole = 1;
 
 loadScreen="data\res\liberation.jpg";
-onLoadMission = "www.killahpotatoes.de";
+onLoadMission = "";
 author = "[GREUH] Zbug, [GREUH] McKeewa, [KP] Wyqer";
 onLoadName = $STR_MISSION_TITLE;
 
 #include "data\ui\liberation_interface.hpp"
 #include "data\ui\liberation_notifications.hpp"
-#include "data\ui\mission_params.hpp"
+#include "mission_params.hpp"
 
 //FUNCTIONS ====================================================================
 class CfgFunctions {

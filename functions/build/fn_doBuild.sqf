@@ -34,10 +34,10 @@ while { true } do {
 		_price_s = ((build_lists select buildtype) select buildindex) select 1;
 		_price_a = ((build_lists select buildtype) select buildindex) select 2;
 		_price_f = ((build_lists select buildtype) select buildindex) select 3;
-		
-		_nearfob = [] call grad_liberation_shared_fnc_getNearestFob;
-		_storage_areas = [_nearfob nearobjects (LIB_fob_range * 2), {(_x getVariable ["KP_liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
-		
+
+		_nearfob = [] call grad_liberation_common_fnc_getNearestFob;
+		_storage_areas = [_nearfob nearobjects (LIB_fob_range * 2), {(_x getVariable ["liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
+
 		[_price_s, _price_a, _price_f, _classname, buildtype, _storage_areas] remoteExec ["build_remote_call",2];
 	};
 
@@ -47,7 +47,7 @@ while { true } do {
 		if ( manned ) then {
 			_grp = createGroup LIB_side_friendly;
 		};
-		_classname createUnit [_pos, _grp,"this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]", 0.5, "private"];
+		_classname createUnit [_pos, _grp,"this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_common_fnc_killManager}]", 0.5, "private"];
 		build_confirmed = 0;
 	} else {
 		if ( buildtype == 8 ) then {
@@ -60,9 +60,9 @@ while { true } do {
 				if(_idx == 0) then { _unitrank = "sergeant"; };
 				if(_idx == 1) then { _unitrank = "corporal"; };
 				if (_classname isEqualTo blufor_squad_para) then {
-					_x createUnit [_pos, _grp,"this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]; removeBackpackGlobal this; this addBackpackGlobal ""B_parachute""", 0.5, _unitrank];
+					_x createUnit [_pos, _grp,"this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_common_fnc_killManager}]; removeBackpackGlobal this; this addBackpackGlobal ""B_parachute""", 0.5, _unitrank];
 				} else {
-					_x createUnit [_pos, _grp,"this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}];", 0.5, _unitrank];
+					_x createUnit [_pos, _grp,"this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_common_fnc_killManager}];", 0.5, _unitrank];
 				};
 				_idx = _idx + 1;
 
@@ -72,7 +72,7 @@ while { true } do {
 		} else {
 			_posfob = getpos player;
 			if (buildtype != 99) then {
-				_posfob = [] call grad_liberation_shared_fnc_getNearestFob;
+				_posfob = [] call grad_liberation_common_fnc_getNearestFob;
 			};
 
 			_idactcancel = -1;
@@ -85,7 +85,7 @@ while { true } do {
 			if (buildtype == 6 ) then {
 				_idactplacebis = player addAction ["<t color='#B0FF00'>" + localize "STR_PLACEMENT_BIS" + "</t> <img size='2' image='res\ui_confirm.paa'/>","scripts\client\build\build_place_bis.sqf","",-785,false,false,"","build_invalid == 0 && build_confirmed == 1"];
 			};
-			if (buildtype == 6 || buildtype == 99  || _classname in KP_liberation_storage_buildings || _classname == KP_liberation_recycle_building || _classname == KP_liberation_air_vehicle_building) then {
+			if (buildtype == 6 || buildtype == 99  || _classname in liberation_storage_buildings || _classname == liberation_recycle_building || _classname == liberation_air_vehicle_building) then {
 				_idactsnap = player addAction ["<t color='#B0FF00'>" + localize "STR_GRID" + "</t>","scripts\client\build\do_grid.sqf","",-735,false,false,"","build_confirmed == 1"];
 				_idactvector = player addAction ["<t color='#B0FF00'>" + localize "STR_VECACTION" + "</t>",{KP_vector = !KP_vector;},"",-800,false,false,"","build_confirmed == 1"];
 			};
@@ -98,7 +98,7 @@ while { true } do {
 			_vehicle allowdamage false;
 			_vehicle setVehicleLock "LOCKED";
 			_vehicle enableSimulationGlobal false;
-			_vehicle setVariable ["KP_liberation_preplaced", true, true];
+			_vehicle setVariable ["liberation_preplaced", true, true];
 
 			_dist = 0.6 * (sizeOf _classname);
 			if (_dist < 3.5) then { _dist = 3.5 };
@@ -112,7 +112,7 @@ while { true } do {
 
 			while { build_confirmed == 1 && alive player } do {
 				_truedir = 90 - (getdir player);
-				if ((typeOf _vehicle) in KP_liberation_static_classnames) then {
+				if ((typeOf _vehicle) in liberation_static_classnames) then {
 					_truepos = [((getposATL player) select 0) + (_dist * (cos _truedir)), ((getposATL player) select 1) + (_dist * (sin _truedir)),((getposATL player) select 2)];
 				} else {
 					_truepos = [((getpos player) select 0) + (_dist * (cos _truedir)), ((getpos player) select 1) + (_dist * (sin _truedir)),0];
@@ -157,14 +157,14 @@ while { true } do {
 
 				private _remove_objects = [];
 				{
-					if ((_x isKindOf "Animal") || ((typeof _x) in LIB_ignore_colisions_when_building) || (_x == player) || (_x == _vehicle) || ((typeOf _vehicle) in KP_liberation_static_classnames)) then {
+					if ((_x isKindOf "Animal") || ((typeof _x) in LIB_ignore_colisions_when_building) || (_x == player) || (_x == _vehicle) || ((typeOf _vehicle) in liberation_static_classnames)) then {
 						_remove_objects pushback _x;
 					};
 				} foreach _near_objects;
 
 				private _remove_objects_25 = [];
 				{
-					if ((_x isKindOf "Animal") || ((typeof _x) in LIB_ignore_colisions_when_building) || (_x == player) || (_x == _vehicle) || ((typeOf _vehicle) in KP_liberation_static_classnames))  then {
+					if ((_x isKindOf "Animal") || ((typeof _x) in LIB_ignore_colisions_when_building) || (_x == player) || (_x == _vehicle) || ((typeOf _vehicle) in liberation_static_classnames))  then {
 						_remove_objects_25 pushback _x;
 					};
 				} foreach _near_objects_25;
@@ -193,13 +193,13 @@ while { true } do {
 					if ( ((buildtype == 6) || (buildtype == 99)) && ((gridmode % 2) == 1) ) then {
 						_vehicle setpos [round (_truepos select 0),round (_truepos select 1), _truepos select 2];
 					} else {
-						if ((typeOf _vehicle) in KP_liberation_static_classnames) then {
+						if ((typeOf _vehicle) in liberation_static_classnames) then {
 							_vehicle setPosATL _truepos;
 						} else {
 							_vehicle setpos _truepos;
 						};
 					};
-					if (buildtype == 6 || buildtype == 99 || _classname in KP_liberation_storage_buildings || _classname == KP_liberation_recycle_building || _classname == KP_liberation_air_vehicle_building) then {
+					if (buildtype == 6 || buildtype == 99 || _classname in liberation_storage_buildings || _classname == liberation_recycle_building || _classname == liberation_air_vehicle_building) then {
 						if (KP_vector) then {
 							_vehicle setVectorUp [0,0,1];
 						} else {
@@ -251,8 +251,8 @@ while { true } do {
 				_price_a = ((build_lists select buildtype) select buildindex) select 2;
 				_price_f = ((build_lists select buildtype) select buildindex) select 3;
 
-				_nearfob = [] call grad_liberation_shared_fnc_getNearestFob;
-				_storage_areas = [_nearfob nearobjects (LIB_fob_range * 2), {(_x getVariable ["KP_liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
+				_nearfob = [] call grad_liberation_common_fnc_getNearestFob;
+				_storage_areas = [_nearfob nearobjects (LIB_fob_range * 2), {(_x getVariable ["liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
 
 				_supplyCrates = ceil (_price_s / 100);
 				_ammoCrates = ceil (_price_a / 100);
@@ -262,11 +262,11 @@ while { true } do {
 				_spaceSum = 0;
 
 				{
-					if (typeOf _x == KP_liberation_large_storage_building) then {
-						_spaceSum = _spaceSum + (count KP_liberation_large_storage_positions) - (count (attachedObjects _x));
+					if (typeOf _x == liberation_large_storage_building) then {
+						_spaceSum = _spaceSum + (count liberation_large_storage_positions) - (count (attachedObjects _x));
 					};
-					if (typeOf _x == KP_liberation_small_storage_building) then {
-						_spaceSum = _spaceSum + (count KP_liberation_small_storage_positions) - (count (attachedObjects _x));
+					if (typeOf _x == liberation_small_storage_building) then {
+						_spaceSum = _spaceSum + (count liberation_small_storage_positions) - (count (attachedObjects _x));
 					};
 				} forEach _storage_areas;
 
@@ -287,19 +287,19 @@ while { true } do {
 				_vehicle = _classname createVehicle _truepos;
 				_vehicle allowDamage false;
 				_vehicle setdir _vehdir;
-				if ((typeOf _vehicle) in KP_liberation_static_classnames) then {
+				if ((typeOf _vehicle) in liberation_static_classnames) then {
 					_vehicle setPosATL _truepos;
 				} else {
 					_vehicle setpos _truepos;
 				};
-				
+
 				if (!(_classname in liberation_ace_crates) && liberation_clear_cargo) then {
 					clearWeaponCargoGlobal _vehicle;
 					clearMagazineCargoGlobal _vehicle;
 					clearItemCargoGlobal _vehicle;
 					clearBackpackCargoGlobal _vehicle;
 				};
-				if (buildtype == 6 || buildtype == 99 || _classname in KP_liberation_storage_buildings || _classname == KP_liberation_recycle_building || _classname == KP_liberation_air_vehicle_building) then {
+				if (buildtype == 6 || buildtype == 99 || _classname in liberation_storage_buildings || _classname == liberation_recycle_building || _classname == liberation_air_vehicle_building) then {
 					if (KP_vector) then {
 						_vehicle setVectorUp [0,0,1];
 					} else {
@@ -310,26 +310,26 @@ while { true } do {
 				};
 
 				// Arty Supp deactivated for now
-				/*if ((KP_liberation_suppMod_enb > 0) && (_classname in KP_liberation_artySupp)) then {
-					[_vehicle] remoteExec ["arty_monitor", 2];
+				/*if ((liberation_suppMod_enb > 0) && (_classname in liberation_artySupp)) then {
+					[_vehicle] remoteExec ["artyMonitor", 2];
 				};*/
 
 				if ( (unitIsUAV _vehicle) || manned ) then {
-					[ _vehicle ] call grad_liberation_shared_fnc_forceBluforCrew;
+					[ _vehicle ] call grad_liberation_common_fnc_forceBluforCrew;
 				};
 
 				switch (_classname) do {
-					case FOB_box_typename: {_vehicle call grad_liberation_shared_fnc_setFobMass;};
+					case FOB_box_typename: {_vehicle call grad_liberation_common_fnc_setFobMass;};
 					case "Land_Medevac_house_V1_F";
 					case "Land_Medevac_HQ_V1_F": {_vehicle setVariable ["ace_medical_isMedicalFacility", true, true];};
-					case KP_liberation_recycle_building: {_vehicle setVariable ["ace_isRepairFacility", 1, true];};
-					case "Flag_White_F": {_vehicle setFlagTexture "res\kpflag.jpg";};
-					case KP_liberation_small_storage_building;
-					case KP_liberation_large_storage_building: {_vehicle setVariable ["KP_liberation_storage_type", 0, true];};
+					case liberation_recycle_building: {_vehicle setVariable ["ace_isRepairFacility", 1, true];};
+					case "GRAD_flag_gruppeAdlerWhite": {};
+					case liberation_small_storage_building;
+					case liberation_large_storage_building: {_vehicle setVariable ["liberation_storage_type", 0, true];};
 					default {};
 				};
-				
-				if (_classname in KP_liberation_medical_vehicles) then {
+
+				if (_classname in liberation_medical_vehicles) then {
 					_vehicle setVariable ["ace_medical_medicClass", 1, true];
 				};
 
@@ -338,7 +338,7 @@ while { true } do {
 						[_x,[[_vehicle],true]] remoteExec ["addCuratorEditableObjects",2];
 					} forEach allCurators;
 				};
-				
+
 				sleep 0.3;
 				_vehicle allowDamage true;
 				_vehicle setDamage 0;
@@ -348,8 +348,8 @@ while { true } do {
 				};
 
 				if(buildtype != 6) then {
-					_vehicle addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}];
-					{ _x addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}]; } foreach (crew _vehicle);
+					_vehicle addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_common_fnc_killManager}];
+					{ _x addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_common_fnc_killManager}]; } foreach (crew _vehicle);
 
 				};
 			};

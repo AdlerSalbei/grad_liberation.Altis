@@ -20,8 +20,8 @@ waitUntil {cinematic_camera_stop};
 
 private _basenamestr = "Operation Base";
 
-KP_liberation_respawn_time = time;
-KP_liberation_respawn_mobile_done = false;
+liberation_respawn_time = time;
+liberation_respawn_mobile_done = false;
 
 while {true} do {
 	waitUntil {
@@ -84,8 +84,8 @@ while {true} do {
 		};
 
 		if (liberation_mobilerespawn) then {
-			if (KP_liberation_respawn_time <= time) then {
-				private _respawn_trucks = call grad_liberation_shared_fnc_getMobileRespawns;
+			if (liberation_respawn_time <= time) then {
+				private _respawn_trucks = call grad_liberation_common_fnc_getMobileRespawns;
 
 				for [ {_idx=0},{_idx < count _respawn_trucks},{_idx=_idx+1} ] do {
 					choiceslist = choiceslist + [[format ["%1 - %2", localize "STR_RESPAWN_TRUCK",mapGridPosition (getposATL (_respawn_trucks select _idx))],getposATL (_respawn_trucks select _idx),(_respawn_trucks select _idx)]];
@@ -156,7 +156,7 @@ while {true} do {
 		if (count (choiceslist select _idxchoice) == 3) then {
 			private _truck = (choiceslist select _idxchoice) select 2;
 			player setposATL ([_truck, 5 + (random 3), random 360] call BIS_fnc_relPos);
-			KP_liberation_respawn_mobile_done = true;
+			liberation_respawn_mobile_done = true;
 		} else {
 			private _destpos = ((choiceslist select _idxchoice) select 1);
 			player setposATL [((_destpos select 0) + 5) - (random 10),((_destpos select 1) + 5) - (random 10),(_destpos select 2)];
@@ -179,46 +179,46 @@ while {true} do {
 
 	if (alive player && deploy == 1) then {
 		[_spawn_str] spawn spawn_camera;
-		if (KP_liberation_respawn_mobile_done) then {
-			KP_liberation_respawn_time = time + liberation_respawn_cooldown;
-			KP_liberation_respawn_mobile_done = false;
+		if (liberation_respawn_mobile_done) then {
+			liberation_respawn_time = time + liberation_respawn_cooldown;
+			liberation_respawn_mobile_done = false;
 		};
 	};
 	
 	if (liberation_arsenalUsePreset) then {
-		[_backpack] call grad_liberation_shared_fnc_checkGear;
+		[_backpack] call grad_liberation_common_fnc_checkGear;
 	};
 
-	if (liberation_mobilerespawn && (KP_liberation_respawn_time > time)) then {
-		hint format [localize "STR_RESPAWN_COOLDOWN_HINT", ceil ((KP_liberation_respawn_time - time) / 60)];
+	if (liberation_mobilerespawn && (liberation_respawn_time > time)) then {
+		hint format [localize "STR_RESPAWN_COOLDOWN_HINT", ceil ((liberation_respawn_time - time) / 60)];
 		uiSleep 12;
 		hint "";
 	};
 
 	// Arty Supp deactivated for now
-	/*if (KP_liberation_suppMod_enb > 0) then {
-		waitUntil {sleep 1; (!isNil "KP_liberation_suppMod_grp") && (!isNil "KP_liberation_suppMod_arty")};
+	/*if (liberation_suppMod_enb > 0) then {
+		waitUntil {sleep 1; (!isNil "liberation_suppMod_grp") && (!isNil "liberation_suppMod_arty")};
 		private _access = false;
-		switch (KP_liberation_suppMod_enb) do {
-			case 1: {if (player == ([] call grad_liberation_shared_fnc_getCommander)) then {_access = true};};
-			case 2: {if ((getPlayerUID player) in KP_liberation_suppMod_whitelist) then {_access = true};};
+		switch (liberation_suppMod_enb) do {
+			case 1: {if (player == ([] call grad_liberation_common_fnc_getCommander)) then {_access = true};};
+			case 2: {if ((getPlayerUID player) in liberation_suppMod_whitelist) then {_access = true};};
 			default {_access = true;};
 		};
 		if (_access) then {
-			if (isNil "KP_liberation_suppMod_handle") then {KP_liberation_suppMod_handle = scriptNull;};
-			if (isNull KP_liberation_suppMod_handle) then {
-				KP_liberation_suppMod_handle = [KP_liberation_suppMod_arty] execVM "A3\modules_f\supports\init_provider.sqf";
+			if (isNil "liberation_suppMod_handle") then {liberation_suppMod_handle = scriptNull;};
+			if (isNull liberation_suppMod_handle) then {
+				liberation_suppMod_handle = [liberation_suppMod_arty] execVM "A3\modules_f\supports\init_provider.sqf";
 			};
-			if (isNil "KP_liberation_suppMod_req") then {
-				KP_liberation_suppMod_req = KP_liberation_suppMod_grp createUnit ["SupportRequester", KP_liberation_suppMod_grp, [], 0, "NONE"];
-				//KP_liberation_suppMod_req spawn BIS_fnc_moduleSupportsInitRequester;
-				[KP_liberation_suppMod_req] execVM "A3\modules_f\supports\init_requester.sqf";
+			if (isNil "liberation_suppMod_req") then {
+				liberation_suppMod_req = liberation_suppMod_grp createUnit ["SupportRequester", liberation_suppMod_grp, [], 0, "NONE"];
+				//liberation_suppMod_req spawn BIS_fnc_moduleSupportsInitRequester;
+				[liberation_suppMod_req] execVM "A3\modules_f\supports\init_requester.sqf";
 				{
-					[KP_liberation_suppMod_req, _x, -1] call BIS_fnc_limitSupport;
+					[liberation_suppMod_req, _x, -1] call BIS_fnc_limitSupport;
 				} forEach ["Artillery","CAS_Heli","CAS_Bombing","UAV","Drop","Transport"];
 			};
 			if ((count (synchronizedObjects player)) == 0) then {
-				[player, KP_liberation_suppMod_req, KP_liberation_suppMod_arty] call BIS_fnc_addSupportLink;
+				[player, liberation_suppMod_req, liberation_suppMod_arty] call BIS_fnc_addSupportLink;
 			};
 		};
 	};*/

@@ -10,26 +10,26 @@ private _timer = 0;
 while {LIB_endgame == 0} do {
 	{
 		private _nextsector = _x;
-		private _opforcount =  [] call grad_liberation_shared_fnc_opforCap;
+		private _opforcount =  [] call grad_liberation_common_fnc_opforCap;
 
 		if (_opforcount < LIB_sector_cap) then {
 
-			if (([getmarkerpos _nextsector, [_opforcount] call grad_liberation_shared_fnc_getCorrectedSectorRange, LIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount > 0) && !(_nextsector in active_sectors)) then {
+			if (([getmarkerpos _nextsector, [_opforcount] call grad_liberation_common_fnc_getCorrectedSectorRange, LIB_side_friendly] call grad_liberation_common_fnc_getUnitsCount > 0) && !(_nextsector in active_sectors)) then {
 
-				_hc = [] call grad_liberation_shared_fnc_lessLoadedHC;
+				_hc = [] call grad_liberation_common_fnc_lessLoadedHC;
 
 				if (isNull _hc) then {
-					[_nextsector] spawn manage_one_sector;
+					[_nextsector] spawn manageOneSector;
 				} else {
-					[_nextsector] remoteExec ["manage_one_sector", _hc];
+					[_nextsector] remoteExec ["manageOneSector", _hc];
 				};
 
 				if ((_nextsector in sectors_factory) || (_nextsector in sectors_capture)) then {
-					[_nextsector] call manage_captureboxes;
+					[_nextsector] call manageCaptureboxes;
 				};
 
 				if (_nextsector in sectors_military) then {
-					[_nextsector] call manage_intel;
+					[_nextsector] call manageIntel;
 				};
 			};
 		};

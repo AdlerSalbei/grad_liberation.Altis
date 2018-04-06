@@ -9,7 +9,7 @@ if ( time > LIB_last_incoming_notif_time + 60 ) then {
 	LIB_last_incoming_notif_time = time;
 
 	private [ "_attack_location_name" ];
-	_attack_location_name = [ _attack_destination ] call grad_liberation_shared_fnc_getLocationName;
+	_attack_location_name = [ _attack_destination ] call grad_liberation_common_fnc_getLocationName;
 
 	[ "lib_incoming", [ _attack_location_name ] ] call BIS_fnc_showNotification;
 

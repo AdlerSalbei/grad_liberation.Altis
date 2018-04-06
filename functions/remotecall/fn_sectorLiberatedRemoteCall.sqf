@@ -35,14 +35,14 @@ stats_sectors_liberated = stats_sectors_liberated + 1;
 if (_liberated_sector in sectors_factory) then {
 
 	private _sectorType = 1;
-	private _sectorFacilities = ([KP_liberation_production_markers, {_liberated_sector == (_x select 0)}] call BIS_fnc_conditionalSelect) select 0;
+	private _sectorFacilities = ([liberation_production_markers, {_liberated_sector == (_x select 0)}] call BIS_fnc_conditionalSelect) select 0;
 	private _producing = 3;
 
 	{
-		if (_liberated_sector in _x) exitWith {KP_liberation_production = KP_liberation_production - [_x];};
-	} forEach KP_liberation_production;
+		if (_liberated_sector in _x) exitWith {liberation_production = liberation_production - [_x];};
+	} forEach liberation_production;
 
-	KP_liberation_production pushBack [
+	liberation_production pushBack [
 		(markerText _liberated_sector),
 		_liberated_sector,
 		_sectorType,
@@ -51,7 +51,7 @@ if (_liberated_sector in sectors_factory) then {
 		_sectorFacilities select 2,
 		_sectorFacilities select 3,
 		_producing,
-		KP_liberation_production_interval,
+		liberation_production_interval,
 		0,
 		0,
 		0
@@ -60,14 +60,14 @@ if (_liberated_sector in sectors_factory) then {
 
 [_liberated_sector] spawn F_cr_liberatedSector;
 
-if ((random 100) <= KP_liberation_cr_wounded_chance) then {
+if ((random 100) <= liberation_cr_wounded_chance) then {
 	[_liberated_sector] spawn civrep_wounded_civs;
 };
 
 asymm_blocked_sectors pushBack [_liberated_sector, time];
 publicVariable "asymm_blocked_sectors";
 
-[] spawn check_victory_conditions;
+[] spawn checkVictoryConditions;
 
 sleep 1;
 
@@ -76,7 +76,7 @@ trigger_server_save = true;
 sleep 45;
 
 if (LIB_endgame == 0) then {
-	if ((!(_liberated_sector in sectors_tower)) && (((random (200.0 / (liberation_difficulty_modifier * liberation_csat_aggressivity))) < (combat_readiness - 20)) || (_liberated_sector in sectors_bigtown)) && ([] call grad_liberation_shared_fnc_opforCap < LIB_battlegroup_cap)) then {
+	if ((!(_liberated_sector in sectors_tower)) && (((random (200.0 / (liberation_difficulty_modifier * liberation_csat_aggressivity))) < (combat_readiness - 20)) || (_liberated_sector in sectors_bigtown)) && ([] call grad_liberation_common_fnc_opforCap < LIB_battlegroup_cap)) then {
 		[_liberated_sector] spawn spawn_battlegroup;
 	};
 };

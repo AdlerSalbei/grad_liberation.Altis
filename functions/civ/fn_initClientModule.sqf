@@ -14,7 +14,7 @@ F_cr_woundedAnim = compileFinal preprocessFileLineNumbers "scripts\server\civrep
 // Spawn wounded civilians in a sector
 civrep_wounded_civs = compileFinal preprocessFileLineNumbers "scripts\server\civrep\wounded\civrep_wounded_civs.sqf";
 // Count initial buildings on each city and bigtown
-[] spawn compileFinal preprocessFileLineNumbers "scripts\server\civrep\init_buildings.sqf";
+[] call grad_liberation_civ_fnc_init_buildings.sqf";
 
 
 if (liberation_civrep_debug > 0) then {diag_log format ["[KP LIBERATION] [CIVREP] Module initialised on: %1", debug_source];};

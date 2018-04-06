@@ -4,11 +4,11 @@ if (liberation_asymmetric_debug > 0) then {private _text = format ["[KP LIBERATI
 
 private _startpos = (markerPos _sector) getPos [(1200 + (round (random 400))), (random 360)];
 
-while {(([_startpos, 500, LIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount) > 0) || (surfaceIsWater _startpos)} do {
+while {(([_startpos, 500, LIB_side_friendly] call grad_liberation_common_fnc_getUnitsCount) > 0) || (surfaceIsWater _startpos)} do {
 	_startpos = (markerPos _sector) getPos [(1200 + (round (random 400))), (random 360)];
 };
 
-private _grp = [_startpos] call grad_liberation_shared_fnc_spawnGuerillaGroup;
+private _grp = [_startpos] call grad_liberation_common_fnc_spawnGuerillaGroup;
 
 while {(count (waypoints _grp)) != 0} do {deleteWaypoint ((waypoints _grp) select 0);};
 {_x doFollow (leader _grp)} forEach (units _grp);
@@ -40,11 +40,11 @@ if (!isNull _grp) then {
 	{
 		if (alive _x) then {
 			deleteVehicle _x;
-			KP_liberation_guerilla_strength = KP_liberation_guerilla_strength + 1;
+			liberation_guerilla_strength = liberation_guerilla_strength + 1;
 		};
 	} forEach (units _grp);
 	if (!isServer) then {
-		publicVariableServer "KP_liberation_guerilla_strength";
+		publicVariableServer "liberation_guerilla_strength";
 	};
 };
 

@@ -1,6 +1,6 @@
 private [ "_oldbuildtype", "_cfg", "_initindex", "_dialog", "_iscommandant", "_squadname", "_buildpages", "_build_list", "_classnamevar", "_entrytext", "_icon", "_affordable", "_affordable_crew", "_selected_item", "_linked", "_linked_unlocked", "_base_link", "_link_color", "_link_str", "_nearfob", "_actual_fob"];
 
-if (([ getpos player , 500 , LIB_side_enemy ] call grad_liberation_shared_fnc_getUnitsCount ) > 4 ) exitWith { hint localize "STR_BUILD_ENEMIES_NEARBY";};
+if (([ getpos player , 500 , LIB_side_enemy ] call grad_liberation_common_fnc_getUnitsCount ) > 4 ) exitWith { hint localize "STR_BUILD_ENEMIES_NEARBY";};
 
 if (isNil "buildtype") then {buildtype = 1};
 if (isNil "buildindex") then {buildindex = -1};
@@ -13,7 +13,7 @@ _dialog = createDialog "liberation_build";
 waitUntil { dialog };
 
 _iscommandant = false;
-if (player == [] call grad_liberation_shared_fnc_getCommander) then {
+if (player == [] call grad_liberation_common_fnc_getCommander) then {
 	_iscommandant = true;
 };
 
@@ -33,8 +33,8 @@ localize "STR_BUILD7",
 localize "STR_BUILD8"
 ];
 
-_nearfob = [] call grad_liberation_shared_fnc_getNearestFob;
-_actual_fob = [KP_liberation_fob_resources, {((_x select 0) distance _nearfob) < LIB_fob_range}] call BIS_fnc_conditionalSelect;
+_nearfob = [] call grad_liberation_common_fnc_getNearestFob;
+_actual_fob = [liberation_fob_resources, {((_x select 0) distance _nearfob) < LIB_fob_range}] call BIS_fnc_conditionalSelect;
 
 while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 	_build_list = build_lists select buildtype;
@@ -55,13 +55,13 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 					case Arsenal_typename: {if (liberation_mobilearsenal) then {_entrytext = localize "STR_ARSENAL_BOX";};};
 					case Respawn_truck_typename: {if (liberation_mobilerespawn) then {_entrytext = localize "STR_RESPAWN_TRUCK";};};
 					case FOB_truck_typename: {_entrytext = localize "STR_FOBTRUCK";};
-					case "Flag_White_F": {_entrytext = localize "STR_INDIV_FLAG";};
-					case KP_liberation_small_storage_building: {_entrytext = localize "STR_SMALL_STORAGE";};
-					case KP_liberation_large_storage_building: {_entrytext = localize "STR_LARGE_STORAGE";};
-					case KP_liberation_recycle_building: {_entrytext = localize "STR_RECYCLE_BUILDING";};
-					case KP_liberation_air_vehicle_building: {_entrytext = localize "STR_HELI_BUILDING";};
-					case KP_liberation_heli_slot_building: {_entrytext = localize "STR_HELI_SLOT";};
-					case KP_liberation_plane_slot_building: {_entrytext = localize "STR_PLANE_SLOT";};
+					case "GRAD_flag_gruppeAdlerWhite": {_entrytext = localize "STR_INDIV_FLAG";};
+					case liberation_small_storage_building: {_entrytext = localize "STR_SMALL_STORAGE";};
+					case liberation_large_storage_building: {_entrytext = localize "STR_LARGE_STORAGE";};
+					case liberation_recycle_building: {_entrytext = localize "STR_RECYCLE_BUILDING";};
+					case liberation_air_vehicle_building: {_entrytext = localize "STR_HELI_BUILDING";};
+					case liberation_heli_slot_building: {_entrytext = localize "STR_HELI_SLOT";};
+					case liberation_plane_slot_building: {_entrytext = localize "STR_PLANE_SLOT";};
 					default {};
 				};
 
@@ -126,15 +126,15 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 			((_build_item select 2 == 0 ) || ((_build_item select 2) <= ((_actual_fob select 0) select 2))) &&
 			((_build_item select 3 == 0 ) || ((_build_item select 3) <= ((_actual_fob select 0) select 3)))
 		) then {
-			if (((_build_item select 0) in KP_liberation_friendly_air_classnames) && !([_build_item select 0] call grad_liberation_shared_fnc_isClassUAV)) then {
-				if (KP_liberation_air_vehicle_building_near &&
-					((((_build_item select 0) isKindOf "Helicopter") && (KP_liberation_heli_count < KP_liberation_heli_slots)) ||
-					(((_build_item select 0) isKindOf "Plane") && (KP_liberation_plane_count < KP_liberation_plane_slots)))
+			if (((_build_item select 0) in liberation_friendly_air_classnames) && !([_build_item select 0] call grad_liberation_common_fnc_isClassUAV)) then {
+				if (liberation_air_vehicle_building_near &&
+					((((_build_item select 0) isKindOf "Helicopter") && (liberation_heli_count < liberation_heli_slots)) ||
+					(((_build_item select 0) isKindOf "Plane") && (liberation_plane_count < liberation_plane_slots)))
 				) then {
 					_affordable = true;
 				};
 			} else {
-				if (!((_build_item select 0) in KP_liberation_air_slots) || (((_build_item select 0) in KP_liberation_air_slots) && KP_liberation_air_vehicle_building_near)) then {
+				if (!((_build_item select 0) in liberation_air_slots) || (((_build_item select 0) in liberation_air_slots) && liberation_air_vehicle_building_near)) then {
 					_affordable = true;
 				};
 			};
@@ -150,7 +150,7 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 	};
 
 	_affordable_crew = _affordable;
-	if ( unitcap >= ([] call grad_liberation_shared_fnc_localCap)) then {
+	if ( unitcap >= ([] call grad_liberation_common_fnc_localCap)) then {
 		_affordable_crew = false;
 		if (buildtype == 1 || buildtype == 8) then {
 			_affordable = false;
@@ -160,20 +160,20 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 	ctrlEnable [ 120, _affordable && _linked_unlocked && !(_squad_full) ];
 	ctrlEnable [ 121, _affordable_crew && _linked_unlocked ];
 
-	ctrlSetText [131, format [ "%1 : %2" , localize "STR_MANPOWER", (floor KP_liberation_supplies)]] ;
-	ctrlSetText [132, format [ "%1 : %2" , localize "STR_AMMO", (floor KP_liberation_ammo)]];
-	ctrlSetText [133, format [ "%1 : %2" , localize "STR_FUEL", (floor KP_liberation_fuel)]];
+	ctrlSetText [131, format [ "%1 : %2" , localize "STR_MANPOWER", (floor liberation_supplies)]] ;
+	ctrlSetText [132, format [ "%1 : %2" , localize "STR_AMMO", (floor liberation_ammo)]];
+	ctrlSetText [133, format [ "%1 : %2" , localize "STR_FUEL", (floor liberation_fuel)]];
 	
 	((findDisplay 5501) displayCtrl (134)) ctrlSetStructuredText formatText [
 		"%1/%2 %3 - %4/%5 %6 - %7/%8 %9",
 		unitcap,
-		([] call grad_liberation_shared_fnc_localCap),
+		([] call grad_liberation_common_fnc_localCap),
 		image "\a3\Ui_F_Curator\Data\Displays\RscDisplayCurator\modeGroups_ca.paa",
-		KP_liberation_heli_count,
-		KP_liberation_heli_slots,
+		liberation_heli_count,
+		liberation_heli_slots,
 		image "\A3\air_f_beta\Heli_Transport_01\Data\UI\Map_Heli_Transport_01_base_CA.paa",
-		KP_liberation_plane_count,
-		KP_liberation_plane_slots,
+		liberation_plane_count,
+		liberation_plane_slots,
 		image "\A3\Air_F_EPC\Plane_CAS_01\Data\UI\Map_Plane_CAS_01_CA.paa"
 		];
 

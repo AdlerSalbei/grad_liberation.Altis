@@ -19,7 +19,7 @@ sleep 2;
 [_informant] remoteExec ["remote_call_switchmove"];
 
 waitUntil {sleep 5;
-	_nearestfob = [getpos _informant] call grad_liberation_shared_fnc_getNearestFob;
+	_nearestfob = [getpos _informant] call grad_liberation_common_fnc_getNearestFob;
 	if (count _nearestfob == 3) then {
 		if ((_informant distance _nearestfob) < 30) then {
 			_is_near_fob = true;

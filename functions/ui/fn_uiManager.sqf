@@ -52,11 +52,11 @@ _distfob = 100;
 _notNearFOB = false;
 _resource_area = "";
 LIB_ui_notif = "";
-KP_liberation_supplies = 0;
-KP_liberation_ammo = 0;
-KP_liberation_fuel = 0;
-KP_liberation_air_vehicle_building_near = false;
-KP_liberation_recycle_building_near = false;
+liberation_supplies = 0;
+liberation_ammo = 0;
+liberation_fuel = 0;
+liberation_air_vehicle_building_near = false;
+liberation_recycle_building_near = false;
 
 _uiticks = 0;
 
@@ -85,36 +85,36 @@ while { true } do {
 		_first_iteration = true;
 	};
 	
-	_nearfob = [] call grad_liberation_shared_fnc_getNearestFob;
+	_nearfob = [] call grad_liberation_common_fnc_getNearestFob;
 	_fobdistance = 9999;
 	_actual_fob = [];
 	if ( count _nearfob == 3 ) then {
 		_fobdistance = player distance _nearfob;
-		_actual_fob = [KP_liberation_fob_resources, {((_x select 0) distance _nearfob) < LIB_fob_range}] call BIS_fnc_conditionalSelect;
+		_actual_fob = [liberation_fob_resources, {((_x select 0) distance _nearfob) < LIB_fob_range}] call BIS_fnc_conditionalSelect;
 	};
 	
 	if (_fobdistance < _distfob) then {
 		_resources = true;
-		if (KP_liberation_resources_global) then {
+		if (liberation_resources_global) then {
 			_resource_area = localize "STR_RESOURCE_GLOBAL";
-			KP_liberation_supplies = KP_liberation_supplies_global;
-			KP_liberation_ammo = KP_liberation_ammo_global;
-			KP_liberation_fuel = KP_liberation_fuel_global;	
+			liberation_supplies = liberation_supplies_global;
+			liberation_ammo = liberation_ammo_global;
+			liberation_fuel = liberation_fuel_global;	
 		} else {
-			_resource_area = toUpper ([_nearfob] call grad_liberation_shared_fnc_getFobName);
-			KP_liberation_supplies = ((_actual_fob select 0) select 1);
-			KP_liberation_ammo = ((_actual_fob select 0) select 2);
-			KP_liberation_fuel = ((_actual_fob select 0) select 3);	
+			_resource_area = toUpper ([_nearfob] call grad_liberation_common_fnc_getFobName);
+			liberation_supplies = ((_actual_fob select 0) select 1);
+			liberation_ammo = ((_actual_fob select 0) select 2);
+			liberation_fuel = ((_actual_fob select 0) select 3);	
 		};
-		KP_liberation_air_vehicle_building_near = ((_actual_fob select 0) select 4);
-		KP_liberation_recycle_building_near = ((_actual_fob select 0) select 5);
+		liberation_air_vehicle_building_near = ((_actual_fob select 0) select 4);
+		liberation_recycle_building_near = ((_actual_fob select 0) select 5);
 	} else {
 		_resources = false;
-		KP_liberation_supplies = 0;
-		KP_liberation_ammo = 0;
-		KP_liberation_fuel = 0;
-		KP_liberation_air_vehicle_building_near = false;
-		KP_liberation_recycle_building_near = false;
+		liberation_supplies = 0;
+		liberation_ammo = 0;
+		liberation_fuel = 0;
+		liberation_air_vehicle_building_near = false;
+		liberation_recycle_building_near = false;
 	};
 	
 	if ( _overlayshown) then {
@@ -125,7 +125,7 @@ while { true } do {
 		if ((getmarkerpos "opfor_capture_marker") distance markers_reset > 100 ) then {
 
 			private [ "_attacked_string" ];
-			_attacked_string = [ markerpos "opfor_capture_marker" ] call grad_liberation_shared_fnc_getLocationName;
+			_attacked_string = [ markerpos "opfor_capture_marker" ] call grad_liberation_common_fnc_getLocationName;
 
 			((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (401)) ctrlShow true;
 			((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (402)) ctrlSetText _attacked_string;
@@ -139,21 +139,21 @@ while { true } do {
 		if (_resources) then {
 			{((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (_x)) ctrlShow true;} foreach  _resourcescontrols;
 			// Fix for small script error that variables will be "any" for a second after an FOB has been build
-			if (isNil "KP_liberation_supplies") then {KP_liberation_supplies = 0;};
-			if (isNil "KP_liberation_ammo") then {KP_liberation_ammo = 0;};
-			if (isNil "KP_liberation_fuel") then {KP_liberation_fuel = 0;};
+			if (isNil "liberation_supplies") then {liberation_supplies = 0;};
+			if (isNil "liberation_ammo") then {liberation_ammo = 0;};
+			if (isNil "liberation_fuel") then {liberation_fuel = 0;};
 			
 			if ((_uiticks % 5 == 0) || _notNearFOB) then {
 
 				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758004)) ctrlSetText format ["%1", _resource_area];
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758007)) ctrlSetText format ["%1", (floor KP_liberation_supplies)];
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758010)) ctrlSetText format ["%1", (floor KP_liberation_ammo)];
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758013)) ctrlSetText format ["%1", (floor KP_liberation_fuel)];
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758016)) ctrlSetText format ["%1/%2", unitcap,([] call grad_liberation_shared_fnc_localCap)];
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758019)) ctrlSetText format ["%1/%2", KP_liberation_heli_count, KP_liberation_heli_slots];
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758022)) ctrlSetText format ["%1/%2", KP_liberation_plane_count, KP_liberation_plane_slots];
+				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758007)) ctrlSetText format ["%1", (floor liberation_supplies)];
+				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758010)) ctrlSetText format ["%1", (floor liberation_ammo)];
+				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758013)) ctrlSetText format ["%1", (floor liberation_fuel)];
+				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758016)) ctrlSetText format ["%1/%2", unitcap,([] call grad_liberation_common_fnc_localCap)];
+				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758019)) ctrlSetText format ["%1/%2", liberation_heli_count, liberation_heli_slots];
+				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758022)) ctrlSetText format ["%1/%2", liberation_plane_count, liberation_plane_slots];
 				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758025)) ctrlSetText format ["%1%2", round(combat_readiness),"%"];
-				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758028)) ctrlSetText format ["%1%2", KP_liberation_civ_rep,"%"];
+				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758028)) ctrlSetText format ["%1%2", liberation_civ_rep,"%"];
 				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758031)) ctrlSetText format ["%1", round(resources_intel)];
 
 				_color_readiness = [0.8,0.8,0.8,1];
@@ -166,8 +166,8 @@ while { true } do {
 				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758025)) ctrlSetTextColor _color_readiness;
 
 				private _color_reputation = [0.8,0.8,0.8,1];
-				if (KP_liberation_civ_rep >= 25) then {_color_reputation = [0,0.7,0,1]};
-				if (KP_liberation_civ_rep <= -25) then {_color_reputation = [0.7,0,0,1]};
+				if (liberation_civ_rep >= 25) then {_color_reputation = [0,0.7,0,1]};
+				if (liberation_civ_rep <= -25) then {_color_reputation = [0.7,0,0,1]};
 
 				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758026)) ctrlSetTextColor _color_reputation;
 				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (758028)) ctrlSetTextColor _color_reputation;
@@ -181,7 +181,7 @@ while { true } do {
 		
 		if ( _uiticks % 25 == 0 ) then {
 
-			if (!isNil "active_sectors" && ( [] call grad_liberation_shared_fnc_opforCap >= LIB_sector_cap)) then {
+			if (!isNil "active_sectors" && ( [] call grad_liberation_common_fnc_opforCap >= LIB_sector_cap)) then {
 
 				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (517)) ctrlShow true;
 
@@ -202,7 +202,7 @@ while { true } do {
 				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (517)) ctrlShow false;
 			};
 
-			_nearest_active_sector = [ LIB_sector_size ] call grad_liberation_shared_fnc_getNearestSector;
+			_nearest_active_sector = [ LIB_sector_size ] call grad_liberation_common_fnc_getNearestSector;
 			if ( _nearest_active_sector != "" ) then {
 				_zone_size = LIB_capture_size;
 				if ( _nearest_active_sector in sectors_bigtown ) then {
@@ -211,12 +211,12 @@ while { true } do {
 
 				"zone_capture" setmarkerposlocal (markerpos _nearest_active_sector);
 				_colorzone = "ColorGrey";
-				if ( [ markerpos _nearest_active_sector, _zone_size ] call grad_liberation_shared_fnc_sectorOwnership == LIB_side_friendly ) then { _colorzone = LIB_color_friendly };
-				if ( [ markerpos _nearest_active_sector, _zone_size ] call grad_liberation_shared_fnc_sectorOwnership == LIB_side_enemy ) then { _colorzone = LIB_color_enemy };
-				if ( [ markerpos _nearest_active_sector, _zone_size ] call grad_liberation_shared_fnc_sectorOwnership == LIB_side_resistance ) then { _colorzone = "ColorCivilian" };
+				if ( [ markerpos _nearest_active_sector, _zone_size ] call grad_liberation_common_fnc_sectorOwnership == LIB_side_friendly ) then { _colorzone = LIB_color_friendly };
+				if ( [ markerpos _nearest_active_sector, _zone_size ] call grad_liberation_common_fnc_sectorOwnership == LIB_side_enemy ) then { _colorzone = LIB_color_enemy };
+				if ( [ markerpos _nearest_active_sector, _zone_size ] call grad_liberation_common_fnc_sectorOwnership == LIB_side_resistance ) then { _colorzone = "ColorCivilian" };
 				"zone_capture" setmarkercolorlocal _colorzone;
 
-				_ratio = [_nearest_active_sector] call grad_liberation_shared_fnc_getForceRatio;
+				_ratio = [_nearest_active_sector] call grad_liberation_common_fnc_getForceRatio;
 				_barwidth = 0.084 * safezoneW * _ratio;
 				_bar = (uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (244);
 				_bar ctrlSetPosition [(ctrlPosition _bar) select 0,(ctrlPosition _bar) select 1,_barwidth,(ctrlPosition _bar) select 3];

@@ -3,27 +3,27 @@ waitUntil {sleep 10; ({_x in sectors_capture || _x in sectors_bigtown} count blu
 if (liberation_civinfo_debug > 0) then {private _text = format ["[KP LIBERATION] [CIVINFO] Loop spawned on: %1", debug_source];_text remoteExec ["diag_log",2];};
 
 while {true} do {
-	uiSleep (KP_liberation_civinfo_min + round (random (KP_liberation_civinfo_max - KP_liberation_civinfo_min)));
+	uiSleep (liberation_civinfo_min + round (random (liberation_civinfo_max - liberation_civinfo_min)));
 	
 	if (liberation_civinfo_debug > 0) then {private _text = "[KP LIBERATION] [CIVINFO] Informant sleep passed";_text remoteExec ["diag_log",2];};
 
 	waitUntil {
 		sleep 10;
 		({_x in sectors_capture || _x in sectors_bigtown} count blufor_sectors) > 0 &&
-		KP_liberation_civ_rep >= 25
+		liberation_civ_rep >= 25
 	};
 
 	if (liberation_civinfo_debug > 0) then {private _text = "[KP LIBERATION] [CIVINFO] Informant waitUntil passed";_text remoteExec ["diag_log",2];};
 
-	if ((KP_liberation_civinfo_chance >= (random 100)) && LIB_endgame == 0) then {
+	if ((liberation_civinfo_chance >= (random 100)) && LIB_endgame == 0) then {
 		private _sector = selectRandom ([blufor_sectors, {_x in sectors_capture || _x in sectors_bigtown}] call BIS_fnc_conditionalSelect);
 		private _house = (nearestObjects [[((getMarkerPos _sector select 0) - 100 + (random 200)), ((getMarkerPos _sector select 1) - 100 + (random 200))],["House", "Building"], 100]) select 0;
 		
 		private _grp = createGroup LIB_side_civilian;
 		private _informant = _grp createUnit [(selectRandom civilians), getMarkerPos _sector, [], 0, "NONE"];
-		private _waiting_time = KP_liberation_civinfo_duration;
+		private _waiting_time = liberation_civinfo_duration;
 
-		_informant addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}];
+		_informant addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_common_fnc_killManager}];
 		_informant setPos (selectRandom (_house buildingPos -1));
 		_informant setUnitPos "UP";
 		sleep 1;

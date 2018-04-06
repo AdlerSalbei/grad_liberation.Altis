@@ -18,7 +18,7 @@ while { true } do {
 				(count units _x > 0) &&  (side _x == LIB_side_friendly && (((leader _x) distance (getmarkerpos LIB_respawn_marker) > 100) && ((leader _x) distance startbase > 500))))) then {
 				clearGroupIcons _x;
 				_localgroup = _x;
-				_grouptype = [_localgroup] call grad_liberation_shared_fnc_getGroupType;
+				_grouptype = [_localgroup] call grad_liberation_common_fnc_getGroupType;
 				_groupicon = "";
 				switch (_grouptype) do {
 					case "infantry": { _groupicon = "b_inf" };

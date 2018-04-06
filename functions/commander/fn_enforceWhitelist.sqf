@@ -1,15 +1,15 @@
 [] call compileFinal preprocessFileLineNumbers "whitelist.sqf";
 
-if ( !liberation_use_whitelist ) exitWith {};
+if (!liberation_use_whitelist) exitWith {};
 
 private [ "_commanderobj", "_tagmatch", "_idmatch", "_namematch" ];
 
 waitUntil { alive player };
 sleep 1;
 
-_commanderobj = [] call grad_liberation_shared_fnc_getCommander;
+_commanderobj = [] call grad_liberation_common_fnc_getCommander;
 if ( !isNull _commanderobj ) then {
-	if ( player == _commanderobj && !([] call grad_liberation_shared_fnc_isAdmin)) then {
+	if ( player == _commanderobj && !([] call grad_liberation_common_fnc_isAdmin)) then {
 
 		_tagmatch = false;
 		_idmatch = false;

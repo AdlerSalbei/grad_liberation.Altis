@@ -12,8 +12,8 @@ _building_classnames = [];
 } foreach (buildings);
 
 if (((typeOf _vehtorecycle) in _building_classnames) ||
-	((typeOf _vehtorecycle) in KP_liberation_storage_buildings) ||
-	((typeOf _vehtorecycle) in KP_liberation_upgrade_buildings) ||
+	((typeOf _vehtorecycle) in liberation_storage_buildings) ||
+	((typeOf _vehtorecycle) in liberation_upgrade_buildings) ||
 	((typeOf _vehtorecycle) in liberation_ace_crates) ||
 	((typeOf _vehtorecycle) == "B_Slingload_01_Repair_F") ||
 	((typeOf _vehtorecycle) == "B_Slingload_01_Fuel_F") ||
@@ -80,15 +80,15 @@ while { dialog && (alive player) && dorecycle == 0 } do {
 
 if ( dialog ) then { closeDialog 0 };
 
-if (_vehtorecycle getVariable ["KP_liberation_preplaced", false]) exitWith {hint localize "STR_PREPLACED_ERROR";};
+if (_vehtorecycle getVariable ["liberation_preplaced", false]) exitWith {hint localize "STR_PREPLACED_ERROR";};
 
 if ( dorecycle == 1 && !(isnull _vehtorecycle) && alive _vehtorecycle) then {
 	
-	_nearfob = [] call grad_liberation_shared_fnc_getNearestFob;
+	_nearfob = [] call grad_liberation_common_fnc_getNearestFob;
 
-	if (!(KP_liberation_recycle_building_near) && ((_price_s + _price_a + _price_f) > 0)) exitWith {hint localize "STR_NORECBUILDING_ERROR";};
+	if (!(liberation_recycle_building_near) && ((_price_s + _price_a + _price_f) > 0)) exitWith {hint localize "STR_NORECBUILDING_ERROR";};
 
-	_storage_areas = [_nearfob nearobjects (LIB_fob_range * 2), {(_x getVariable ["KP_liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
+	_storage_areas = [_nearfob nearobjects (LIB_fob_range * 2), {(_x getVariable ["liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
 
 	_supplyCrates = ceil (_price_s / 100);
 	_ammoCrates = ceil (_price_a / 100);
@@ -98,11 +98,11 @@ if ( dorecycle == 1 && !(isnull _vehtorecycle) && alive _vehtorecycle) then {
 	_spaceSum = 0;
 
 	{
-		if (typeOf _x == KP_liberation_large_storage_building) then {
-			_spaceSum = _spaceSum + (count KP_liberation_large_storage_positions) - (count (attachedObjects _x));
+		if (typeOf _x == liberation_large_storage_building) then {
+			_spaceSum = _spaceSum + (count liberation_large_storage_positions) - (count (attachedObjects _x));
 		};
-		if (typeOf _x == KP_liberation_small_storage_building) then {
-			_spaceSum = _spaceSum + (count KP_liberation_small_storage_positions) - (count (attachedObjects _x));
+		if (typeOf _x == liberation_small_storage_building) then {
+			_spaceSum = _spaceSum + (count liberation_small_storage_positions) - (count (attachedObjects _x));
 		};
 	} forEach _storage_areas;
 

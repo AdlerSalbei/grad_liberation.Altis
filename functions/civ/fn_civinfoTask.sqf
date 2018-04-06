@@ -1,6 +1,6 @@
 if (liberation_civinfo_debug > 0) then {private _text = format ["[KP LIBERATION] [CIVINFO] civinfo_task.sqf spawned on: %1", debug_source];_text remoteExec ["diag_log",2];};
 
-private _spawn_marker = [2000,999999,false] call grad_liberation_shared_fnc_findOpforSpawnPoint;
+private _spawn_marker = [2000,999999,false] call grad_liberation_common_fnc_findOpforSpawnPoint;
 private _roadObj = [markerPos _spawn_marker, 400, []] call BIS_fnc_nearestRoad;
 
 if (isNull _roadObj) exitWith {if (liberation_civinfo_debug > 0) then {private _text = "[KP LIBERATION] [CIVINFO] civinfo_task.sqf -> no road found";_text remoteExec ["diag_log",2];};};
@@ -16,7 +16,7 @@ _veh setDir (getDir _roadObj);
 private _grp = createGroup LIB_side_enemy;
 private _hvt = _grp createUnit [opfor_officer, getPos _roadObj, [], 30, "NONE"];
 for "_i" from 1 to 4 do {
-	(selectRandom militia_squad) createUnit [_grp, _grp, "this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]"];
+	(selectRandom militia_squad) createUnit [_grp, _grp, "this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_common_fnc_killManager}]"];
 	sleep 0.1;
 };
 
@@ -43,7 +43,7 @@ private _marker_pos = [((((getPos _roadObj) select 0) + 200) - random 400),((((g
 
 [4, _marker_pos] remoteExec ["civinfo_notifications"];
 
-private _time_remaining = KP_liberation_civinfo_task_duration;
+private _time_remaining = liberation_civinfo_task_duration;
 
 while {(alive _hvt) && _time_remaining > 0} do {
 	uiSleep 1;			

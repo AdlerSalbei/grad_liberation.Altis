@@ -2,7 +2,7 @@ private [ "_blufor_ai_groups", "_localgroup", "_is_ai_only", "_commander" ];
 
 while { LIB_endgame == 0 } do {
 
-	_commander = [] call grad_liberation_shared_fnc_getCommander;
+	_commander = [] call grad_liberation_common_fnc_getCommander;
 
 	if ( !(isNull _commander ) ) then {
 

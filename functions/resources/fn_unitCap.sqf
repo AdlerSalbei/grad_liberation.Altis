@@ -1,6 +1,6 @@
 unitcap = 0;
-KP_liberation_heli_count = 0;
-KP_liberation_plane_count = 0;
+liberation_heli_count = 0;
+liberation_plane_count = 0;
 
 while {true} do {
 	private _local_unitcap = 0;
@@ -12,7 +12,7 @@ while {true} do {
 		};
 	} forEach allUnits;
 	{
-		if (((typeOf _x) in KP_liberation_friendly_air_classnames) && (alive _x) && !(_x getVariable ["KP_liberation_preplaced", false])) then {
+		if (((typeOf _x) in liberation_friendly_air_classnames) && (alive _x) && !(_x getVariable ["liberation_preplaced", false])) then {
 			if (_x isKindOf "Helicopter") then {
 				_local_heli_count = _local_heli_count + 1;
 			};
@@ -22,7 +22,7 @@ while {true} do {
 		};
 	} forEach vehicles;
 	unitcap = _local_unitcap;
-	KP_liberation_heli_count = _local_heli_count;
-	KP_liberation_plane_count = _local_plane_count;
+	liberation_heli_count = _local_heli_count;
+	liberation_plane_count = _local_plane_count;
 	sleep 1;
 };

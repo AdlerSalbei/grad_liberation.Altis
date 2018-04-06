@@ -2,7 +2,7 @@ if (!isServer) exitWith {};
 
 params ["_sector", "_fac","_clientID"];
 
-private _tempProduction = +KP_liberation_production;
+private _tempProduction = +liberation_production;
 private _checkFor = 0;
 private _price_s = 100;
 private _price_a = 100;
@@ -18,22 +18,22 @@ switch (_fac) do {
 {
 	if ((_x select 1) == (_sector select 1)) exitWith {
 		if (((_x select 9) >= _price_s) && ((_x select 10) >= _price_a) && ((_x select 11) >= _price_f)) then {
-			private _storage = nearestObjects [(markerPos (_x select 1)), [KP_liberation_small_storage_building], LIB_fob_range];
-			_storage = [_storage, {(_x getVariable ["KP_liberation_storage_type",-1]) == 1}] call BIS_fnc_conditionalSelect;
+			private _storage = nearestObjects [(markerPos (_x select 1)), [liberation_small_storage_building], LIB_fob_range];
+			_storage = [_storage, {(_x getVariable ["liberation_storage_type",-1]) == 1}] call BIS_fnc_conditionalSelect;
 			if ((count _storage) == 0) exitWith {};
 			_storage = (_storage select 0);
 			private _storedCrates = (attachedObjects _storage);
 			reverse _storedCrates;
 
 			{
-				private _crateValue = _x getVariable ["KP_liberation_crate_value",0];
+				private _crateValue = _x getVariable ["liberation_crate_value",0];
 
 				switch ((typeOf _x)) do {
-					case KP_liberation_supply_crate: { 
+					case liberation_supply_crate: { 
 						if (_price_s > 0) then {
 							if (_crateValue > _price_s) then {
 								_crateValue = _crateValue - _price_s;
-								_x setVariable ["KP_liberation_crate_value", _crateValue, true];
+								_x setVariable ["liberation_crate_value", _crateValue, true];
 								_price_s = 0;
 							} else {
 								detach _x;
@@ -42,11 +42,11 @@ switch (_fac) do {
 							};
 						};
 					};
-					case KP_liberation_ammo_crate: {
+					case liberation_ammo_crate: {
 						if (_price_a > 0) then {
 							if (_crateValue > _price_a) then {
 								_crateValue = _crateValue - _price_a;
-								_x setVariable ["KP_liberation_crate_value", _crateValue, true];
+								_x setVariable ["liberation_crate_value", _crateValue, true];
 								_price_a = 0;
 							} else {
 								detach _x;
@@ -55,11 +55,11 @@ switch (_fac) do {
 							};
 						};
 					};
-					case KP_liberation_fuel_crate: {
+					case liberation_fuel_crate: {
 						if (_price_f > 0) then {
 							if (_crateValue > _price_f) then {
 								_crateValue = _crateValue - _price_f;
-								_x setVariable ["KP_liberation_crate_value", _crateValue, true];
+								_x setVariable ["liberation_crate_value", _crateValue, true];
 								_price_f = 0;
 							} else {
 								detach _x;
@@ -76,13 +76,13 @@ switch (_fac) do {
 			{
 				private _height = 0.6;
 				switch (typeOf _x) do {
-					case KP_liberation_supply_crate: {_height = 0.4;};
-					case KP_liberation_ammo_crate: {_height = 0.6;};
-					case KP_liberation_fuel_crate: {_height = 0.3;};
+					case liberation_supply_crate: {_height = 0.4;};
+					case liberation_ammo_crate: {_height = 0.6;};
+					case liberation_fuel_crate: {_height = 0.3;};
 					default {_height = 0.6;};
 				};
 				detach _x;
-				_x attachTo [_storage, [(KP_liberation_small_storage_positions select _i) select 0, (KP_liberation_small_storage_positions select _i) select 1, _height]];
+				_x attachTo [_storage, [(liberation_small_storage_positions select _i) select 0, (liberation_small_storage_positions select _i) select 1, _height]];
 				_i = _i + 1;
 			} forEach (attachedObjects _storage);
 
@@ -98,6 +98,6 @@ switch (_fac) do {
 } forEach _tempProduction;
 
 if (_success) then {
-	KP_liberation_production = +_tempProduction;
+	liberation_production = +_tempProduction;
 	recalculate_sectors = true;
 };

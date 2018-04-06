@@ -4,7 +4,7 @@ private _spawnsector = ([sectors_airspawn, [_targetpos], {(markerpos _x) distanc
 
 private _chopper_type = selectRandom opfor_choppers;
 
-while {!(_chopper_type in opfor_troup_transports)} do {
+while {!(_chopper_type in opfor_troupTransports)} do {
 	_chopper_type = selectRandom opfor_choppers;
 };
 
@@ -17,11 +17,11 @@ private _pilot_group = createGroup LIB_side_enemy;
 
 private _para_group = createGroup LIB_side_enemy;
 
-_newvehicle addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}];
-{_x addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}];} forEach (crew _newvehicle);
+_newvehicle addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_common_fnc_killManager}];
+{_x addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_common_fnc_killManager}];} forEach (crew _newvehicle);
 
 while {(count (units _para_group)) < 8} do {
-	opfor_paratrooper createUnit [getmarkerpos _spawnsector, _para_group, "this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]"];
+	opfor_paratrooper createUnit [getmarkerpos _spawnsector, _para_group, "this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_common_fnc_killManager}]"];
 };
 
 {removeBackpack _x; _x addBackPack "B_parachute"; _x moveInCargo _newvehicle;} forEach (units _para_group);

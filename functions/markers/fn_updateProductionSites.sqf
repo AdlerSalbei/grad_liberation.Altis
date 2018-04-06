@@ -1,11 +1,11 @@
 waitUntil {!isNil "save_is_loaded"};
-waitUntil {!isNil "KP_liberation_production_markers"};
+waitUntil {!isNil "liberation_production_markers"};
 
-private _KP_liberation_production_markers_old = [0];
+private _liberation_production_markers_old = [0];
 
 while {LIB_endgame == 0} do {
 	waitUntil {sleep 5;
-		!(_KP_liberation_production_markers_old isEqualTo KP_liberation_production_markers)
+		!(_liberation_production_markers_old isEqualTo liberation_production_markers)
 	};
 	
 	{
@@ -15,7 +15,7 @@ while {LIB_endgame == 0} do {
 		if (_x select 3) then {_marker_text = _marker_text + "F";};
 		_marker_text = _marker_text + "]";
 		(_x select 0) setMarkerTextLocal _marker_text;
-	} forEach KP_liberation_production_markers;
+	} forEach liberation_production_markers;
 
-	_KP_liberation_production_markers_old = +KP_liberation_production_markers;
+	_liberation_production_markers_old = +liberation_production_markers;
 };

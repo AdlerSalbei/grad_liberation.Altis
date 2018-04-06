@@ -30,7 +30,7 @@ if (count LIB_all_fobs == 0) then {
 			_fobbox setdir getDir base_boxspawn;
 			_fobbox setposATL (getposATL base_boxspawn);	
 
-			_fobbox call grad_liberation_shared_fnc_setFobMass;
+			_fobbox call grad_liberation_common_fnc_setFobMass;
 
 			sleep 3;
 
@@ -51,7 +51,7 @@ if (count LIB_all_fobs == 0) then {
 
 	for [{_i = 0;}, {_i < 6}, {_i = _i + 1;}] do {
 		private _crate = createVehicle [
-			(KP_liberation_crates select (_i % 3)),
+			(liberation_crates select (_i % 3)),
 			[((LIB_all_fobs select 0) select 0), ((LIB_all_fobs select 0) select 1), 150],
 			[],
 			80,
@@ -61,8 +61,8 @@ if (count LIB_all_fobs == 0) then {
 		clearMagazineCargoGlobal _crate;
 		clearItemCargoGlobal _crate;
 		clearBackpackCargoGlobal _crate;
-		_crate setVariable ["KP_liberation_crate_value", 100, true];
-		[_crate, 500] remoteExec ["grad_liberation_shared_fnc_setMass",_crate];
+		_crate setVariable ["liberation_crate_value", 100, true];
+		[_crate, 500] remoteExec ["grad_liberation_common_fnc_setMass",_crate];
 		[objNull, _crate] call BIS_fnc_curatorObjectEdited;
 		if(liberation_ace) then {[_crate, true, [0, 1.5, 0], 0] remoteExec ["ace_dragging_fnc_setCarryable"];};
 		_crateArray pushBack _crate;

@@ -4,7 +4,7 @@ if (_count <= 0) exitWith {};
 
 if (liberation_asymmetric_debug > 0) then {private _text = format ["[KP LIBERATION] [ASYMMETRIC] manage_asymIED.sqf for %1 spawned on: %2", markerText _sector, debug_source];_text remoteExec ["diag_log",2];};
 
-waitUntil {sleep 1; _sector in KP_liberation_asymmetric_sectors};
+waitUntil {sleep 1; _sector in liberation_asymmetric_sectors};
 
 if (liberation_asymmetric_debug > 0) then {private _text = format ["[KP LIBERATION] [ASYMMETRIC] manage_asymIED.sqf -> spawning IED %1 at %2", _count, markerText _sector];_text remoteExec ["diag_log",2];};
 
@@ -30,7 +30,7 @@ if (!(isnull _roadobj)) then {
 
 	if (liberation_asymmetric_debug > 0) then {private _text = format ["[KP LIBERATION] [ASYMMETRIC] manage_asymIED.sqf -> IED %1 spawned at %2", _count, markerText _sector];_text remoteExec ["diag_log",2];};
 
-	while {(_sector in KP_liberation_asymmetric_sectors) && (mineActive _ied_obj) && !_goes_boom} do {
+	while {(_sector in liberation_asymmetric_sectors) && (mineActive _ied_obj) && !_goes_boom} do {
 		_nearinfantry = [(getpos _ied_obj) nearEntities ["Man", _activation_radius_infantry] , {side _x == LIB_side_friendly}] call BIS_fnc_conditionalSelect;
 		_nearvehicles = [(getpos _ied_obj) nearEntities [["Car", "Tank", "Air"], _activation_radius_vehicles] , {side _x == LIB_side_friendly}] call BIS_fnc_conditionalSelect;
 		if (count _nearinfantry >= _infantry_trigger || count _nearvehicles >= _vehicle_trigger) then {

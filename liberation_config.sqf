@@ -3,7 +3,7 @@ CONFIG FILE FOR KP LIBERATION
 */
 
 // Vehicle classnames which also function as ACE medical vehicles.
-KP_liberation_medical_vehicles = [
+liberation_medical_vehicles = [
 	"B_Truck_01_medical_F",
 	"B_T_Truck_01_medical_F",
 	"rhsusf_M1085A1P2_B_D_Medical_fmtv_usarmy",
@@ -41,7 +41,7 @@ If you want to change a preset, it's recommended to set all four presets to 0 an
 6 = RHS USAF (Woodland)
 7 = RHS USAF (Desert)
 8 = RHS AFRF (VDV/MSV) */
-KP_liberation_preset_blufor = 8;
+liberation_preset_blufor = 8;
 
 /* OPFOR preset:
 0 = Custom (default vanilla CSAT)
@@ -49,20 +49,20 @@ KP_liberation_preset_blufor = 8;
 2 = RHS AFRF (EMR/MSV)
 3 = Project OPFOR (Takistan)
 4 = Project OPFOR (Islamic State) */
-KP_liberation_preset_opfor = 4;
+liberation_preset_opfor = 4;
 
 /* Resistance preset:
 0 = Custom (default vanilla FIA)
 1 = Apex Tanoa (apex vanilla Syndikat)
 2 = RHS GREF
 3 = Project OPFOR (Middle Eastern) */
-KP_liberation_preset_resistance = 2;
+liberation_preset_resistance = 2;
 
 /* Civilians preset:
 0 = Custom (default vanilla)
 1 = Apex Tanoa (apex vanilla)
 2 = Project OPFOR (Middle Eastern) */
-KP_liberation_preset_civilians = 2;
+liberation_preset_civilians = 2;
 
 /* Which arsenal preset should be used?
 0 = Use the default blacklist method (defined below).
@@ -72,19 +72,19 @@ KP_liberation_preset_civilians = 2;
 4 = RHS USAF arsenal preset with ACE.
 5 = RHS USAF arsenal preset with ACE and ACRE.
 6 = 3cbBAF and RHS USAF arsenal preset. */
-KP_liberation_arsenal = 0;
+liberation_arsenal = 0;
 
 /* - Fuel consumption settings.
 Time in minutes till a full tank depletes whilst the vehicle is standing still with a running engine.	*/
-KP_liberation_fuel_neutral = 180;
+liberation_fuel_neutral = 180;
 // Time in minutes till a full tank depletes whilst the vehicle is driving below max speed.
-KP_liberation_fuel_normal = 90;
+liberation_fuel_normal = 90;
 // Time in minutes till a full tank depletes whilst the vehicle is driving at max speed.
-KP_liberation_fuel_max = 45;
+liberation_fuel_max = 45;
 
 /* - Gameplay constant settings.
 Name of the savegame namespace inside of the [ServerProfileName].vars.Arma3Profile file.	*/
-LIB_save_key = "KP_LIBERATION_" + (toUpper worldName) + "_SAVEGAME";
+LIB_save_key = "liberation_" + (toUpper worldName) + "_SAVEGAME";
 
 LIB_side_friendly = WEST;																						// Friendly side.
 LIB_side_enemy = EAST;																						// Enemy side.
@@ -101,7 +101,7 @@ LIB_halo_altitude = 8000;																						// Altitude in metres for the HAL
 LIB_secondary_missions_costs = [15, 10, 8];																	// Intel price for the secondary missions [FOB hunting, Convoy ambush, SAR].
 LIB_secondary_objective_impact = 0.6;																			// The percentage impact against enemy combat readiness for a successful FOB hunt.
 LIB_recycling_percentage = 0.5;																				// Percentage of resources you get back from recycling.
-KP_liberation_production_interval = 30				/ liberation_resources_multiplier;								// Time in minutes until a production process is finished, when resources multiplier is set to 1.
+liberation_production_interval = 30				/ liberation_resources_multiplier;								// Time in minutes until a production process is finished, when resources multiplier is set to 1.
 
 LIB_sector_size = 1000;																						// Range to activate a sector.
 LIB_capture_size = 175;																						// Range to capture a sector.
@@ -119,33 +119,33 @@ LIB_sector_cap = 180								* liberation_unitcap;											// Cap for sector de
 LIB_battlegroup_cap = 150							* liberation_unitcap;											// Cap for enemy battlegroups.
 LIB_patrol_cap = 150								* liberation_unitcap;											// Cap for enemy patrols.
 
-KP_liberation_cr_kill_penalty = 5;																				// Civil Reputation penalty for killing a civilian.
-KP_liberation_cr_building_penalty = 3;																			// Civil Reputation penalty for destroying/damaging a building.
-KP_liberation_cr_vehicle_penalty = 2;																			// Civil Reputation penalty for stealing a civilian vehicle.
-KP_liberation_cr_resistance_penalty = 3;																		// Civil Reputation penalty for killing a friendly resistance soldier.
-KP_liberation_cr_sector_gain = 5;																				// Civil Reputation gain for liberate a sector.
-KP_liberation_cr_wounded_chance = 35;																			// Chance (0-100) that there are wounded civilians right after capturing a sector.
-KP_liberation_cr_wounded_gain = 2;																				// Civil Reputation gain for providing medical assistance for wounded civilians.
+liberation_cr_kill_penalty = 5;																				// Civil Reputation penalty for killing a civilian.
+liberation_cr_building_penalty = 3;																			// Civil Reputation penalty for destroying/damaging a building.
+liberation_cr_vehicle_penalty = 2;																			// Civil Reputation penalty for stealing a civilian vehicle.
+liberation_cr_resistance_penalty = 3;																		// Civil Reputation penalty for killing a friendly resistance soldier.
+liberation_cr_sector_gain = 5;																				// Civil Reputation gain for liberate a sector.
+liberation_cr_wounded_chance = 35;																			// Chance (0-100) that there are wounded civilians right after capturing a sector.
+liberation_cr_wounded_gain = 2;																				// Civil Reputation gain for providing medical assistance for wounded civilians.
 
-KP_liberation_civinfo_min = 5400;																				// Civil Informant minimum spawn time. (seconds)
-KP_liberation_civinfo_max = 10800;																				// Civil Informant maximum spawn time. (seconds)
-KP_liberation_civinfo_chance = 75;																				// Civil Informant spawn chance. (0-100)
-KP_liberation_civinfo_intel = 5;																				// Civil Informant intel amount.
-KP_liberation_civinfo_duration = 1200;																			// Civil Informant staytime until despawning. (seconds)
-KP_liberation_civinfo_task_chance = 40;																			// Chance (0-100) that the delivered informant will spawn a time critical task.
-KP_liberation_civinfo_task_duration = 900;																		// Duration until the task will despawn if no player is near. (seconds)
+liberation_civinfo_min = 5400;																				// Civil Informant minimum spawn time. (seconds)
+liberation_civinfo_max = 10800;																				// Civil Informant maximum spawn time. (seconds)
+liberation_civinfo_chance = 75;																				// Civil Informant spawn chance. (0-100)
+liberation_civinfo_intel = 5;																				// Civil Informant intel amount.
+liberation_civinfo_duration = 1200;																			// Civil Informant staytime until despawning. (seconds)
+liberation_civinfo_task_chance = 40;																			// Chance (0-100) that the delivered informant will spawn a time critical task.
+liberation_civinfo_task_duration = 900;																		// Duration until the task will despawn if no player is near. (seconds)
 
-KP_liberation_convoy_ambush_chance = 2;																			// Chance that a logistic convoy will be ambushed, when civil reputation is low.
-KP_liberation_convoy_ambush_duration = 1200;																	// Duration of the convoy ambush event. (seconds)
+liberation_convoy_ambush_chance = 2;																			// Chance that a logistic convoy will be ambushed, when civil reputation is low.
+liberation_convoy_ambush_duration = 1200;																	// Duration of the convoy ambush event. (seconds)
 
-KP_liberation_resistance_tier2 = 30;																			// At which strength (0-100) the guerilla forces will be at tier 2?
-KP_liberation_resistance_tier3 = 70;																			// At which strength (0-100) the guerilla forces will be at tier 3?
-KP_liberation_resistance_at_chance = 20;																		// Chance that a guerilla unit has a RPG. (tier 2 and 3)
-KP_liberation_resistance_sector_chance = 35;																	// Chance that a guerilla squad will join an ongoing sector attack.
-KP_liberation_resistance_ambush_chance = 30;																	// Chance that some guerilla units will spawn in blufor sectors for an ambush, if reputation is low.
+liberation_resistance_tier2 = 30;																			// At which strength (0-100) the guerilla forces will be at tier 2?
+liberation_resistance_tier3 = 70;																			// At which strength (0-100) the guerilla forces will be at tier 3?
+liberation_resistance_at_chance = 20;																		// Chance that a guerilla unit has a RPG. (tier 2 and 3)
+liberation_resistance_sector_chance = 35;																	// Chance that a guerilla squad will join an ongoing sector attack.
+liberation_resistance_ambush_chance = 30;																	// Chance that some guerilla units will spawn in blufor sectors for an ambush, if reputation is low.
 
 /* - Default arsenal blacklist method.
-Useless if you're using anything other than "kp_liberation_arsenal = 0;" above. A whitelisted arsenal is always more performance friendly then a blacklisted arsenal.
+Useless if you're using anything other than "liberation_arsenal = 0;" above. A whitelisted arsenal is always more performance friendly then a blacklisted arsenal.
 REMEMBER: All static turret and UAV bags should be defined here, to stop players from exploiting free resources via the virtual arsenal.	*/
 blacklisted_from_arsenal = [
 	"I_HMG_01_weapon_F",
@@ -242,7 +242,7 @@ blacklisted_from_arsenal = [
 ];
 
 // Items which should be added as allowed Items, when they get blacklisted, even if they are not in the blacklisted_from_arsenal array
-KP_liberation_allowed_items_extension = [
+liberation_allowed_items_extension = [
 	"ItemRadioAcreFlagged",
 	"rhs_acc_ekp8_18b",
 	"rhs_acc_ekp8_18c",
@@ -451,7 +451,7 @@ vehicle_refuel_sources = [
 ];
 
 // Classnames of artillery vehicles or statics which should be linked to the support system. (Currently deactivated)
-/*KP_liberation_artySupp = [
+/*liberation_artySupp = [
 	"B_Mortar_01_F",
 	"B_T_Mortar_01_F",
 	"B_MBT_01_arty_F",
@@ -482,7 +482,7 @@ boats_names = [
 ];
 
 // Large storage area placement position offsets.
-KP_liberation_large_storage_positions = [
+liberation_large_storage_positions = [
 	[-5.59961,3.60938,0.6],
 	[-3.99902,3.60938,0.6],
 	[-2.39941,3.60938,0.6],
@@ -526,7 +526,7 @@ KP_liberation_large_storage_positions = [
 ];
 
 // Small storage area placement position offsets.
-KP_liberation_small_storage_positions = [
+liberation_small_storage_positions = [
 	[-2.34961,1.80078,0.6],
 	[-0.75,1.80078,0.6],
 	[0.850586,1.80078,0.6],
@@ -546,4 +546,4 @@ LIB_endgame = 0;
 if ( LIB_blufor_cap > 100 ) then { LIB_blufor_cap = 100 };
 LIB_offload_diag = false;
 
-KP_liberation_production_interval = ceil KP_liberation_production_interval;
+liberation_production_interval = ceil liberation_production_interval;

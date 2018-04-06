@@ -2,9 +2,9 @@ params ["_sector"];
 
 if (liberation_asymmetric_debug > 0) then {private _text = format ["[KP LIBERATION] [ASYMMETRIC] asym_sector_ambush.sqf for %1 spawned on: %2 - Time: %3", markerText _sector, debug_source, time];_text remoteExec ["diag_log",2];};
 
-waitUntil {sleep 1; _sector in KP_liberation_asymmetric_sectors};
+waitUntil {sleep 1; _sector in liberation_asymmetric_sectors};
 
-private _buildings = [nearestObjects [(markerPos _sector), ["House"], 75], {(alive _x) && !((typeOf _x) in KP_liberation_cr_ign_buildings)}] call BIS_fnc_conditionalSelect;
+private _buildings = [nearestObjects [(markerPos _sector), ["House"], 75], {(alive _x) && !((typeOf _x) in liberation_cr_ign_buildings)}] call BIS_fnc_conditionalSelect;
 private _positions = [];
 {
 	_positions = _positions + ([_x] call BIS_fnc_buildingPositions);
@@ -21,7 +21,7 @@ while {count _position_indexes < 10} do {
 	};
 };
 
-private _grp = [(markerPos _sector)] call grad_liberation_shared_fnc_spawnGuerillaGroup;
+private _grp = [(markerPos _sector)] call grad_liberation_common_fnc_spawnGuerillaGroup;
 _grp setBehaviour "STEALTH";
 private _idxposit = 0;
 {
@@ -36,7 +36,7 @@ if (liberation_asymmetric_debug > 0) then {private _text = format ["[KP LIBERATI
 
 private _attack = false;
 
-while {(_sector in KP_liberation_asymmetric_sectors) && (!isNull _grp)} do {
+while {(_sector in liberation_asymmetric_sectors) && (!isNull _grp)} do {
 	private _blufor_near = {alive _x && side _x == LIB_side_friendly} count ((getpos (leader _grp)) nearEntities [["LAND"], 140]);
 	if ((_blufor_near > 0) && !_attack) then {
 		_attack = true;

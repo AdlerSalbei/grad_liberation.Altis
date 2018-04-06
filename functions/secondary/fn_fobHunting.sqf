@@ -9,7 +9,7 @@ _fob_templates = [
 "scripts\fob_templates\template1.sqf"
 ];
 
-_spawn_marker = [2000,999999,false] call grad_liberation_shared_fnc_findOpforSpawnPoint;
+_spawn_marker = [2000,999999,false] call grad_liberation_common_fnc_findOpforSpawnPoint;
 if ( _spawn_marker == "" ) exitWith { diag_log "[KP LIBERATION] [ERROR] Could not find position for fob hunting mission"; };
 
 used_positions = used_positions + [ _spawn_marker ];
@@ -80,10 +80,10 @@ while { count _idxselected < _defenders_amount } do {
 	_nextpos = _nextentry select 1;
 	_nextpos = [((_base_position select 0) + (_nextpos select 0)),((_base_position select 1) + (_nextpos select 1)),(_nextpos select 2)];
 	_nextdir = _nextentry select 2;
-	_nextclass createUnit [_nextpos, _grpdefenders,"nextdefender = this; this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]", 0.5, "private"];
+	_nextclass createUnit [_nextpos, _grpdefenders,"nextdefender = this; this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_common_fnc_killManager}]", 0.5, "private"];
 	nextdefender setpos _nextpos;
 	nextdefender setdir _nextdir;
-	[nextdefender] spawn building_defence_ai;
+	[nextdefender] spawn buildingDefenceAi;
 } foreach _idxselected;
 
 _sentry = ceil ((3 + (floor (random 4))) * ( sqrt ( liberation_unitcap ) ) );
@@ -91,7 +91,7 @@ _sentry = ceil ((3 + (floor (random 4))) * ( sqrt ( liberation_unitcap ) ) );
 _grpsentry = createGroup LIB_side_enemy;
 _base_sentry_pos = [(_base_position select 0) + ((_base_corners select 0) select 0), (_base_position select 1) + ((_base_corners select 0) select 1),0];
 for [ {_idx=0},{_idx < _sentry},{_idx=_idx+1} ] do {
-	opfor_sentry createUnit [_base_sentry_pos, _grpsentry,"this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]", 0.5, "private"];
+	opfor_sentry createUnit [_base_sentry_pos, _grpsentry,"this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_common_fnc_killManager}]", 0.5, "private"];
 };
 
 while {(count (waypoints _grpsentry)) != 0} do {deleteWaypoint ((waypoints _grpsentry) select 0);};

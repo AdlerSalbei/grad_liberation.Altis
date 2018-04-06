@@ -4,9 +4,9 @@ params ["_index", "_nearfob", "_clientID"];
 
 logiError = 0;
 
-if (((KP_liberation_logistics select _index) select 1) <= 0) exitWith {logiError = 1; _clientID publicVariableClient "logiError";};
+if (((liberation_logistics select _index) select 1) <= 0) exitWith {logiError = 1; _clientID publicVariableClient "logiError";};
 
-private _storage_areas = [_nearfob nearobjects (LIB_fob_range * 2), {(_x getVariable ["KP_liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
+private _storage_areas = [_nearfob nearobjects (LIB_fob_range * 2), {(_x getVariable ["liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
 
 if ((count _storage_areas) == 0) exitWith {(localize "STR_LOGISTIC_NOSPACE") remoteExec ["hint",_clientID]; logiError = 1; _clientID publicVariableClient "logiError";};
 
@@ -19,11 +19,11 @@ private _crateSum = (ceil(_price_s / 100)) + (ceil(_price_a / 100)) + (ceil(_pri
 private _spaceSum = 0;
 
 {
-	if (typeOf _x == KP_liberation_large_storage_building) then {
-		_spaceSum = _spaceSum + (count KP_liberation_large_storage_positions) - (count (attachedObjects _x));
+	if (typeOf _x == liberation_large_storage_building) then {
+		_spaceSum = _spaceSum + (count liberation_large_storage_positions) - (count (attachedObjects _x));
 	};
-	if (typeOf _x == KP_liberation_small_storage_building) then {
-		_spaceSum = _spaceSum + (count KP_liberation_small_storage_positions) - (count (attachedObjects _x));
+	if (typeOf _x == liberation_small_storage_building) then {
+		_spaceSum = _spaceSum + (count liberation_small_storage_positions) - (count (attachedObjects _x));
 	};
 } forEach _storage_areas;
 
@@ -31,11 +31,11 @@ if (_spaceSum < _crateSum) exitWith {(localize "STR_LOGISTIC_NOSPACE") remoteExe
 
 {
 	private _space = 0;
-	if (typeOf _x == KP_liberation_large_storage_building) then {
-		_space = (count KP_liberation_large_storage_positions) - (count (attachedObjects _x));
+	if (typeOf _x == liberation_large_storage_building) then {
+		_space = (count liberation_large_storage_positions) - (count (attachedObjects _x));
 	};
-	if (typeOf _x == KP_liberation_small_storage_building) then {
-		_space = (count KP_liberation_small_storage_positions) - (count (attachedObjects _x));
+	if (typeOf _x == liberation_small_storage_building) then {
+		_space = (count liberation_small_storage_positions) - (count (attachedObjects _x));
 	};
 
 	while {(_space > 0) && (_price_s > 0)} do {
@@ -44,8 +44,8 @@ if (_spaceSum < _crateSum) exitWith {(localize "STR_LOGISTIC_NOSPACE") remoteExe
 			_amount = _price_s;
 		};
 		_price_s = _price_s - _amount;
-		private _crate = [KP_liberation_supply_crate, _amount, getPos _x] call grad_liberation_shared_fnc_createCrate;
-		[_crate, _x] call grad_liberation_shared_fnc_crateToStorage;
+		private _crate = [liberation_supply_crate, _amount, getPos _x] call grad_liberation_common_fnc_createCrate;
+		[_crate, _x] call grad_liberation_common_fnc_crateToStorage;
 		_space = _space - 1;
 	};
 
@@ -55,8 +55,8 @@ if (_spaceSum < _crateSum) exitWith {(localize "STR_LOGISTIC_NOSPACE") remoteExe
 			_amount = _price_a;
 		};
 		_price_a = _price_a - _amount;
-		private _crate = [KP_liberation_ammo_crate, _amount, getPos _x] call grad_liberation_shared_fnc_createCrate;
-		[_crate, _x] call grad_liberation_shared_fnc_crateToStorage;
+		private _crate = [liberation_ammo_crate, _amount, getPos _x] call grad_liberation_common_fnc_createCrate;
+		[_crate, _x] call grad_liberation_common_fnc_crateToStorage;
 		_space = _space - 1;
 	};
 
@@ -66,8 +66,8 @@ if (_spaceSum < _crateSum) exitWith {(localize "STR_LOGISTIC_NOSPACE") remoteExe
 			_amount = _price_f;
 		};
 		_price_f = _price_f - _amount;
-		private _crate = [KP_liberation_fuel_crate, _amount, getPos _x] call grad_liberation_shared_fnc_createCrate;
-		[_crate, _x] call grad_liberation_shared_fnc_crateToStorage;
+		private _crate = [liberation_fuel_crate, _amount, getPos _x] call grad_liberation_common_fnc_createCrate;
+		[_crate, _x] call grad_liberation_common_fnc_crateToStorage;
 		_space = _space - 1;
 	};
 
@@ -76,4 +76,4 @@ if (_spaceSum < _crateSum) exitWith {(localize "STR_LOGISTIC_NOSPACE") remoteExe
 
 please_recalculate = true;
 
-(KP_liberation_logistics select _index) set [1, ((KP_liberation_logistics select _index) select 1) - 1];
+(liberation_logistics select _index) set [1, ((liberation_logistics select _index) select 1) - 1];

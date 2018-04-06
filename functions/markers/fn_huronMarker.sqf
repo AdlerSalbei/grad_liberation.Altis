@@ -1,7 +1,7 @@
 private [ "_huronlocal" ];
 
 while { true } do {
-	_huronlocal = [] call grad_liberation_shared_fnc_spartanScan;
+	_huronlocal = [] call grad_liberation_common_fnc_spartanScan;
 	if ( !( isNull _huronlocal) ) then {
 		"huronmarker" setmarkerposlocal (getpos _huronlocal);
 	} else {

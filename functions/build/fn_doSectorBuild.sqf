@@ -1,6 +1,6 @@
 private ["_vector", "_idactcancel", "_idactplace", "_idactvector", "_ghost_spot", "_truedir", "_dist", "_truepos", "_sectorpos", "_building"];
 
-if (((_this select 3) select 0) == KP_liberation_small_storage_building) then {
+if (((_this select 3) select 0) == liberation_small_storage_building) then {
 
 	_truepos = [];
 
@@ -8,7 +8,7 @@ if (((_this select 3) select 0) == KP_liberation_small_storage_building) then {
 	build_invalid = 0;
 	KP_vector = true;
 	
-	_sectorpos = getMarkerPos ([LIB_fob_range] call grad_liberation_shared_fnc_getNearestSector);
+	_sectorpos = getMarkerPos ([LIB_fob_range] call grad_liberation_common_fnc_getNearestSector);
 
 	_idactcancel = player addAction ["<t color='#B0FF00'>" + localize "STR_CANCEL" + "</t> <img size='2' image='res\ui_cancel.paa'/>",{build_confirmed = 3;},"",-725,false,true,"","build_confirmed == 1"];
 	_idactplace = player addAction ["<t color='#B0FF00'>" + localize "STR_PLACEMENT" + "</t> <img size='2' image='res\ui_confirm.paa'/>",{build_confirmed = 2;},"",-775,false,true,"","build_invalid == 0 && build_confirmed == 1"];
@@ -80,7 +80,7 @@ if (((_this select 3) select 0) == KP_liberation_small_storage_building) then {
 			_building setVectorUp surfaceNormal position _building;
 		};
 
-		_building setVariable ["KP_liberation_storage_type", 1, true];
+		_building setVariable ["liberation_storage_type", 1, true];
 
 		sleep 0.3;
 		_building allowDamage true;

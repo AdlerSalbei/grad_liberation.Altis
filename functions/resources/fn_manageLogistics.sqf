@@ -1,17 +1,17 @@
 waitUntil {!isNil "save_is_loaded"};
-waitUntil {!isNil "KP_liberation_logistics"};
+waitUntil {!isNil "liberation_logistics"};
 
 if (liberation_logistic_debug > 0) then {diag_log "[KP LIBERATION] [LOGISTIC] Logistic management started";};
 
-KP_liberation_convoy_ambush_inProgress = false;
-KP_liberation_convoy_ambush_check = 0;
+liberation_convoy_ambush_inProgress = false;
+liberation_convoy_ambush_check = 0;
 
 while {LIB_endgame == 0} do {
 
-	if (((count allPlayers) > 0) && ((count KP_liberation_logistics) > 0)) then {
+	if (((count allPlayers) > 0) && ((count liberation_logistics) > 0)) then {
 		if (liberation_logistic_debug > 0) then {diag_log format ["[KP LIBERATION] [LOGISTIC] Logistic interval started: %1", time];};
 		
-		private _tempLogistics = +KP_liberation_logistics;
+		private _tempLogistics = +liberation_logistics;
 
 		{
 			private _locPos = -1;
@@ -23,7 +23,7 @@ while {LIB_endgame == 0} do {
 					if ((_x select 8) > 1) then {
 						switch (_x select 7) do {case 1: {_locPos = 2; _locRes = 4;}; case 3: {_locPos = 3; _locRes = 5;};};
 						switch (_x select 9) do {case 2: {_x set [9,0];}; case 3: {_x set [9,1];};};
-						private _storage_areas = nearestObjects [(_x select _locPos), [KP_liberation_small_storage_building, KP_liberation_large_storage_building], LIB_fob_range];
+						private _storage_areas = nearestObjects [(_x select _locPos), [liberation_small_storage_building, liberation_large_storage_building], LIB_fob_range];
 
 						if (((_x select 9) == 0) && !((_x select 6) isEqualTo [0,0,0])) then {
 
@@ -33,11 +33,11 @@ while {LIB_endgame == 0} do {
 							if (_toProcess > 3) then {_toProcess = 3;};
 							private _spaceSum = 0;
 							{
-								if (typeOf _x == KP_liberation_large_storage_building) then {
-									_spaceSum = _spaceSum + (count KP_liberation_large_storage_positions) - (count (attachedObjects _x));
+								if (typeOf _x == liberation_large_storage_building) then {
+									_spaceSum = _spaceSum + (count liberation_large_storage_positions) - (count (attachedObjects _x));
 								};
-								if (typeOf _x == KP_liberation_small_storage_building) then {
-									_spaceSum = _spaceSum + (count KP_liberation_small_storage_positions) - (count (attachedObjects _x));
+								if (typeOf _x == liberation_small_storage_building) then {
+									_spaceSum = _spaceSum + (count liberation_small_storage_positions) - (count (attachedObjects _x));
 								};
 							} forEach _storage_areas;
 
@@ -49,11 +49,11 @@ while {LIB_endgame == 0} do {
 							while {_processed < _toProcess} do {
 								{
 									private _space = 0;
-									if (typeOf _x == KP_liberation_large_storage_building) then {
-										_space = (count KP_liberation_large_storage_positions) - (count (attachedObjects _x));
+									if (typeOf _x == liberation_large_storage_building) then {
+										_space = (count liberation_large_storage_positions) - (count (attachedObjects _x));
 									};
-									if (typeOf _x == KP_liberation_small_storage_building) then {
-										_space = (count KP_liberation_small_storage_positions) - (count (attachedObjects _x));
+									if (typeOf _x == liberation_small_storage_building) then {
+										_space = (count liberation_small_storage_positions) - (count (attachedObjects _x));
 									};
 
 									if ((_space > 0) && ((((_tempLogistics select _currentIndex) select 6) select 0) > 0)) then {
@@ -66,8 +66,8 @@ while {LIB_endgame == 0} do {
 											(((_tempLogistics select _currentIndex) select 6) select 1),
 											(((_tempLogistics select _currentIndex) select 6) select 2)]
 										];
-										private _crate = [KP_liberation_supply_crate, _amount, getPos _x] call grad_liberation_shared_fnc_createCrate;
-										[_crate, _x] call grad_liberation_shared_fnc_crateToStorage;
+										private _crate = [liberation_supply_crate, _amount, getPos _x] call grad_liberation_common_fnc_createCrate;
+										[_crate, _x] call grad_liberation_common_fnc_crateToStorage;
 										_processed = _processed + 1;
 										_space = _space - 1;
 									};
@@ -83,8 +83,8 @@ while {LIB_endgame == 0} do {
 												(((_tempLogistics select _currentIndex) select 6) select 1) - _amount,
 												(((_tempLogistics select _currentIndex) select 6) select 2)]
 											];
-										private _crate = [KP_liberation_ammo_crate, _amount, getPos _x] call grad_liberation_shared_fnc_createCrate;
-										[_crate, _x] call grad_liberation_shared_fnc_crateToStorage;
+										private _crate = [liberation_ammo_crate, _amount, getPos _x] call grad_liberation_common_fnc_createCrate;
+										[_crate, _x] call grad_liberation_common_fnc_crateToStorage;
 										_processed = _processed + 1;
 										_space = _space - 1;
 									};
@@ -100,8 +100,8 @@ while {LIB_endgame == 0} do {
 												(((_tempLogistics select _currentIndex) select 6) select 1),
 												(((_tempLogistics select _currentIndex) select 6) select 2) - _amount]
 											];
-										private _crate = [KP_liberation_fuel_crate, _amount, getPos _x] call grad_liberation_shared_fnc_createCrate;
-										[_crate, _x] call grad_liberation_shared_fnc_crateToStorage;
+										private _crate = [liberation_fuel_crate, _amount, getPos _x] call grad_liberation_common_fnc_createCrate;
+										[_crate, _x] call grad_liberation_common_fnc_crateToStorage;
 										_processed = _processed + 1;
 										_space = _space - 1;
 									};
@@ -125,9 +125,9 @@ while {LIB_endgame == 0} do {
 							{
 								{
 									switch ((typeOf _x)) do {
-										case KP_liberation_supply_crate: {_supplyValue = _supplyValue + (_x getVariable ["KP_liberation_crate_value",0]);};
-										case KP_liberation_ammo_crate: {_ammoValue = _ammoValue + (_x getVariable ["KP_liberation_crate_value",0]);};
-										case KP_liberation_fuel_crate: {_fuelValue = _fuelValue + (_x getVariable ["KP_liberation_crate_value",0]);};
+										case liberation_supply_crate: {_supplyValue = _supplyValue + (_x getVariable ["liberation_crate_value",0]);};
+										case liberation_ammo_crate: {_ammoValue = _ammoValue + (_x getVariable ["liberation_crate_value",0]);};
+										case liberation_fuel_crate: {_fuelValue = _fuelValue + (_x getVariable ["liberation_crate_value",0]);};
 										default {diag_log format ["[KP LIBERATION] [ERROR] Invalid object (%1) at storage area", (typeOf _x)];};
 									};
 								} forEach (attachedObjects _x);
@@ -204,14 +204,14 @@ while {LIB_endgame == 0} do {
 								reverse _storedCrates;
 
 								{
-									private _crateValue = _x getVariable ["KP_liberation_crate_value",0];
+									private _crateValue = _x getVariable ["liberation_crate_value",0];
 
 									switch ((typeOf _x)) do {
-										case KP_liberation_supply_crate: { 
+										case liberation_supply_crate: { 
 											if (_getSupply > 0) then {
 												if (_crateValue > _getSupply) then {
 													_crateValue = _crateValue - _getSupply;
-													_x setVariable ["KP_liberation_crate_value", _crateValue, true];
+													_x setVariable ["liberation_crate_value", _crateValue, true];
 													_getSupply = 0;
 												} else {
 													detach _x;
@@ -220,11 +220,11 @@ while {LIB_endgame == 0} do {
 												};
 											};
 										};
-										case KP_liberation_ammo_crate: {
+										case liberation_ammo_crate: {
 											if (_getAmmo > 0) then {
 												if (_crateValue > _getAmmo) then {
 													_crateValue = _crateValue - _getAmmo;
-													_x setVariable ["KP_liberation_crate_value", _crateValue, true];
+													_x setVariable ["liberation_crate_value", _crateValue, true];
 													_getAmmo = 0;
 												} else {
 													detach _x;
@@ -233,11 +233,11 @@ while {LIB_endgame == 0} do {
 												};
 											};
 										};
-										case KP_liberation_fuel_crate: {
+										case liberation_fuel_crate: {
 											if (_getFuel > 0) then {
 												if (_crateValue > _getFuel) then {
 													_crateValue = _crateValue - _getFuel;
-													_x setVariable ["KP_liberation_crate_value", _crateValue, true];
+													_x setVariable ["liberation_crate_value", _crateValue, true];
 													_getFuel = 0;
 												} else {
 													detach _x;
@@ -251,9 +251,9 @@ while {LIB_endgame == 0} do {
 								} forEach _storedCrates;
 								
 								switch (typeOf _x) do {
-									case KP_liberation_small_storage_building: {_storage_positions = KP_liberation_small_storage_positions;};
-									case KP_liberation_large_storage_building: {_storage_positions = KP_liberation_large_storage_positions;};
-									default {_storage_positions = KP_liberation_large_storage_positions;};
+									case liberation_small_storage_building: {_storage_positions = liberation_small_storage_positions;};
+									case liberation_large_storage_building: {_storage_positions = liberation_large_storage_positions;};
+									default {_storage_positions = liberation_large_storage_positions;};
 								};
 
 								private _area = _x;
@@ -261,9 +261,9 @@ while {LIB_endgame == 0} do {
 								{
 									_height = 0.6;
 									switch (typeOf _x) do {
-										case KP_liberation_supply_crate: {_height = 0.4;};
-										case KP_liberation_ammo_crate: {_height = 0.6;};
-										case KP_liberation_fuel_crate: {_height = 0.3;};
+										case liberation_supply_crate: {_height = 0.4;};
+										case liberation_ammo_crate: {_height = 0.6;};
+										case liberation_fuel_crate: {_height = 0.3;};
 										default {_height = 0.6;};
 									};
 									detach _x;
@@ -299,16 +299,16 @@ while {LIB_endgame == 0} do {
 				case 4: {
 					if ((_x select 8) > 1) then {
 						
-						if (((_x select 8) <= ((ceil (((_x select 2) distance2D (_x select 3)) / 400)) - 3)) && ((_x select 8) >= 3) && !((_x select 6) isEqualTo [0,0,0]) && !KP_liberation_convoy_ambush_inProgress && (KP_liberation_civ_rep <= -25) && (((_x select 8) % 2) == 0)) then {
+						if (((_x select 8) <= ((ceil (((_x select 2) distance2D (_x select 3)) / 400)) - 3)) && ((_x select 8) >= 3) && !((_x select 6) isEqualTo [0,0,0]) && !liberation_convoy_ambush_inProgress && (liberation_civ_rep <= -25) && (((_x select 8) % 2) == 0)) then {
 							private _dice = round (random 100);
-							private _chance = KP_liberation_convoy_ambush_chance + ([] call grad_liberation_shared_fnc_getMulti);
+							private _chance = liberation_convoy_ambush_chance + ([] call grad_liberation_common_fnc_getMulti);
 							if (liberation_asymmetric_debug > 0) then {private _text = format ["[KP LIBERATION] [ASYMMETRIC] Logistic convoy %1: ambush possible - current ETA: %2 - Dice: %3 - Chance: %4", (_x select 0), (_x select 8), _dice, _chance];_text remoteExec ["diag_log",2];};
 							if (_dice <= _chance) then {
 								private _convoy = +_x;
 								sleep 0.1;
 								[_convoy] spawn logistic_convoy_ambush;
-								waitUntil {sleep 0.1; KP_liberation_convoy_ambush_check != 0};
-								if (KP_liberation_convoy_ambush_check == 2) then {
+								waitUntil {sleep 0.1; liberation_convoy_ambush_check != 0};
+								if (liberation_convoy_ambush_check == 2) then {
 									_x set [1,0];
 									_x set [2,[0,0,0]];
 									_x set [3,[0,0,0]];
@@ -319,7 +319,7 @@ while {LIB_endgame == 0} do {
 									_x set [8,-1];
 								} else {
 									_x set [8,((_x select 8) - 1)];
-									KP_liberation_convoy_ambush_check = 0;
+									liberation_convoy_ambush_check = 0;
 								};
 							} else {
 								_x set [8,((_x select 8) - 1)];	
@@ -359,7 +359,7 @@ while {LIB_endgame == 0} do {
 					if ((_x select 8) > 1) then {
 						_locPos = switch (_x select 7) do {case 5: {2}; case 6: {3};};
 						_x set [9,0];
-						private _storage_areas = nearestObjects [(_x select _locPos), [KP_liberation_small_storage_building, KP_liberation_large_storage_building], LIB_fob_range];
+						private _storage_areas = nearestObjects [(_x select _locPos), [liberation_small_storage_building, liberation_large_storage_building], LIB_fob_range];
 
 						if ((count (_storage_areas)) == 0) exitWith {_x set [9,2];};
 
@@ -367,11 +367,11 @@ while {LIB_endgame == 0} do {
 						if (_toProcess > 3) then {_toProcess = 3;};
 						private _spaceSum = 0;
 						{
-							if (typeOf _x == KP_liberation_large_storage_building) then {
-								_spaceSum = _spaceSum + (count KP_liberation_large_storage_positions) - (count (attachedObjects _x));
+							if (typeOf _x == liberation_large_storage_building) then {
+								_spaceSum = _spaceSum + (count liberation_large_storage_positions) - (count (attachedObjects _x));
 							};
-							if (typeOf _x == KP_liberation_small_storage_building) then {
-								_spaceSum = _spaceSum + (count KP_liberation_small_storage_positions) - (count (attachedObjects _x));
+							if (typeOf _x == liberation_small_storage_building) then {
+								_spaceSum = _spaceSum + (count liberation_small_storage_positions) - (count (attachedObjects _x));
 							};
 						} forEach _storage_areas;
 
@@ -383,11 +383,11 @@ while {LIB_endgame == 0} do {
 						while {_processed < _toProcess} do {
 							{
 								private _space = 0;
-								if (typeOf _x == KP_liberation_large_storage_building) then {
-									_space = (count KP_liberation_large_storage_positions) - (count (attachedObjects _x));
+								if (typeOf _x == liberation_large_storage_building) then {
+									_space = (count liberation_large_storage_positions) - (count (attachedObjects _x));
 								};
-								if (typeOf _x == KP_liberation_small_storage_building) then {
-									_space = (count KP_liberation_small_storage_positions) - (count (attachedObjects _x));
+								if (typeOf _x == liberation_small_storage_building) then {
+									_space = (count liberation_small_storage_positions) - (count (attachedObjects _x));
 								};
 
 								if ((_space > 0) && ((((_tempLogistics select _currentIndex) select 6) select 0) > 0)) then {
@@ -400,8 +400,8 @@ while {LIB_endgame == 0} do {
 										(((_tempLogistics select _currentIndex) select 6) select 1),
 										(((_tempLogistics select _currentIndex) select 6) select 2)]
 									];
-									private _crate = [KP_liberation_supply_crate, _amount, getPos _x] call grad_liberation_shared_fnc_createCrate;
-									[_crate, _x] call grad_liberation_shared_fnc_crateToStorage;
+									private _crate = [liberation_supply_crate, _amount, getPos _x] call grad_liberation_common_fnc_createCrate;
+									[_crate, _x] call grad_liberation_common_fnc_crateToStorage;
 									_processed = _processed + 1;
 									_space = _space - 1;
 								};
@@ -417,8 +417,8 @@ while {LIB_endgame == 0} do {
 											(((_tempLogistics select _currentIndex) select 6) select 1) - _amount,
 											(((_tempLogistics select _currentIndex) select 6) select 2)]
 										];
-									private _crate = [KP_liberation_ammo_crate, _amount, getPos _x] call grad_liberation_shared_fnc_createCrate;
-									[_crate, _x] call grad_liberation_shared_fnc_crateToStorage;
+									private _crate = [liberation_ammo_crate, _amount, getPos _x] call grad_liberation_common_fnc_createCrate;
+									[_crate, _x] call grad_liberation_common_fnc_crateToStorage;
 									_processed = _processed + 1;
 									_space = _space - 1;
 								};
@@ -434,8 +434,8 @@ while {LIB_endgame == 0} do {
 											(((_tempLogistics select _currentIndex) select 6) select 1),
 											(((_tempLogistics select _currentIndex) select 6) select 2) - _amount]
 										];
-									private _crate = [KP_liberation_fuel_crate, _amount, getPos _x] call grad_liberation_shared_fnc_createCrate;
-									[_crate, _x] call grad_liberation_shared_fnc_crateToStorage;
+									private _crate = [liberation_fuel_crate, _amount, getPos _x] call grad_liberation_common_fnc_createCrate;
+									[_crate, _x] call grad_liberation_common_fnc_crateToStorage;
 									_processed = _processed + 1;
 									_space = _space - 1;
 								};
@@ -461,7 +461,7 @@ while {LIB_endgame == 0} do {
 			};
 		} forEach _tempLogistics;	
 
-		KP_liberation_logistics = +_tempLogistics;
+		liberation_logistics = +_tempLogistics;
 
 		if (liberation_logistic_debug > 0) then {diag_log format ["[KP LIBERATION] [LOGISTIC] Logistic interval finished: %1", time];};
 	};

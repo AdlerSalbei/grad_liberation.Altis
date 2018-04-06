@@ -13,7 +13,7 @@ while { LIB_endgame == 0 } do {
 	_spawnsector = "";
 	_usable_sectors = [];
 	{
-		if ( ( ( [ getmarkerpos _x , 1000 , LIB_side_friendly ] call grad_liberation_shared_fnc_getUnitsCount ) == 0 ) && ( count ( [ getmarkerpos _x , 3500 ] call grad_liberation_shared_fnc_getNearbyPlayers ) > 0 ) ) then {
+		if ( ( ( [ getmarkerpos _x , 1000 , LIB_side_friendly ] call grad_liberation_common_fnc_getUnitsCount ) == 0 ) && ( count ( [ getmarkerpos _x , 3500 ] call grad_liberation_common_fnc_getNearbyPlayers ) > 0 ) ) then {
 			_usable_sectors pushback _x;
 		}
 
@@ -26,7 +26,7 @@ while { LIB_endgame == 0 } do {
 		if ( random 100 < 33) then {
 			_civnumber = 1 + (floor (random 2));
 			while { count units _grp < _civnumber } do {
-				(selectRandom civilians) createUnit [ markerpos _spawnsector, _grp, "this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]", 0.5, "private"];
+				(selectRandom civilians) createUnit [ markerpos _spawnsector, _grp, "this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_common_fnc_killManager}]", 0.5, "private"];
 			};
 			_grpspeed = "LIMITED";
 		} else {
@@ -39,10 +39,10 @@ while { LIB_endgame == 0 } do {
 
 			_spawnpos = getpos _nearestroad;
 
-			(selectRandom civilians) createUnit [_spawnpos, _grp, "this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]", 0.5, "private"];
+			(selectRandom civilians) createUnit [_spawnpos, _grp, "this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_common_fnc_killManager}]", 0.5, "private"];
 			_civveh = (selectRandom civilian_vehicles) createVehicle _spawnpos;
 			_civveh setpos _spawnpos;
-			_civveh addMPEventHandler ['MPKilled', {_this spawn [] call grad_liberation_shared_fnc_killManager}];
+			_civveh addMPEventHandler ['MPKilled', {_this spawn [] call grad_liberation_common_fnc_killManager}];
 			_civveh addEventHandler ["HandleDamage", { private [ "_damage" ]; if (( side (_this select 3) != LIB_side_friendly ) && ( side (_this select 3) != LIB_side_enemy )) then { _damage = 0 } else { _damage = _this select 2 }; _damage } ];
 			((units _grp) select 0) moveInDriver _civveh;
 			((units _grp) select 0) disableAI "FSM";
@@ -56,7 +56,7 @@ while { LIB_endgame == 0 } do {
 		_sectors_patrol = [];
 		_patrol_startpos = getpos (leader _grp);
 		{
-			if ( (_patrol_startpos distance (markerpos _x) < 5000 ) && ( count ( [ getmarkerpos _x , 4000 ] call grad_liberation_shared_fnc_getNearbyPlayers ) > 0 ) ) then {
+			if ( (_patrol_startpos distance (markerpos _x) < 5000 ) && ( count ( [ getmarkerpos _x , 4000 ] call grad_liberation_common_fnc_getNearbyPlayers ) > 0 ) ) then {
 				_sectors_patrol pushback _x;
 			};
 		} foreach (sectors_bigtown + sectors_capture + sectors_factory);
@@ -91,7 +91,7 @@ while { LIB_endgame == 0 } do {
 		_waypoint setWaypointType "CYCLE";
 
 		if ( local _grp ) then {
-			_headless_client = [] call grad_liberation_shared_fnc_lessLoadedHC;
+			_headless_client = [] call grad_liberation_common_fnc_lessLoadedHC;
 			if ( !isNull _headless_client ) then {
 				_grp setGroupOwner ( owner _headless_client );
 			};
@@ -99,11 +99,11 @@ while { LIB_endgame == 0 } do {
 
 		waitUntil {
 			sleep (30 + (random 30));
-			( ( ( { alive _x } count ( units _grp ) ) == 0 ) || ( count ( [ getpos leader _grp , 4000 ] call grad_liberation_shared_fnc_getNearbyPlayers ) == 0 ) )
+			( ( ( { alive _x } count ( units _grp ) ) == 0 ) || ( count ( [ getpos leader _grp , 4000 ] call grad_liberation_common_fnc_getNearbyPlayers ) == 0 ) )
 		};
 
 		if ( count (units _grp) > 0 ) then {
-			if ( count ( [ getpos leader _grp , 4000 ] call grad_liberation_shared_fnc_getNearbyPlayers ) == 0 ) then {
+			if ( count ( [ getpos leader _grp , 4000 ] call grad_liberation_common_fnc_getNearbyPlayers ) == 0 ) then {
 
 				if ( !(isNull _civveh) ) then {
 					 if ( { ( alive _x ) && (side group _x == LIB_side_friendly ) } count (crew _civveh) == 0 ) then {

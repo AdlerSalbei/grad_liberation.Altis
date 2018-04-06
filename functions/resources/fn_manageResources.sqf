@@ -1,5 +1,5 @@
 waitUntil {!isNil "save_is_loaded"};
-waitUntil {!isNil "KP_liberation_production"};
+waitUntil {!isNil "liberation_production"};
 
 sectors_recalculating = false;
 sectors_timer = false;
@@ -10,7 +10,7 @@ while {LIB_endgame == 0} do {
 
 	recalculate_sectors = false;
 	
-	if (((count allPlayers) > 0) && ((count KP_liberation_production) > 0)) then {
+	if (((count allPlayers) > 0) && ((count liberation_production) > 0)) then {
 		waitUntil {sleep 0.5; !sectors_recalculating};
 		sectors_recalculating = true;
 
@@ -27,8 +27,8 @@ while {LIB_endgame == 0} do {
 			private _fuelValue = 0;
 			private _time = _x select 8;
 
-			private _storage = nearestObjects [(markerPos (_x select 1)), [KP_liberation_small_storage_building], LIB_fob_range];
-			_storage = [_storage, {(_x getVariable ["KP_liberation_storage_type",-1]) == 1}] call BIS_fnc_conditionalSelect;
+			private _storage = nearestObjects [(markerPos (_x select 1)), [liberation_small_storage_building], LIB_fob_range];
+			_storage = [_storage, {(_x getVariable ["liberation_storage_type",-1]) == 1}] call BIS_fnc_conditionalSelect;
 			if ((count _storage) > 0) then {
 				_storage = (_storage select 0);
 				_storageArray = [(getPosATL _storage),(getDir _storage),(vectorUpVisual _storage)];
@@ -36,18 +36,18 @@ while {LIB_endgame == 0} do {
 				if (_time_update) then {
 				
 					if ((_time - 1) < 1) then {
-						_time = KP_liberation_production_interval;
+						_time = liberation_production_interval;
 						
 						if (((count (attachedObjects _storage)) < 12) && !((_x select 7) == 3)) then {
-							private _crateType = KP_liberation_supply_crate;
+							private _crateType = liberation_supply_crate;
 							switch (_x select 7) do {
-								case 1: {_crateType = KP_liberation_ammo_crate;};
-								case 2: {_crateType = KP_liberation_fuel_crate;};
-								default {_crateType = KP_liberation_supply_crate;};
+								case 1: {_crateType = liberation_ammo_crate;};
+								case 2: {_crateType = liberation_fuel_crate;};
+								default {_crateType = liberation_supply_crate;};
 							};
 
-							private _crate = [_crateType, 100, getPosATL _storage] call grad_liberation_shared_fnc_createCrate;
-							[_crate, _storage] call grad_liberation_shared_fnc_crateToStorage;
+							private _crate = [_crateType, 100, getPosATL _storage] call grad_liberation_common_fnc_createCrate;
+							[_crate, _storage] call grad_liberation_common_fnc_crateToStorage;
 						};
 					} else {
 						_time = _time - 1;
@@ -56,9 +56,9 @@ while {LIB_endgame == 0} do {
 
 				{
 					switch ((typeOf _x)) do {
-						case KP_liberation_supply_crate: {_supplyValue = _supplyValue + (_x getVariable ["KP_liberation_crate_value",0]);};
-						case KP_liberation_ammo_crate: {_ammoValue = _ammoValue + (_x getVariable ["KP_liberation_crate_value",0]);};
-						case KP_liberation_fuel_crate: {_fuelValue = _fuelValue + (_x getVariable ["KP_liberation_crate_value",0]);};
+						case liberation_supply_crate: {_supplyValue = _supplyValue + (_x getVariable ["liberation_crate_value",0]);};
+						case liberation_ammo_crate: {_ammoValue = _ammoValue + (_x getVariable ["liberation_crate_value",0]);};
+						case liberation_fuel_crate: {_fuelValue = _fuelValue + (_x getVariable ["liberation_crate_value",0]);};
 						default {diag_log format ["[KP LIBERATION] [ERROR] Invalid object (%1) at storage area", (typeOf _x)];};
 					};
 				} forEach (attachedObjects _storage);
@@ -79,11 +79,11 @@ while {LIB_endgame == 0} do {
 				_fuelValue
 			];
 			if (liberation_production_debug > 0) then {diag_log format ["[KP LIBERATION] [PRODUCTION] Production Update: %1", _tempProduction select _forEachIndex];};
-		} forEach KP_liberation_production;
+		} forEach liberation_production;
 
 		_tempProduction sort true;
 
-		KP_liberation_production = +_tempProduction;
+		liberation_production = +_tempProduction;
 		sectors_recalculating = false;
 	};
 	if (liberation_production_debug > 0) then {diag_log format ["[KP LIBERATION] [PRODUCTION] Production interval finished: %1", time];};

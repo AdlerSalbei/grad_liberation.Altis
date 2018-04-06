@@ -4,7 +4,7 @@ _actionned_intel_items = [];
 
 while { true } do {
 
-	if (  [ player, 5 ] call grad_liberation_shared_fnc_fetchPermission  ) then {
+	if (  [ player, 5 ] call grad_liberation_common_fnc_fetchPermission  ) then {
 
 		_near_people = (getPosATL player) nearEntities [["Man"], 5];
 		_near_intel = (getPosATL player) nearEntities [[LIB_intel_laptop, LIB_intel_file], 5];

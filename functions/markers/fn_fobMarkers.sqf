@@ -23,7 +23,7 @@ while { true } do {
 	};
 
 	if (liberation_mobilerespawn) then {
-		_respawn_trucks = call grad_liberation_shared_fnc_getMobileRespawns;
+		_respawn_trucks = call grad_liberation_common_fnc_getMobileRespawns;
 		if ( count _markers_mobilespawns != count _respawn_trucks ) then {
 			{ deleteMarkerLocal _x; } foreach _markers_mobilespawns;
 			_markers_mobilespawns = [];

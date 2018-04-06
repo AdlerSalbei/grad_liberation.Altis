@@ -5,7 +5,7 @@ class grad_liberation_sector {
         class destroyFob {};
         class iedManager {};
         class loseSectors {};
-        class managerCaptureboxes {};
+        class manageCaptureboxes {};
         class manageIntel {};
         class manageOneSector {};
         class manageSectors {};

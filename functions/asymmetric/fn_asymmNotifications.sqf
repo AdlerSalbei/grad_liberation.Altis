@@ -6,7 +6,7 @@ if (liberation_asymmetric_debug > 0) then {private _text = format ["[KP LIBERATI
 
 switch (_notif_id) do {
 	case 0: {
-		["lib_asymm_convoy_ambush", [markertext ([10000, _pos] call grad_liberation_shared_fnc_getNearestSector)]] call BIS_fnc_showNotification;
+		["lib_asymm_convoy_ambush", [markertext ([10000, _pos] call grad_liberation_common_fnc_getNearestSector)]] call BIS_fnc_showNotification;
 		private _ambush_marker = createMarkerLocal ["asymm_ambushmarker", _pos];
 		_ambush_marker setMarkerDirLocal (random 360);
 		_ambush_marker setMarkerColorLocal "ColorIndependent";

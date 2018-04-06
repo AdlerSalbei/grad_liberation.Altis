@@ -19,20 +19,20 @@ waitUntil {sleep 1; !isNil "LIB_all_fobs"};
 
 while {true} do {
 	waitUntil {sleep 1; count LIB_all_fobs > 0};
-	waitUntil {sleep 2; (player distance ([] call grad_liberation_shared_fnc_getNearestFob)) < LIB_fob_range};
+	waitUntil {sleep 2; (player distance ([] call grad_liberation_common_fnc_getNearestFob)) < LIB_fob_range};
 
-	if ([player, 4] call grad_liberation_shared_fnc_fetchPermission) then {
+	if ([player, 4] call grad_liberation_common_fnc_fetchPermission) then {
 		private _detected_vehicles = [
 			(getPos player) nearObjects veh_action_detect_distance, {
 				(((typeof _x in _recycleable_classnames ) && (({alive _x} count (crew _x)) == 0 || (unitIsUAV _x)) && ((locked _x == 0 || locked _x == 1))) ||
 				((typeOf _x) in _building_classnames) ||
-				(((typeOf _x) in KP_liberation_storage_buildings) && ((_x getVariable ["KP_liberation_storage_type",-1]) == 0)) ||
-				((typeOf _x) in KP_liberation_upgrade_buildings) ||
+				(((typeOf _x) in liberation_storage_buildings) && ((_x getVariable ["liberation_storage_type",-1]) == 0)) ||
+				((typeOf _x) in liberation_upgrade_buildings) ||
 				((typeOf _x) in liberation_ace_crates)) &&
 				(alive _x) &&
 				((count(attachedObjects _x) == 0) || ((typeOf _x) == "rhsusf_mkvsoc")) &&
 				(_x distance startbase > 1000) &&
-				(_x distance ( [] call grad_liberation_shared_fnc_getNearestFob) < LIB_fob_range) &&
+				(_x distance ( [] call grad_liberation_common_fnc_getNearestFob) < LIB_fob_range) &&
 				(getObjectType _x >= 8)
 			}
 		] call BIS_fnc_conditionalSelect;

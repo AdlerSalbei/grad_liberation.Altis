@@ -19,15 +19,15 @@ while {true} do {
 
 	if ((_crew_old > 0) && !_synced) then {
 		_synced = true;
-		_vehicle synchronizeObjectsAdd [KP_liberation_suppMod_arty];
-		KP_liberation_suppMod_arty synchronizeObjectsAdd [_vehicle];
+		_vehicle synchronizeObjectsAdd [liberation_suppMod_arty];
+		liberation_suppMod_arty synchronizeObjectsAdd [_vehicle];
 		_crew_grp = group _vehicle;
 	} else {
 		if ((_crew_old == 0) && _synced) then {
 			_synced = false;
 			{
-				_x synchronizeObjectsRemove [KP_liberation_suppMod_arty];
-				KP_liberation_suppMod_arty synchronizeObjectsRemove [_x];
+				_x synchronizeObjectsRemove [liberation_suppMod_arty];
+				liberation_suppMod_arty synchronizeObjectsRemove [_x];
 			} forEach (units _crew_grp);
 		};
 	};

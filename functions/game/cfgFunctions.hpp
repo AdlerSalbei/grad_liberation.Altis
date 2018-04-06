@@ -6,7 +6,7 @@ class grad_liberation_game {
         class captureVehicles {};
         class checkVictoryConditions {};
         class clean {};
-        class ceanupVehicles {};
+        class cleanupVehicles {};
         class fuckingSetFog {};
         class manageTime {};
         class manageWeather {};

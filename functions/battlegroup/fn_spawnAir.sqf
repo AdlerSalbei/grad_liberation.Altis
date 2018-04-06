@@ -14,8 +14,8 @@ for [ {_idx=0},{_idx < _planes_number},{_idx=_idx+1}] do {
 	_newvehicle = createVehicle [_plane_type, _air_spawnpos, [], 0, "FLY"];
 	_newvehicle flyInHeight (120 + (random 180));
 	createVehicleCrew _newvehicle;
-	_newvehicle addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}];
-	{ _x addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}]; } foreach (crew _newvehicle);
+	_newvehicle addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_common_fnc_killManager}];
+	{ _x addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_common_fnc_killManager}]; } foreach (crew _newvehicle);
 
 	(crew _newvehicle) joinSilent _air_grp;
 };

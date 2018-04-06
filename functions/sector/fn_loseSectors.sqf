@@ -8,17 +8,17 @@ attack_in_progress = false;
 while { LIB_endgame == 0 } do {
 
 	{
-		_ownership = [ markerpos _x ] call grad_liberation_shared_fnc_sectorOwnership;
+		_ownership = [ markerpos _x ] call grad_liberation_common_fnc_sectorOwnership;
 		if ( _ownership == LIB_side_enemy ) then {
-			[ _x ] call attack_in_progress_sector;
+			[ _x ] call attackInProgressSector;
 		};
 		sleep 0.5;
 	} foreach blufor_sectors;
 
 	{
-		_ownership = [ _x ] call grad_liberation_shared_fnc_sectorOwnership;
+		_ownership = [ _x ] call grad_liberation_common_fnc_sectorOwnership;
 		if ( _ownership == LIB_side_enemy ) then {
-			[ _x ] call attack_in_progress_fob;
+			[ _x ] call attackInProgressFob;
 		};
 		sleep 0.5;
 	} foreach LIB_all_fobs;

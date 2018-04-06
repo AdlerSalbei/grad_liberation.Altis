@@ -1,11 +1,11 @@
 waitUntil {!isNil "save_is_loaded"};
 
-KP_liberation_fob_resources = [];
-KP_liberation_supplies_global = 0;
-KP_liberation_ammo_global = 0;
-KP_liberation_fuel_global = 0;
-KP_liberation_heli_slots = 0;
-KP_liberation_plane_slots = 0;
+liberation_fob_resources = [];
+liberation_supplies_global = 0;
+liberation_ammo_global = 0;
+liberation_fuel_global = 0;
+liberation_heli_slots = 0;
+liberation_plane_slots = 0;
 infantry_cap = 50 * liberation_resources_multiplier;
 
 please_recalculate = true;
@@ -26,12 +26,12 @@ while {true} do {
 	
 	{
 		private _fob_buildings = _x nearobjects (LIB_fob_range * 2);
-		private _storage_areas = [_fob_buildings, {(_x getVariable ["KP_liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
-		private _heliSlots = {(typeOf _x) == KP_liberation_heli_slot_building;} count _fob_buildings;
-		private _planeSlots = {(typeOf _x) == KP_liberation_plane_slot_building;} count _fob_buildings;
-		private _hasAirBuilding = {(typeOf _x) == KP_liberation_air_vehicle_building;} count _fob_buildings;
+		private _storage_areas = [_fob_buildings, {(_x getVariable ["liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
+		private _heliSlots = {(typeOf _x) == liberation_heli_slot_building;} count _fob_buildings;
+		private _planeSlots = {(typeOf _x) == liberation_plane_slot_building;} count _fob_buildings;
+		private _hasAirBuilding = {(typeOf _x) == liberation_air_vehicle_building;} count _fob_buildings;
 		if (_hasAirBuilding > 0) then {_hasAirBuilding = true;} else {_hasAirBuilding = false;};
-		private _hasRecBuilding = {(typeOf _x) == KP_liberation_recycle_building;} count _fob_buildings;
+		private _hasRecBuilding = {(typeOf _x) == liberation_recycle_building;} count _fob_buildings;
 		if (_hasRecBuilding > 0) then {_hasRecBuilding = true;} else {_hasRecBuilding = false;};
 		
 		private _supplyValue = 0;
@@ -41,9 +41,9 @@ while {true} do {
 		{
 			{
 				switch ((typeOf _x)) do {
-					case KP_liberation_supply_crate: {_supplyValue = _supplyValue + (_x getVariable ["KP_liberation_crate_value",0]);};
-					case KP_liberation_ammo_crate: {_ammoValue = _ammoValue + (_x getVariable ["KP_liberation_crate_value",0]);};
-					case KP_liberation_fuel_crate: {_fuelValue = _fuelValue + (_x getVariable ["KP_liberation_crate_value",0]);};
+					case liberation_supply_crate: {_supplyValue = _supplyValue + (_x getVariable ["liberation_crate_value",0]);};
+					case liberation_ammo_crate: {_ammoValue = _ammoValue + (_x getVariable ["liberation_crate_value",0]);};
+					case liberation_fuel_crate: {_fuelValue = _fuelValue + (_x getVariable ["liberation_crate_value",0]);};
 					default {diag_log format ["[KP LIBERATION] [ERROR] Invalid object (%1) at storage area", (typeOf _x)];};
 				};
 			} forEach (attachedObjects _x);
@@ -63,12 +63,12 @@ while {true} do {
 		};
 	} foreach blufor_sectors;
 
-	KP_liberation_fob_resources = _local_fob_resources;
-	KP_liberation_supplies_global = _local_supplies_global;
-	KP_liberation_ammo_global = _local_ammo_global;
-	KP_liberation_fuel_global = _local_fuel_global;
-	KP_liberation_heli_slots = _local_heli_slots;
-	KP_liberation_plane_slots = _local_plane_slots;
+	liberation_fob_resources = _local_fob_resources;
+	liberation_supplies_global = _local_supplies_global;
+	liberation_ammo_global = _local_ammo_global;
+	liberation_fuel_global = _local_fuel_global;
+	liberation_heli_slots = _local_heli_slots;
+	liberation_plane_slots = _local_plane_slots;
 	infantry_cap = _local_infantry_cap;
 
 };

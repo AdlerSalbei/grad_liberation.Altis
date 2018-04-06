@@ -11,17 +11,17 @@ private _markers = [];
 
 for "_i" from 1 to _count do {
 	private _pos = (markerPos _sector) getPos [(50 + (random 150)), (random 360)];
-	while {(surfaceIsWater _pos) || ((count ([_pos, 30] call grad_liberation_shared_fnc_getNearbyPlayers)) > 0)} do {
+	while {(surfaceIsWater _pos) || ((count ([_pos, 30] call grad_liberation_common_fnc_getNearbyPlayers)) > 0)} do {
 		_pos = (markerPos _sector) getPos [(50 + (random 200)), (random 360)];
 	};
 	private _civ = _grp createUnit [(selectRandom civilians), _pos, [], 0, "NONE"];
-	_civ addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}];
+	_civ addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_common_fnc_killManager}];
 	_civ setDir (random 360);
 	{_civ disableAI _x} forEach ["ANIM", "TARGET", "AUTOTARGET", "MOVE"];
 	removeAllItems _civ;
 	_civ setDamage 0.5;
 	_civ call F_cr_woundedAnim;
-	if (liberation_ace) then {[_civ] remoteExec ["grad_liberation_shared_fnc_aceAction"];};
+	if (liberation_ace) then {[_civ] remoteExec ["grad_liberation_common_fnc_aceAction"];};
 	_civs pushBack _civ;
 	private _marker = createMarker ["wounded_marker_" + str _i, [((_pos select 0) - 20 + (random 40)),((_pos select 1) - 20 + (random 40))]];
 	_marker setMarkerShape "ELLIPSE";
@@ -33,11 +33,11 @@ for "_i" from 1 to _count do {
 
 if (liberation_civrep_debug > 0) then {diag_log format ["[KP LIBERATION] [CIVREP] civrep_wounded_civs.sqf -> Spawned %1 wounded civilians at %2 - Time: %3", _count, markerText _sector, time];};
 
-private _units_near = [markerPos _sector, 300, LIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount;
+private _units_near = [markerPos _sector, 300, LIB_side_friendly] call grad_liberation_common_fnc_getUnitsCount;
 private _healed_civs = [];
 
 while {_units_near > 0} do {
-	_units_near = [markerPos _sector, 300, LIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount;
+	_units_near = [markerPos _sector, 300, LIB_side_friendly] call grad_liberation_common_fnc_getUnitsCount;
 	{
 		if (((damage _x) < 0.5) && !(_x in _healed_civs)) then {
 			(_markers select _forEachIndex) setMarkerAlpha 0;
@@ -45,8 +45,8 @@ while {_units_near > 0} do {
 			[_civ, "AinjPpneMstpSnonWnonDnon_kneel"] remoteExec ["switchMove"];
 			sleep 2;
 			{_civ enableAI _x} forEach ["ANIM", "TARGET", "AUTOTARGET", "MOVE"];
-			[4, [(name _civ)]] remoteExec ["grad_liberation_shared_fnc_globalMsg"];
-			[KP_liberation_cr_wounded_gain] call F_cr_changeCR;
+			[4, [(name _civ)]] remoteExec ["grad_liberation_common_fnc_globalMsg"];
+			[liberation_cr_wounded_gain] call F_cr_changeCR;
 			_healed_civs pushBack _civ;
 		}
 	} forEach _civs;

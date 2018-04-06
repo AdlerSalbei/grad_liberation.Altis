@@ -12,5 +12,5 @@ if ( isNil "LIB_respawn_loadout" ) then {
 	player linkItem "ItemRadio";
 } else {
 	sleep 4;
-	[ player, LIB_respawn_loadout ] call grad_liberation_shared_fnc_setLoadout;
+	[ player, LIB_respawn_loadout ] call grad_liberation_common_fnc_setLoadout;
 };

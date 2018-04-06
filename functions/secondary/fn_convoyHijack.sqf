@@ -1,7 +1,7 @@
 private _convoy_destinations_markers = [];
 private _load_box_fnc = compileFinal preprocessFileLineNumbers "scripts\client\ammoboxes\do_load_box.sqf";
 
-while { count _convoy_destinations_markers < 3 } do { _convoy_destinations_markers pushback ([2000,999999,false] call grad_liberation_shared_fnc_findOpforSpawnPoint); };
+while { count _convoy_destinations_markers < 3 } do { _convoy_destinations_markers pushback ([2000,999999,false] call grad_liberation_common_fnc_findOpforSpawnPoint); };
 
 private _couldnt_spawn = false;
 { if ( _x == "" ) exitWith { _couldnt_spawn = true; }; } foreach _convoy_destinations_markers;
@@ -13,9 +13,9 @@ private _convoy_destinations = [];
 private _spawnpos = _convoy_destinations select 0;
 [4, _spawnpos] remoteExec ["remote_call_intel"];
 
-private _scout_vehicle = [ [ _spawnpos, 30, 0 ] call BIS_fnc_relPos, opfor_mrap, true, false ] call grad_liberation_shared_fnc_libSpawnVehicle;
-private _escort_vehicle = [ [ _spawnpos, 10, 0 ] call BIS_fnc_relPos, selectRandom opfor_vehicles_low_intensity, true, false ] call grad_liberation_shared_fnc_libSpawnVehicle;
-private _transport_vehicle = [ [ _spawnpos, 10, 180 ] call BIS_fnc_relPos, opfor_ammobox_transport, true, false ] call grad_liberation_shared_fnc_libSpawnVehicle;
+private _scout_vehicle = [ [ _spawnpos, 30, 0 ] call BIS_fnc_relPos, opfor_mrap, true, false ] call grad_liberation_common_fnc_libSpawnVehicle;
+private _escort_vehicle = [ [ _spawnpos, 10, 0 ] call BIS_fnc_relPos, selectRandom opfor_vehicles_low_intensity, true, false ] call grad_liberation_common_fnc_libSpawnVehicle;
+private _transport_vehicle = [ [ _spawnpos, 10, 180 ] call BIS_fnc_relPos, opfor_ammobox_transport, true, false ] call grad_liberation_common_fnc_libSpawnVehicle;
 
 private _boxes_amount = 0;
 {
@@ -31,14 +31,14 @@ private _boxes_loaded = 0;
 while { _boxes_loaded < _boxes_amount } do {
 	_boxes_loaded = _boxes_loaded + 1;
 	sleep 0.5;
-	private _next_box = [KP_liberation_ammo_crate, 100, _spawnpos getPos [15, 135]] call grad_liberation_shared_fnc_createCrate;
+	private _next_box = [liberation_ammo_crate, 100, _spawnpos getPos [15, 135]] call grad_liberation_common_fnc_createCrate;
 	sleep 0.5;
 	[_next_box, 50] call _load_box_fnc;
 };
 
 sleep 0.5;
 
-private _troop_vehicle = [ [ _spawnpos, 30, 180 ] call BIS_fnc_relPos, opfor_transport_truck, true, true, false ] call grad_liberation_shared_fnc_libSpawnVehicle;
+private _troop_vehicle = [ [ _spawnpos, 30, 180 ] call BIS_fnc_relPos, opfor_transport_truck, true, true, false ] call grad_liberation_common_fnc_libSpawnVehicle;
 
 sleep 0.5;
 
@@ -76,7 +76,7 @@ _waypoint setWaypointType "CYCLE";
 _waypoint setWaypointCompletionRadius 50;
 
 private _troops_group = createGroup LIB_side_enemy;
-{_x createUnit [_spawnpos, _troops_group,"this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]", 0.5, "private"];} foreach (["army"] call grad_liberation_shared_fnc_getAdaptiveSquadComp);
+{_x createUnit [_spawnpos, _troops_group,"this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_common_fnc_killManager}]", 0.5, "private"];} foreach (["army"] call grad_liberation_common_fnc_getAdaptiveSquadComp);
 {_x moveInCargo _troop_vehicle} foreach (units _troops_group);
 
 private _convoy_marker = createMarkerLocal [ format [ "convoymarker%1", round time], getpos _transport_vehicle ];

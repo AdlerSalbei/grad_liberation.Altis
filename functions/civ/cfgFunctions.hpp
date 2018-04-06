@@ -7,9 +7,8 @@ class grad_liberation_civ {
         class civinfoLoop {};
         class civinfoNotifications {};
         class civinfoTask {};
-        class openArsenal {};
-        class getBuilding {};
-        class initBuilding {};
+        class getBuildings {};
+        class initBuildings {};
         class initClientModule {};
         class initServerModule {};
         class liberatedSector {};

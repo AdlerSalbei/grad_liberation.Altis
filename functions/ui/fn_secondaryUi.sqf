@@ -17,8 +17,8 @@ waitUntil { dialog };
 private [ "_oldchoice", "_images", "_briefings", "_missioncost" ];
 
 _images = [
-	"res\secondary\fob_hunting.jpg",
-	"res\secondary\convoy_hijack.jpg",
+	"res\secondary\fobHunting.jpg",
+	"res\secondary\convoyHijack.jpg",
 	"res\secondary\sar.jpg"
 ];
 

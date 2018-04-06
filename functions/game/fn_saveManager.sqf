@@ -19,9 +19,9 @@ blufor_sectors = [];
 LIB_all_fobs = [];
 buildings_to_save= [];
 combat_readiness = 0;
-KP_liberation_storages = [];
-KP_liberation_production = [];
-KP_liberation_logistics = [];
+liberation_storages = [];
+liberation_production = [];
+liberation_logistics = [];
 stats_opfor_soldiers_killed = 0;
 stats_opfor_killed_by_players = 0;
 stats_blufor_soldiers_killed = 0;
@@ -58,10 +58,10 @@ LIB_permissions = [];
 ai_groups = [];
 resources_intel = 0;
 LIB_player_scores = [];
-KP_liberation_civ_rep = 0;
-KP_liberation_cr_vehicles = [];
-KP_liberation_production_markers = [];
-KP_liberation_guerilla_strength = 0;
+liberation_civ_rep = 0;
+liberation_cr_vehicles = [];
+liberation_production_markers = [];
+liberation_guerilla_strength = 0;
 
 no_kill_handler_classnames = [FOB_typename, huron_typename];
 private _classnames_to_save = [FOB_typename, huron_typename];
@@ -89,9 +89,9 @@ if (!isNil "greuh_liberation_savegame") then {
 	buildings_to_save = greuh_liberation_savegame select 2;
 	time_of_day = greuh_liberation_savegame select 3;
 	combat_readiness = greuh_liberation_savegame select 4;
-	KP_liberation_storages = greuh_liberation_savegame select 5;
-	KP_liberation_production = greuh_liberation_savegame select 6;
-	KP_liberation_logistics = greuh_liberation_savegame select 7;
+	liberation_storages = greuh_liberation_savegame select 5;
+	liberation_production = greuh_liberation_savegame select 6;
+	liberation_logistics = greuh_liberation_savegame select 7;
 
 	if (count greuh_liberation_savegame > 8) then {
 		_stats = greuh_liberation_savegame select 8;
@@ -153,20 +153,20 @@ if (!isNil "greuh_liberation_savegame") then {
 	};
 
 	if (count greuh_liberation_savegame > 15) then {
-		KP_liberation_civ_rep = greuh_liberation_savegame select 15;
-		if (KP_liberation_civ_rep <= -25) then {
+		liberation_civ_rep = greuh_liberation_savegame select 15;
+		if (liberation_civ_rep <= -25) then {
 			LIB_side_resistance setFriend [LIB_side_enemy, 1];
 			LIB_side_enemy setFriend [LIB_side_resistance, 1];
 			LIB_side_resistance setFriend [LIB_side_friendly, 0];
 			LIB_side_friendly setFriend [LIB_side_resistance, 0];
 		};
-		if (KP_liberation_civ_rep > -25 && KP_liberation_civ_rep < 25) then {
+		if (liberation_civ_rep > -25 && liberation_civ_rep < 25) then {
 			LIB_side_resistance setFriend [LIB_side_enemy, 1];
 			LIB_side_enemy setFriend [LIB_side_resistance, 1];
 			LIB_side_resistance setFriend [LIB_side_friendly, 1];
 			LIB_side_friendly setFriend [LIB_side_resistance, 1];
 		};
-		if (KP_liberation_civ_rep >= 25) then {
+		if (liberation_civ_rep >= 25) then {
 			LIB_side_resistance setFriend [LIB_side_friendly, 1];
 			LIB_side_friendly setFriend [LIB_side_resistance, 1];
 			LIB_side_resistance setFriend [LIB_side_enemy, 0];
@@ -176,11 +176,11 @@ if (!isNil "greuh_liberation_savegame") then {
 	};
 
 	if (count greuh_liberation_savegame > 16) then {
-		KP_liberation_production_markers = greuh_liberation_savegame select 16;
+		liberation_production_markers = greuh_liberation_savegame select 16;
 	};
 
 	if (count greuh_liberation_savegame > 17) then {
-		KP_liberation_guerilla_strength = greuh_liberation_savegame select 17;
+		liberation_guerilla_strength = greuh_liberation_savegame select 17;
 	};
 
 	setDate [2045, 6, 6, time_of_day, 0];
@@ -197,10 +197,10 @@ if (!isNil "greuh_liberation_savegame") then {
 	LIB_all_fobs = _correct_fobs;
 
 	stats_saves_loaded = stats_saves_loaded + 1;
-	
+
 	// Arty Supp deactivated for now
-	/*if (KP_liberation_suppMod_enb > 0) then {
-		waitUntil {!isNil "KP_liberation_suppMod_created"};
+	/*if (liberation_suppMod_enb > 0) then {
+		waitUntil {!isNil "liberation_suppMod_created"};
 	};*/
 
 	{
@@ -233,16 +233,16 @@ if (!isNil "greuh_liberation_savegame") then {
 			};
 
 			// Arty Supp deactivated for now
-			/*if ((KP_liberation_suppMod_enb > 0) && (_nextclass in KP_liberation_artySupp)) then {
-				[_nextbuilding] remoteExec ["arty_monitor", 2];
+			/*if ((liberation_suppMod_enb > 0) && (_nextclass in liberation_artySupp)) then {
+				[_nextbuilding] remoteExec ["artyMonitor", 2];
 			};*/
 
 			if (_hascrew) then {
-				[ _nextbuilding ] call grad_liberation_shared_fnc_forceBluforCrew;
+				[ _nextbuilding ] call grad_liberation_common_fnc_forceBluforCrew;
 			};
 
 			if !(_nextclass in no_kill_handler_classnames) then {
-				_nextbuilding addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}];
+				_nextbuilding addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_common_fnc_killManager}];
 			};
 
 			if (_nextclass in all_hostile_classnames) then {
@@ -252,21 +252,21 @@ if (!isNil "greuh_liberation_savegame") then {
 			if (_nextclass == FOB_typename) then {
 				_nextbuilding addEventHandler ["HandleDamage", {0}];
 			};
-			
-			if (_nextclass in KP_liberation_medical_vehicles) then {
+
+			if (_nextclass in liberation_medical_vehicles) then {
 				_nextbuilding setVariable ["ace_medical_medicClass", 1, true];
 			};
-			
+
 			if (_nextclass == "Land_Medevac_house_V1_F" || _nextclass == "Land_Medevac_HQ_V1_F") then {
 				_nextbuilding setVariable ["ace_medical_isMedicalFacility", true, true];
 			};
-			
-			if (_nextclass == KP_liberation_recycle_building) then {
+
+			if (_nextclass == liberation_recycle_building) then {
 				_nextbuilding setVariable ["ace_isRepairFacility", 1, true];
 			};
-			
-			if (_nextclass == "Flag_White_F") then {
-				_nextbuilding setFlagTexture "res\kpflag.jpg";
+
+			if (_nextclass == "GRAD_flag_gruppeAdlerWhite") then {
+
 			};
 
 			if !(_nextclass in liberation_ace_crates) then {
@@ -285,13 +285,13 @@ if (!isNil "greuh_liberation_savegame") then {
 			};
 
 			if (_nextclass in civilian_vehicles) then {
-				KP_liberation_cr_vehicles pushBack _nextbuilding;
+				liberation_cr_vehicles pushBack _nextbuilding;
 			};
 		};
 	} forEach buildings_to_save;
 
 	if (liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Saved buildings placed";};
-	
+
 	{
 		private _nextclass = _x select 0;
 
@@ -310,24 +310,24 @@ if (!isNil "greuh_liberation_savegame") then {
 				_nextbuilding setVectorUp (_x select 6);
 				_nextbuilding setVariable ["KP_saved_vec", (_x select 6), false];
 			};
-			_nextbuilding setVariable ["KP_liberation_storage_type", 0, true];
+			_nextbuilding setVariable ["liberation_storage_type", 0, true];
 			_nextbuilding setVariable ["LIB_saved_pos", _nextpos, false];
 
 			_nextbuilding enableSimulationGlobal true;
 			_nextbuilding allowdamage true;
-			
+
 			private _supply = floor (_x select 3);
 			private _ammo = floor (_x select 4);
 			private _fuel = floor (_x select 5);
-			
+
 			while {_supply > 0} do {
 				private _amount = 100;
 				if ((_supply / 100) < 1) then {
 					_amount = _supply;
 				};
 				_supply = _supply - _amount;
-				private _crate = [KP_liberation_supply_crate, _amount, _nextpos] call grad_liberation_shared_fnc_createCrate;
-				[_crate, _nextbuilding] call grad_liberation_shared_fnc_crateToStorage;
+				private _crate = [liberation_supply_crate, _amount, _nextpos] call grad_liberation_common_fnc_createCrate;
+				[_crate, _nextbuilding] call grad_liberation_common_fnc_crateToStorage;
 			};
 
 			while {_ammo > 0} do {
@@ -336,8 +336,8 @@ if (!isNil "greuh_liberation_savegame") then {
 					_amount = _ammo;
 				};
 				_ammo = _ammo - _amount;
-				private _crate = [KP_liberation_ammo_crate, _amount, _nextpos] call grad_liberation_shared_fnc_createCrate;
-				[_crate, _nextbuilding] call grad_liberation_shared_fnc_crateToStorage;
+				private _crate = [liberation_ammo_crate, _amount, _nextpos] call grad_liberation_common_fnc_createCrate;
+				[_crate, _nextbuilding] call grad_liberation_common_fnc_crateToStorage;
 			};
 
 			while {_fuel > 0} do {
@@ -346,11 +346,11 @@ if (!isNil "greuh_liberation_savegame") then {
 					_amount = _fuel;
 				};
 				_fuel = _fuel - _amount;
-				private _crate = [KP_liberation_fuel_crate, _amount, _nextpos] call grad_liberation_shared_fnc_createCrate;
-				[_crate, _nextbuilding] call grad_liberation_shared_fnc_crateToStorage;
+				private _crate = [liberation_fuel_crate, _amount, _nextpos] call grad_liberation_common_fnc_createCrate;
+				[_crate, _nextbuilding] call grad_liberation_common_fnc_crateToStorage;
 			};
 		};
-	} forEach KP_liberation_storages;
+	} forEach liberation_storages;
 
 	if (liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Saved storages placed"};
 
@@ -361,7 +361,7 @@ if (!isNil "greuh_liberation_savegame") then {
 			private _nextpos = _storage select 0;
 			private _nextdir = _storage select 1;
 
-			private _nextbuilding = createVehicle [KP_liberation_small_storage_building, _nextpos, [], 0, "CAN_COLLIDE"];
+			private _nextbuilding = createVehicle [liberation_small_storage_building, _nextpos, [], 0, "CAN_COLLIDE"];
 			_nextbuilding enableSimulationGlobal false;
 			_nextbuilding allowdamage false;
 			if (count (_storage select 2) == 3) then {
@@ -370,23 +370,23 @@ if (!isNil "greuh_liberation_savegame") then {
 			_nextbuilding setPosATL _nextpos;
 			_nextbuilding setdamage 0;
 			_nextbuilding setdir _nextdir;
-			_nextbuilding setVariable ["KP_liberation_storage_type", 1, true];
+			_nextbuilding setVariable ["liberation_storage_type", 1, true];
 
 			_nextbuilding enableSimulationGlobal true;
 			_nextbuilding allowdamage true;
-			
+
 			private _supply = floor (_x select 9);
 			private _ammo = floor (_x select 10);
 			private _fuel = floor (_x select 11);
-			
+
 			while {_supply > 0} do {
 				private _amount = 100;
 				if ((_supply / 100) < 1) then {
 					_amount = _supply;
 				};
 				_supply = _supply - _amount;
-				private _crate = [KP_liberation_supply_crate, _amount, _nextpos] call grad_liberation_shared_fnc_createCrate;
-				[_crate, _nextbuilding] call grad_liberation_shared_fnc_crateToStorage;
+				private _crate = [liberation_supply_crate, _amount, _nextpos] call grad_liberation_common_fnc_createCrate;
+				[_crate, _nextbuilding] call grad_liberation_common_fnc_crateToStorage;
 			};
 
 			while {_ammo > 0} do {
@@ -395,8 +395,8 @@ if (!isNil "greuh_liberation_savegame") then {
 					_amount = _ammo;
 				};
 				_ammo = _ammo - _amount;
-				private _crate = [KP_liberation_ammo_crate, _amount, _nextpos] call grad_liberation_shared_fnc_createCrate;
-				[_crate, _nextbuilding] call grad_liberation_shared_fnc_crateToStorage;
+				private _crate = [liberation_ammo_crate, _amount, _nextpos] call grad_liberation_common_fnc_createCrate;
+				[_crate, _nextbuilding] call grad_liberation_common_fnc_crateToStorage;
 			};
 
 			while {_fuel > 0} do {
@@ -405,14 +405,14 @@ if (!isNil "greuh_liberation_savegame") then {
 					_amount = _fuel;
 				};
 				_fuel = _fuel - _amount;
-				private _crate = [KP_liberation_fuel_crate, _amount, _nextpos] call grad_liberation_shared_fnc_createCrate;
-				[_crate, _nextbuilding] call grad_liberation_shared_fnc_crateToStorage;
+				private _crate = [liberation_fuel_crate, _amount, _nextpos] call grad_liberation_common_fnc_createCrate;
+				[_crate, _nextbuilding] call grad_liberation_common_fnc_crateToStorage;
 			};
 		};
-	} forEach KP_liberation_production;
+	} forEach liberation_production;
 
 	if (liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Saved sector storages placed";};
-	
+
 	{
 		private _nextgroup = _x;
 		private _grp = createGroup LIB_side_friendly;
@@ -420,7 +420,7 @@ if (!isNil "greuh_liberation_savegame") then {
 			private _nextunit = _x;
 			private _nextpos = [(_nextunit select 1) select 0, (_nextunit select 1) select 1, ((_nextunit select 1) select 2) + 0.2];
 			private _nextdir = _nextunit select 2;
-			(_nextunit select 0) createUnit [ _nextpos, _grp, 'this addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}] '];
+			(_nextunit select 0) createUnit [ _nextpos, _grp, 'this addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_common_fnc_killManager}] '];
 			private _nextobj = ((units _grp) select ((count (units _grp)) - 1));
 			_nextobj setPosATL _nextpos;
 			_nextobj setDir _nextdir;
@@ -449,14 +449,14 @@ if (count LIB_vehicle_to_military_base_links == 0) then {
 } else {
 	private _classnames_to_check = LIB_vehicle_to_military_base_links;
 	{
-		if !([_x select 0] call grad_liberation_shared_fnc_checkClass) then {
+		if !([_x select 0] call grad_liberation_common_fnc_checkClass) then {
 			LIB_vehicle_to_military_base_links = LIB_vehicle_to_military_base_links - [_x];
 		};
 	} forEach _classnames_to_check;
 };
 publicVariable "LIB_vehicle_to_military_base_links";
 publicVariable "LIB_permissions";
-publicVariable "KP_liberation_cr_vehicles";
+publicVariable "liberation_cr_vehicles";
 save_is_loaded = true; publicVariable "save_is_loaded";
 
 if (liberation_savegame_debug > 0) then {diag_log format ["[KP LIBERATION] [SAVE] save_manager.sqf done - time: %1", diag_tickTime];};
@@ -476,7 +476,7 @@ while {true} do {
 	} else {
 		trigger_server_save = false;
 		buildings_to_save = [];
-		KP_liberation_storages = [];
+		liberation_storages = [];
 		ai_groups = [];
 
 		private _all_buildings = [];
@@ -490,13 +490,13 @@ while {true} do {
 				(isNull attachedTo _x) &&
 				(((getpos _x) select 2) < 10) &&
 				(getObjectType _x >= 8) &&
-				!((typeOf _x) in KP_liberation_crates) &&
-				!(_x getVariable ["KP_liberation_preplaced", false])
+				!((typeOf _x) in liberation_crates) &&
+				!(_x getVariable ["liberation_preplaced", false])
  			}] call BIS_fnc_conditionalSelect;
-				
-			_all_buildings = [(_all_buildings + _nextbuildings), {!((typeOf _x) in KP_liberation_storage_buildings)}] call BIS_fnc_conditionalSelect;
-			_all_storages = [(_all_storages + _nextbuildings), {(_x getVariable ["KP_liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
-			
+
+			_all_buildings = [(_all_buildings + _nextbuildings), {!((typeOf _x) in liberation_storage_buildings)}] call BIS_fnc_conditionalSelect;
+			_all_storages = [(_all_storages + _nextbuildings), {(_x getVariable ["liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
+
 			{
 				private _nextgroup = _x;
 				if (side _nextgroup == LIB_side_friendly) then {
@@ -542,7 +542,7 @@ while {true} do {
 					_hascrew = true;
 				};
 			};
-			if (!(_nextclass in civilian_vehicles) || (_x in KP_liberation_cr_vehicles)) then {
+			if (!(_nextclass in civilian_vehicles) || (_x in liberation_cr_vehicles)) then {
 				buildings_to_save pushback [_nextclass,_savedpos,_nextdir,_hascrew,_savedvec];
 			};
 		} forEach _all_buildings;
@@ -550,7 +550,7 @@ while {true} do {
 		{
 			private _savedpos = [];
 			private _savedvec = [];
-			
+
 			_savedpos = _x getVariable ["LIB_saved_pos", []];
 			_savedvec = _x getVariable ["KP_saved_vec", []];
 			if ((count _savedpos == 0) || (count _savedvec == 0)) then {
@@ -559,24 +559,24 @@ while {true} do {
 				_savedpos = getPosATL _x;
 				_savedvec = vectorUpVisual _x;
 			};
-			
+
 			private _nextclass = typeof _x;
 			private _nextdir = getdir _x;
-			
+
 			_supplyValue = 0;
 			_ammoValue = 0;
 			_fuelValue = 0;
-			
+
 			{
 				switch ((typeOf _x)) do {
-					case KP_liberation_supply_crate: {_supplyValue = _supplyValue + (_x getVariable ["KP_liberation_crate_value",0]);};
-					case KP_liberation_ammo_crate: {_ammoValue = _ammoValue + (_x getVariable ["KP_liberation_crate_value",0]);};
-					case KP_liberation_fuel_crate: {_fuelValue = _fuelValue + (_x getVariable ["KP_liberation_crate_value",0]);};
+					case liberation_supply_crate: {_supplyValue = _supplyValue + (_x getVariable ["liberation_crate_value",0]);};
+					case liberation_ammo_crate: {_ammoValue = _ammoValue + (_x getVariable ["liberation_crate_value",0]);};
+					case liberation_fuel_crate: {_fuelValue = _fuelValue + (_x getVariable ["liberation_crate_value",0]);};
 					default {diag_log format ["[KP LIBERATION] [ERROR] Invalid object (%1) at storage area", (typeOf _x)];};
 				};
 			} forEach (attachedObjects _x);
-			
-			KP_liberation_storages pushback [_nextclass,_savedpos,_nextdir,_supplyValue,_ammoValue,_fuelValue,_savedvec];		
+
+			liberation_storages pushback [_nextclass,_savedpos,_nextdir,_supplyValue,_ammoValue,_fuelValue,_savedvec];
 		} forEach _all_storages;
 
 		time_of_day = date select 3;
@@ -629,9 +629,9 @@ while {true} do {
 		_stats pushback stats_fobs_lost;
 		_stats pushback stats_readiness_earned;
 
-		greuh_liberation_savegame = [blufor_sectors, LIB_all_fobs, buildings_to_save, time_of_day, round combat_readiness, KP_liberation_storages,
-		KP_liberation_production, KP_liberation_logistics, _stats, [round infantry_weight, round armor_weight, round air_weight], LIB_vehicle_to_military_base_links,
-		LIB_permissions, ai_groups, resources_intel, LIB_player_scores, KP_liberation_civ_rep, KP_liberation_production_markers, KP_liberation_guerilla_strength];
+		greuh_liberation_savegame = [blufor_sectors, LIB_all_fobs, buildings_to_save, time_of_day, round combat_readiness, liberation_storages,
+		liberation_production, liberation_logistics, _stats, [round infantry_weight, round armor_weight, round air_weight], LIB_vehicle_to_military_base_links,
+		LIB_permissions, ai_groups, resources_intel, LIB_player_scores, liberation_civ_rep, liberation_production_markers, liberation_guerilla_strength];
 
 		profileNamespace setVariable [LIB_save_key, greuh_liberation_savegame];
 		saveProfileNamespace;

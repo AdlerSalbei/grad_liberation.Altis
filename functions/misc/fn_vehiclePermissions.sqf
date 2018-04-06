@@ -15,18 +15,18 @@ while { true } do {
 	};
 
 	if ( (vehicle player ) isKindOf "Tank" ) then {
-		if ( ! (  [ player, 1 ] call grad_liberation_shared_fnc_fetchPermission ) ) then {
+		if ( ! (  [ player, 1 ] call grad_liberation_common_fnc_fetchPermission ) ) then {
 			_doeject = true;
 			hint localize "STR_PERMISSION_NO_ARMOR";
 		};
 	} else {
 		if ( (vehicle player ) isKindOf "Air" ) then {
-			if ( ! (  [ player, 2 ] call grad_liberation_shared_fnc_fetchPermission ) ) then {
+			if ( ! (  [ player, 2 ] call grad_liberation_common_fnc_fetchPermission ) ) then {
 				_doeject = true;
 				hint localize "STR_PERMISSION_NO_AIR";
 			};
 		} else {
-			if ( ! (  [ player, 0 ] call grad_liberation_shared_fnc_fetchPermission ) ) then {
+			if ( ! (  [ player, 0 ] call grad_liberation_common_fnc_fetchPermission ) ) then {
 				_doeject = true;
 				hint localize "STR_PERMISSION_NO_LIGHT";
 			};
