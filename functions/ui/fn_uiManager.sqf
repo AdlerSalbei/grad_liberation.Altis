@@ -51,7 +51,7 @@ _first_iteration = true;
 _distfob = 100;
 _notNearFOB = false;
 _resource_area = "";
-GRLIB_ui_notif = "";
+LIB_ui_notif = "";
 KP_liberation_supplies = 0;
 KP_liberation_ammo = 0;
 KP_liberation_fuel = 0;
@@ -90,7 +90,7 @@ while { true } do {
 	_actual_fob = [];
 	if ( count _nearfob == 3 ) then {
 		_fobdistance = player distance _nearfob;
-		_actual_fob = [KP_liberation_fob_resources, {((_x select 0) distance _nearfob) < GRLIB_fob_range}] call BIS_fnc_conditionalSelect;
+		_actual_fob = [KP_liberation_fob_resources, {((_x select 0) distance _nearfob) < LIB_fob_range}] call BIS_fnc_conditionalSelect;
 	};
 	
 	if (_fobdistance < _distfob) then {
@@ -119,8 +119,8 @@ while { true } do {
 	
 	if ( _overlayshown) then {
 
-		((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (266)) ctrlSetText format [ "%1", GRLIB_ui_notif ];
-		((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (267)) ctrlSetText format [ "%1", GRLIB_ui_notif ];
+		((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (266)) ctrlSetText format [ "%1", LIB_ui_notif ];
+		((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (267)) ctrlSetText format [ "%1", LIB_ui_notif ];
 
 		if ((getmarkerpos "opfor_capture_marker") distance markers_reset > 100 ) then {
 
@@ -181,7 +181,7 @@ while { true } do {
 		
 		if ( _uiticks % 25 == 0 ) then {
 
-			if (!isNil "active_sectors" && ( [] call grad_liberation_shared_fnc_opforCap >= GRLIB_sector_cap)) then {
+			if (!isNil "active_sectors" && ( [] call grad_liberation_shared_fnc_opforCap >= LIB_sector_cap)) then {
 
 				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (517)) ctrlShow true;
 
@@ -202,18 +202,18 @@ while { true } do {
 				((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (517)) ctrlShow false;
 			};
 
-			_nearest_active_sector = [ GRLIB_sector_size ] call grad_liberation_shared_fnc_getNearestSector;
+			_nearest_active_sector = [ LIB_sector_size ] call grad_liberation_shared_fnc_getNearestSector;
 			if ( _nearest_active_sector != "" ) then {
-				_zone_size = GRLIB_capture_size;
+				_zone_size = LIB_capture_size;
 				if ( _nearest_active_sector in sectors_bigtown ) then {
-					_zone_size = GRLIB_capture_size * 1.4;
+					_zone_size = LIB_capture_size * 1.4;
 				};
 
 				"zone_capture" setmarkerposlocal (markerpos _nearest_active_sector);
 				_colorzone = "ColorGrey";
-				if ( [ markerpos _nearest_active_sector, _zone_size ] call grad_liberation_shared_fnc_sectorOwnership == GRLIB_side_friendly ) then { _colorzone = GRLIB_color_friendly };
-				if ( [ markerpos _nearest_active_sector, _zone_size ] call grad_liberation_shared_fnc_sectorOwnership == GRLIB_side_enemy ) then { _colorzone = GRLIB_color_enemy };
-				if ( [ markerpos _nearest_active_sector, _zone_size ] call grad_liberation_shared_fnc_sectorOwnership == GRLIB_side_resistance ) then { _colorzone = "ColorCivilian" };
+				if ( [ markerpos _nearest_active_sector, _zone_size ] call grad_liberation_shared_fnc_sectorOwnership == LIB_side_friendly ) then { _colorzone = LIB_color_friendly };
+				if ( [ markerpos _nearest_active_sector, _zone_size ] call grad_liberation_shared_fnc_sectorOwnership == LIB_side_enemy ) then { _colorzone = LIB_color_enemy };
+				if ( [ markerpos _nearest_active_sector, _zone_size ] call grad_liberation_shared_fnc_sectorOwnership == LIB_side_resistance ) then { _colorzone = "ColorCivilian" };
 				"zone_capture" setmarkercolorlocal _colorzone;
 
 				_ratio = [_nearest_active_sector] call grad_liberation_shared_fnc_getForceRatio;

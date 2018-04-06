@@ -1,6 +1,6 @@
 params ["_unit"];
 
-if (!(liberation_autodanger) && ((side _unit) == GRLIB_side_friendly)) then {
+if (!(liberation_autodanger) && ((side _unit) == LIB_side_friendly)) then {
 	_unit disableAI "AUTOCOMBAT";
 };
 

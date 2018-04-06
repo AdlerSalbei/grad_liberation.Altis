@@ -15,8 +15,8 @@ _nbcivs = _nbcivs * (sqrt (liberation_unitcap));
 
 while {_idx < _nbcivs} do {
 	private _spawnpos = [(((_sectorpos select 0) + (75 * _spread)) - (random (150 * _spread))),(((_sectorpos select 1) + (75 * _spread)) - (random (150 * _spread))),0];
-	private _grp = createGroup GRLIB_side_civilian;
-	(civilians select (floor (random (count civilians)))) createUnit [_spawnpos, _grp,"this addMPEventHandler [""MPKilled"", {_this spawn kill_manager}]"];
+	private _grp = createGroup LIB_side_civilian;
+	(civilians select (floor (random (count civilians)))) createUnit [_spawnpos, _grp,"this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]"];
 	private _nextciv = ((units _grp) select 0);
 	_createdcivs pushBack _nextciv;
 	[_grp] call add_civ_waypoints;

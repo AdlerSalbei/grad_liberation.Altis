@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_shared {
     class shared {
         class aceActions {};
         class adaptiveOpforFactor {};
@@ -10,6 +10,7 @@ class grad_liberation {
         class crateCheckValue {};
         class crateFromStorage {};
         class createCrate {};
+        class crateToStorage {};
         class diagnostic {};
         class fetchParams {};
         class fetchPermissions {};
@@ -30,6 +31,42 @@ class grad_liberation {
         class getMulti {};
         class getNearbyPlayers {};
         class getNearestBluforObjective {};
-        class get
+        class getNearestFob {};
+        class getNearestSector {};
+        class getNearestTower {};
+        class getResistance {};
+        class getUnitPositionId {};
+        class getUnitsCounter {};
+        class globalMsg {};
+        class initSectors {};
+        class initShared {};
+        class isAdmin {};
+        class isBigtownActive {};
+        class isClassUAV {};
+        class killManager {};
+        class lessLoadedHC {};
+        class libSpawnMilitiaCrew {};
+        class libSpawnVehicle {};
+        class localCap {};
+        class manageWeather {};
+        class objectProtection {};
+        class opforCap {};
+        class rearmVehicle {};
+        class scanSkill {};
+        class secondsToTimer {};
+        class sectorOwnership {};
+        class setFobMass {};
+        class setFuel {};
+        class setLoadout {};
+        class setMass {};
+        class setSkill {};
+        class sortStorage {};
+        class spartanScan {};
+        class spawnBuildingSquad {};
+        class spawnCivillians {};
+        class spawnGuerillaGroup {};
+        class spawnMilitaryPostSquad {};
+        class squadRespawn {};
+        class swapInventory {};
     };
 };

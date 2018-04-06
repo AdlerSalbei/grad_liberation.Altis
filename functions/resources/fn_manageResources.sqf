@@ -6,7 +6,7 @@ sectors_timer = false;
 
 if (liberation_production_debug > 0) then {diag_log "[KP LIBERATION] [PRODUCTION] Production management started";};
 
-while {GRLIB_endgame == 0} do {
+while {LIB_endgame == 0} do {
 
 	recalculate_sectors = false;
 	
@@ -27,7 +27,7 @@ while {GRLIB_endgame == 0} do {
 			private _fuelValue = 0;
 			private _time = _x select 8;
 
-			private _storage = nearestObjects [(markerPos (_x select 1)), [KP_liberation_small_storage_building], GRLIB_fob_range];
+			private _storage = nearestObjects [(markerPos (_x select 1)), [KP_liberation_small_storage_building], LIB_fob_range];
 			_storage = [_storage, {(_x getVariable ["KP_liberation_storage_type",-1]) == 1}] call BIS_fnc_conditionalSelect;
 			if ((count _storage) > 0) then {
 				_storage = (_storage select 0);

@@ -18,7 +18,7 @@ switch (_fac) do {
 {
 	if ((_x select 1) == (_sector select 1)) exitWith {
 		if (((_x select 9) >= _price_s) && ((_x select 10) >= _price_a) && ((_x select 11) >= _price_f)) then {
-			private _storage = nearestObjects [(markerPos (_x select 1)), [KP_liberation_small_storage_building], GRLIB_fob_range];
+			private _storage = nearestObjects [(markerPos (_x select 1)), [KP_liberation_small_storage_building], LIB_fob_range];
 			_storage = [_storage, {(_x getVariable ["KP_liberation_storage_type",-1]) == 1}] call BIS_fnc_conditionalSelect;
 			if ((count _storage) == 0) exitWith {};
 			_storage = (_storage select 0);

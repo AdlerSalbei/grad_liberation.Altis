@@ -9,11 +9,11 @@ while {_spawnpos distance zeropos < 1000} do {
 };
 
 private _corrected_amount = round ((count _squadies_to_spawn) * ([] call grad_liberation_shared_fnc_adaptiveOpforFactor));
-private _grp = createGroup GRLIB_side_enemy;
+private _grp = createGroup LIB_side_enemy;
 
 {
 	if ((count (units _grp)) < _corrected_amount) then {
-		_x createUnit [_spawnpos, _grp, "this addMPEventHandler [""MPKilled"", {_this spawn kill_manager}]"];
+		_x createUnit [_spawnpos, _grp, "this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]"];
 	};
 	sleep 0.1;
 } forEach _squadies_to_spawn;

@@ -16,13 +16,13 @@ private _idact_sectorstorage = -1;
 private _idact_supplyfacility = -1;
 private _idact_ammofacility = -1;
 private _idact_fuelfacility = -1;
-private _distfob = (GRLIB_fob_range * 0.8);
+private _distfob = (LIB_fob_range * 0.8);
 private _distarsenal = 5;
 private _distbuildfob = 10;
 private _distspawn = 10;
 private _distredeploy = 20;
 
-GRLIB_removefobboxes = false;
+LIB_removefobboxes = false;
 KP_liberation_resources_global = false;
 FOB_build_in_progress = false;
 
@@ -36,7 +36,7 @@ while {true} do {
 
 	private _nearfob = [] call grad_liberation_shared_fnc_getNearestFob;
 	private _fobdistance = 9999;
-	private _nearest_sector = [GRLIB_fob_range] call grad_liberation_shared_fnc_getNearestSector;
+	private _nearest_sector = [LIB_fob_range] call grad_liberation_shared_fnc_getNearestSector;
 	private _prod_sector = [];
 	{
 		if ((_x select 1) == _nearest_sector) exitWith {_prod_sector = _x};
@@ -46,12 +46,12 @@ while {true} do {
 		_fobdistance = player distance _nearfob;
 	};
 
-	if (liberation_mobilearsenal) then {KP_liberation_neararsenal = [ ( (getpos player) nearobjects [ Arsenal_typename, _distarsenal ]), { getObjectType _x >= 8 } ] call BIS_fnc_conditionalSelect;} else {KP_liberation_neararsenal = [];};
+	if (liberation_mobilearsenal) then {liberation_neararsenal = [ ( (getpos player) nearobjects [ Arsenal_typename, _distarsenal ]), { getObjectType _x >= 8 } ] call BIS_fnc_conditionalSelect;} else {liberation_neararsenal = [];};
 	_nearfobbox = ( (getpos player) nearEntities [ [ FOB_box_typename, FOB_truck_typename ] , _distbuildfob ] );
 	if (liberation_mobilerespawn) then {KP_liberation_nearspawn = ( (getpos player) nearEntities [ [ Respawn_truck_typename, huron_typename ] , _distspawn ] );} else {KP_liberation_nearspawn = [];};
 
-	if (GRLIB_removefobboxes) then {
-		GRLIB_removefobboxes = false;
+	if (LIB_removefobboxes) then {
+		LIB_removefobboxes = false;
 		if (count _nearfobbox > 0) then {
 			deletevehicle (_nearfobbox select 0);
 		};
@@ -101,7 +101,7 @@ while {true} do {
 		};
 	};
 
-	if ((_fobdistance < _distredeploy || count KP_liberation_neararsenal != 0 || count KP_liberation_nearspawn != 0 || (player distance startbase) < 200) && alive player && vehicle player == player) then {
+	if ((_fobdistance < _distredeploy || count liberation_neararsenal != 0 || count KP_liberation_nearspawn != 0 || (player distance startbase) < 200) && alive player && vehicle player == player) then {
 		if (_idact_arsenal == -1) then {
 			_idact_arsenal = player addAction ["<t color='#FFFF00'>" + localize "STR_ARSENAL_ACTION" + "</t> <img size='2' image='res\ui_arsenal.paa'/>","scripts\client\actions\open_arsenal.sqf","",-980,true,true,"","build_confirmed == 0"];
 		};
@@ -145,7 +145,7 @@ while {true} do {
 		};
 	};
 
-	if ((count GRLIB_all_fobs > 0) && (GRLIB_endgame == 0) && (_fobdistance < _distredeploy || (player distance startbase) < 200) && alive player && vehicle player == player && (([player, 5] call grad_liberation_shared_fnc_fetchPermission) || (player == ([] call grad_liberation_shared_fnc_getCommander) || [] call grad_liberation_shared_fnc_isAdmin))) then {
+	if ((count LIB_all_fobs > 0) && (LIB_endgame == 0) && (_fobdistance < _distredeploy || (player distance startbase) < 200) && alive player && vehicle player == player && (([player, 5] call grad_liberation_shared_fnc_fetchPermission) || (player == ([] call grad_liberation_shared_fnc_getCommander) || [] call grad_liberation_shared_fnc_isAdmin))) then {
 		if (_idact_secondary == -1) then {
 			_idact_secondary = player addAction ["<t color='#FFFF00'>" + localize "STR_SECONDARY_OBJECTIVES" + "</t>","scripts\client\ui\secondary_ui.sqf","",-992,false,true,"","build_confirmed == 0"];
 		};
@@ -239,7 +239,7 @@ while {true} do {
 	};
 
 	if (liberation_ailogistics) then {
-		if ((_fobdistance < _distfob) && (player == ([] call grad_liberation_shared_fnc_getCommander) || [] call grad_liberation_shared_fnc_isAdmin) && alive player && vehicle player == player && (((count GRLIB_all_fobs) + (count KP_liberation_production)) > 1)) then {
+		if ((_fobdistance < _distfob) && (player == ([] call grad_liberation_shared_fnc_getCommander) || [] call grad_liberation_shared_fnc_isAdmin) && alive player && vehicle player == player && (((count LIB_all_fobs) + (count KP_liberation_production)) > 1)) then {
 			if (_idact_logistic == -1) then {
 				_idact_logistic = player addAction ["<t color='#FF8000'>" + localize "STR_LOGISTIC_ACTION" + "</t>","scripts\client\commander\open_logistic.sqf","",-999,false,true,"","build_confirmed == 0"];
 			};

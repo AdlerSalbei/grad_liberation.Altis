@@ -2,7 +2,7 @@ if (liberation_savegame_debug > 0) then {diag_log format ["[KP LIBERATION] [SAVE
 
 if (!(isNil "liberation_param_wipe_savegame_1") && !(isNil "liberation_param_wipe_savegame_2")) then {
 	if (liberation_param_wipe_savegame_1 == 1 && liberation_param_wipe_savegame_2 == 1) then {
-		profileNamespace setVariable [GRLIB_save_key,nil];
+		profileNamespace setVariable [LIB_save_key,nil];
 		saveProfileNamespace;
 		if (liberation_savegame_debug > 0) then {diag_log "[KP LIBERATION] [SAVE] Save wiped";};
 	} else {
@@ -16,7 +16,7 @@ date_year = date select 0;
 date_month = date select 1;
 date_day = date select 2;
 blufor_sectors = [];
-GRLIB_all_fobs = [];
+LIB_all_fobs = [];
 buildings_to_save= [];
 combat_readiness = 0;
 KP_liberation_storages = [];
@@ -53,11 +53,11 @@ stats_readiness_earned = 0;
 infantry_weight = 33;
 armor_weight = 33;
 air_weight = 33;
-GRLIB_vehicle_to_military_base_links = [];
-GRLIB_permissions = [];
+LIB_vehicle_to_military_base_links = [];
+LIB_permissions = [];
 ai_groups = [];
 resources_intel = 0;
-GRLIB_player_scores = [];
+LIB_player_scores = [];
 KP_liberation_civ_rep = 0;
 KP_liberation_cr_vehicles = [];
 KP_liberation_production_markers = [];
@@ -80,12 +80,12 @@ private _building_classnames = [FOB_typename];
 _classnames_to_save = _classnames_to_save + _classnames_to_save_blu + all_hostile_classnames + civilian_vehicles;
 
 trigger_server_save = false;
-greuh_liberation_savegame = profileNamespace getVariable GRLIB_save_key;
+greuh_liberation_savegame = profileNamespace getVariable LIB_save_key;
 
 if (!isNil "greuh_liberation_savegame") then {
 
 	blufor_sectors = greuh_liberation_savegame select 0;
-	GRLIB_all_fobs = greuh_liberation_savegame select 1;
+	LIB_all_fobs = greuh_liberation_savegame select 1;
 	buildings_to_save = greuh_liberation_savegame select 2;
 	time_of_day = greuh_liberation_savegame select 3;
 	combat_readiness = greuh_liberation_savegame select 4;
@@ -133,11 +133,11 @@ if (!isNil "greuh_liberation_savegame") then {
 	};
 
 	if (count greuh_liberation_savegame > 10) then {
-		GRLIB_vehicle_to_military_base_links = greuh_liberation_savegame select 10;
+		LIB_vehicle_to_military_base_links = greuh_liberation_savegame select 10;
 	};
 
 	if (count greuh_liberation_savegame > 11) then {
-		GRLIB_permissions = greuh_liberation_savegame select 11;
+		LIB_permissions = greuh_liberation_savegame select 11;
 	};
 
 	if (count greuh_liberation_savegame > 12) then {
@@ -149,30 +149,30 @@ if (!isNil "greuh_liberation_savegame") then {
 	};
 
 	if (count greuh_liberation_savegame > 14) then {
-		GRLIB_player_scores = greuh_liberation_savegame select 14;
+		LIB_player_scores = greuh_liberation_savegame select 14;
 	};
 
 	if (count greuh_liberation_savegame > 15) then {
 		KP_liberation_civ_rep = greuh_liberation_savegame select 15;
 		if (KP_liberation_civ_rep <= -25) then {
-			GRLIB_side_resistance setFriend [GRLIB_side_enemy, 1];
-			GRLIB_side_enemy setFriend [GRLIB_side_resistance, 1];
-			GRLIB_side_resistance setFriend [GRLIB_side_friendly, 0];
-			GRLIB_side_friendly setFriend [GRLIB_side_resistance, 0];
+			LIB_side_resistance setFriend [LIB_side_enemy, 1];
+			LIB_side_enemy setFriend [LIB_side_resistance, 1];
+			LIB_side_resistance setFriend [LIB_side_friendly, 0];
+			LIB_side_friendly setFriend [LIB_side_resistance, 0];
 		};
 		if (KP_liberation_civ_rep > -25 && KP_liberation_civ_rep < 25) then {
-			GRLIB_side_resistance setFriend [GRLIB_side_enemy, 1];
-			GRLIB_side_enemy setFriend [GRLIB_side_resistance, 1];
-			GRLIB_side_resistance setFriend [GRLIB_side_friendly, 1];
-			GRLIB_side_friendly setFriend [GRLIB_side_resistance, 1];
+			LIB_side_resistance setFriend [LIB_side_enemy, 1];
+			LIB_side_enemy setFriend [LIB_side_resistance, 1];
+			LIB_side_resistance setFriend [LIB_side_friendly, 1];
+			LIB_side_friendly setFriend [LIB_side_resistance, 1];
 		};
 		if (KP_liberation_civ_rep >= 25) then {
-			GRLIB_side_resistance setFriend [GRLIB_side_friendly, 1];
-			GRLIB_side_friendly setFriend [GRLIB_side_resistance, 1];
-			GRLIB_side_resistance setFriend [GRLIB_side_enemy, 0];
-			GRLIB_side_enemy setFriend [GRLIB_side_resistance, 0];
+			LIB_side_resistance setFriend [LIB_side_friendly, 1];
+			LIB_side_friendly setFriend [LIB_side_resistance, 1];
+			LIB_side_resistance setFriend [LIB_side_enemy, 0];
+			LIB_side_enemy setFriend [LIB_side_resistance, 0];
 		};
-		if (liberation_civrep_debug > 0) then {diag_log format ["[KP LIBERATION] [CIVREP] %1 getFriend %2: %3 - %1 getFriend %4: %5", GRLIB_side_resistance, GRLIB_side_enemy, (GRLIB_side_resistance getFriend GRLIB_side_enemy), GRLIB_side_friendly, (GRLIB_side_resistance getFriend GRLIB_side_friendly)];};
+		if (liberation_civrep_debug > 0) then {diag_log format ["[KP LIBERATION] [CIVREP] %1 getFriend %2: %3 - %1 getFriend %4: %5", LIB_side_resistance, LIB_side_enemy, (LIB_side_resistance getFriend LIB_side_enemy), LIB_side_friendly, (LIB_side_resistance getFriend LIB_side_friendly)];};
 	};
 
 	if (count greuh_liberation_savegame > 16) then {
@@ -193,8 +193,8 @@ if (!isNil "greuh_liberation_savegame") then {
 			if (_next_fob distance (markerpos _x) < 50) exitWith {_keep_fob = false};
 		} forEach sectors_allSectors;
 		if (_keep_fob) then {_correct_fobs pushback _next_fob};
-	} forEach GRLIB_all_fobs;
-	GRLIB_all_fobs = _correct_fobs;
+	} forEach LIB_all_fobs;
+	LIB_all_fobs = _correct_fobs;
 
 	stats_saves_loaded = stats_saves_loaded + 1;
 	
@@ -229,7 +229,7 @@ if (!isNil "greuh_liberation_savegame") then {
 			_nextbuilding allowdamage true;
 
 			if (_nextclass in _building_classnames) then {
-				_nextbuilding setVariable ["GRLIB_saved_pos", _nextpos, false];
+				_nextbuilding setVariable ["LIB_saved_pos", _nextpos, false];
 			};
 
 			// Arty Supp deactivated for now
@@ -242,11 +242,11 @@ if (!isNil "greuh_liberation_savegame") then {
 			};
 
 			if !(_nextclass in no_kill_handler_classnames) then {
-				_nextbuilding addMPEventHandler ["MPKilled", {_this spawn kill_manager}];
+				_nextbuilding addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}];
 			};
 
 			if (_nextclass in all_hostile_classnames) then {
-				_nextbuilding setVariable ["GRLIB_captured", 1, true];
+				_nextbuilding setVariable ["LIB_captured", 1, true];
 			};
 
 			if (_nextclass == FOB_typename) then {
@@ -269,7 +269,7 @@ if (!isNil "greuh_liberation_savegame") then {
 				_nextbuilding setFlagTexture "res\kpflag.jpg";
 			};
 
-			if !(_nextclass in KP_liberation_ace_crates) then {
+			if !(_nextclass in liberation_ace_crates) then {
 				if(liberation_clear_cargo || !(_nextclass isKindOf "AllVehicles")) then {
 					clearWeaponCargoGlobal _nextbuilding;
 					clearMagazineCargoGlobal _nextbuilding;
@@ -311,7 +311,7 @@ if (!isNil "greuh_liberation_savegame") then {
 				_nextbuilding setVariable ["KP_saved_vec", (_x select 6), false];
 			};
 			_nextbuilding setVariable ["KP_liberation_storage_type", 0, true];
-			_nextbuilding setVariable ["GRLIB_saved_pos", _nextpos, false];
+			_nextbuilding setVariable ["LIB_saved_pos", _nextpos, false];
 
 			_nextbuilding enableSimulationGlobal true;
 			_nextbuilding allowdamage true;
@@ -415,12 +415,12 @@ if (!isNil "greuh_liberation_savegame") then {
 	
 	{
 		private _nextgroup = _x;
-		private _grp = createGroup GRLIB_side_friendly;
+		private _grp = createGroup LIB_side_friendly;
 		{
 			private _nextunit = _x;
 			private _nextpos = [(_nextunit select 1) select 0, (_nextunit select 1) select 1, ((_nextunit select 1) select 2) + 0.2];
 			private _nextdir = _nextunit select 2;
-			(_nextunit select 0) createUnit [ _nextpos, _grp, 'this addMPEventHandler ["MPKilled", {_this spawn kill_manager}] '];
+			(_nextunit select 0) createUnit [ _nextpos, _grp, 'this addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}] '];
 			private _nextobj = ((units _grp) select ((count (units _grp)) - 1));
 			_nextobj setPosATL _nextpos;
 			_nextobj setDir _nextdir;
@@ -433,9 +433,9 @@ if (!isNil "greuh_liberation_savegame") then {
 };
 
 publicVariable "blufor_sectors";
-publicVariable "GRLIB_all_fobs";
+publicVariable "LIB_all_fobs";
 
-if (count GRLIB_vehicle_to_military_base_links == 0) then {
+if (count LIB_vehicle_to_military_base_links == 0) then {
 	private _assigned_bases = [];
 	private _assigned_vehicles = [];
 
@@ -444,18 +444,18 @@ if (count GRLIB_vehicle_to_military_base_links == 0) then {
 		private _nextvehicle =  selectRandom ([elite_vehicles, {!(_x in _assigned_vehicles)}] call BIS_fnc_conditionalSelect);
 		_assigned_bases pushback _nextbase;
 		_assigned_vehicles pushback _nextvehicle;
-		GRLIB_vehicle_to_military_base_links pushback [_nextvehicle, _nextbase];
+		LIB_vehicle_to_military_base_links pushback [_nextvehicle, _nextbase];
 	};
 } else {
-	private _classnames_to_check = GRLIB_vehicle_to_military_base_links;
+	private _classnames_to_check = LIB_vehicle_to_military_base_links;
 	{
 		if !([_x select 0] call grad_liberation_shared_fnc_checkClass) then {
-			GRLIB_vehicle_to_military_base_links = GRLIB_vehicle_to_military_base_links - [_x];
+			LIB_vehicle_to_military_base_links = LIB_vehicle_to_military_base_links - [_x];
 		};
 	} forEach _classnames_to_check;
 };
-publicVariable "GRLIB_vehicle_to_military_base_links";
-publicVariable "GRLIB_permissions";
+publicVariable "LIB_vehicle_to_military_base_links";
+publicVariable "LIB_permissions";
 publicVariable "KP_liberation_cr_vehicles";
 save_is_loaded = true; publicVariable "save_is_loaded";
 
@@ -464,13 +464,13 @@ if (liberation_savegame_debug > 0) then {diag_log format ["[KP LIBERATION] [SAVE
 while {true} do {
 	waitUntil {
 		sleep 0.5;
-		trigger_server_save || GRLIB_endgame == 1;
+		trigger_server_save || LIB_endgame == 1;
 	};
 
 	if (liberation_savegame_debug > 0) then {diag_log format ["[KP LIBERATION] [SAVE] Save interval started - time: %1", time];};
 
-	if (GRLIB_endgame == 1) then {
-		profileNamespace setVariable [GRLIB_save_key, nil];
+	if (LIB_endgame == 1) then {
+		profileNamespace setVariable [LIB_save_key, nil];
 		saveProfileNamespace;
 		while {true} do {sleep 300;};
 	} else {
@@ -483,7 +483,7 @@ while {true} do {
 		private _all_storages = [];
 		{
 			private _fobpos = _x;
-			private _nextbuildings = [_fobpos nearobjects (GRLIB_fob_range * 2), {
+			private _nextbuildings = [_fobpos nearobjects (LIB_fob_range * 2), {
 				((typeof _x) in _classnames_to_save ) &&
 				(alive _x) &&
 				(speed _x < 5) &&
@@ -499,10 +499,10 @@ while {true} do {
 			
 			{
 				private _nextgroup = _x;
-				if (side _nextgroup == GRLIB_side_friendly) then {
+				if (side _nextgroup == LIB_side_friendly) then {
 					if ({isPlayer _x} count (units _nextgroup) == 0) then {
 						if ({ alive _x} count (units _nextgroup) > 0) then {
-							if ((_fobpos distance (leader _nextgroup) < GRLIB_fob_range * 2) && ((typeOf (leader _nextgroup)) in friendly_infantry_classnames)) then {
+							if ((_fobpos distance (leader _nextgroup) < LIB_fob_range * 2) && ((typeOf (leader _nextgroup)) in friendly_infantry_classnames)) then {
 								private _grouparray = [];
 								{
 									if (alive _x && (vehicle _x == _x)) then {
@@ -515,17 +515,17 @@ while {true} do {
 					};
 				};
 			} forEach allGroups;
-		} forEach GRLIB_all_fobs;
+		} forEach LIB_all_fobs;
 
 		{
 			private _savedpos = [];
 			private _savedvec = [];
 
 			if ((typeof _x) in _building_classnames) then {
-				_savedpos = _x getVariable ["GRLIB_saved_pos", []];
+				_savedpos = _x getVariable ["LIB_saved_pos", []];
 				_savedvec = _x getVariable ["KP_saved_vec", []];
 				if ((count _savedpos == 0) || (count _savedvec == 0)) then {
-					_x setVariable ["GRLIB_saved_pos", getPosATL _x, false];
+					_x setVariable ["LIB_saved_pos", getPosATL _x, false];
 					_x setVariable ["KP_saved_vec", vectorUpVisual _x, false];
 					_savedpos = getPosATL _x;
 					_savedvec = vectorUpVisual _x;
@@ -551,10 +551,10 @@ while {true} do {
 			private _savedpos = [];
 			private _savedvec = [];
 			
-			_savedpos = _x getVariable ["GRLIB_saved_pos", []];
+			_savedpos = _x getVariable ["LIB_saved_pos", []];
 			_savedvec = _x getVariable ["KP_saved_vec", []];
 			if ((count _savedpos == 0) || (count _savedvec == 0)) then {
-				_x setVariable ["GRLIB_saved_pos", getPosATL _x, false];
+				_x setVariable ["LIB_saved_pos", getPosATL _x, false];
 				_x setVariable ["KP_saved_vec", vectorUpVisual _x, false];
 				_savedpos = getPosATL _x;
 				_savedvec = vectorUpVisual _x;
@@ -584,8 +584,8 @@ while {true} do {
 		stats_saves_performed = stats_saves_performed + 1;
 
 		private _knownplayers = [];
-		private _newscores = [] + GRLIB_player_scores;
-		{ _knownplayers pushback (_x select 0) } foreach GRLIB_player_scores;
+		private _newscores = [] + LIB_player_scores;
+		{ _knownplayers pushback (_x select 0) } foreach LIB_player_scores;
 
 		{
 			if (score _x >= 20) then {
@@ -597,7 +597,7 @@ while {true} do {
 				};
 			};
 		} forEach allPlayers;
-		GRLIB_player_scores = _newscores;
+		LIB_player_scores = _newscores;
 
 		_stats = [];
 		_stats pushback stats_opfor_soldiers_killed;
@@ -629,11 +629,11 @@ while {true} do {
 		_stats pushback stats_fobs_lost;
 		_stats pushback stats_readiness_earned;
 
-		greuh_liberation_savegame = [blufor_sectors, GRLIB_all_fobs, buildings_to_save, time_of_day, round combat_readiness, KP_liberation_storages,
-		KP_liberation_production, KP_liberation_logistics, _stats, [round infantry_weight, round armor_weight, round air_weight], GRLIB_vehicle_to_military_base_links,
-		GRLIB_permissions, ai_groups, resources_intel, GRLIB_player_scores, KP_liberation_civ_rep, KP_liberation_production_markers, KP_liberation_guerilla_strength];
+		greuh_liberation_savegame = [blufor_sectors, LIB_all_fobs, buildings_to_save, time_of_day, round combat_readiness, KP_liberation_storages,
+		KP_liberation_production, KP_liberation_logistics, _stats, [round infantry_weight, round armor_weight, round air_weight], LIB_vehicle_to_military_base_links,
+		LIB_permissions, ai_groups, resources_intel, LIB_player_scores, KP_liberation_civ_rep, KP_liberation_production_markers, KP_liberation_guerilla_strength];
 
-		profileNamespace setVariable [GRLIB_save_key, greuh_liberation_savegame];
+		profileNamespace setVariable [LIB_save_key, greuh_liberation_savegame];
 		saveProfileNamespace;
 
 		if (liberation_savegame_debug > 0) then {diag_log format ["[KP LIBERATION] [SAVE] Save interval finished - time: %1", time];};

@@ -1,1 +1,1 @@
-GRLIB_force_redeploy = true;
+LIB_force_redeploy = true;

@@ -2,17 +2,17 @@ params ["_targetsector"];
 
 if (combat_readiness > 15) then {
 
-	private _init_units_count = (([getmarkerpos _targetsector, GRLIB_capture_size, GRLIB_side_enemy] call grad_liberation_shared_fnc_getUnitsCount));
+	private _init_units_count = (([getmarkerpos _targetsector, LIB_capture_size, LIB_side_enemy] call grad_liberation_shared_fnc_getUnitsCount));
 
 	if !(_targetsector in sectors_bigtown) then {
-		while {(_init_units_count * 0.75) <= ([getmarkerpos _targetsector, GRLIB_capture_size, GRLIB_side_enemy] call grad_liberation_shared_fnc_getUnitsCount)} do {
+		while {(_init_units_count * 0.75) <= ([getmarkerpos _targetsector, LIB_capture_size, LIB_side_enemy] call grad_liberation_shared_fnc_getUnitsCount)} do {
 			sleep 5;
 		};
 	};
 
 	if (_targetsector in active_sectors) then {
 
-		private _nearestower = [markerpos _targetsector, GRLIB_side_enemy, GRLIB_radiotower_size * 1.4] call grad_liberation_shared_fnc_getNearestTower;
+		private _nearestower = [markerpos _targetsector, LIB_side_enemy, LIB_radiotower_size * 1.4] call grad_liberation_shared_fnc_getNearestTower;
 
 		if (_nearestower != "") then {
 			private _reinforcements_time = (((((markerpos _nearestower) distance (markerpos _targetsector)) / 1000) ^ 1.66 ) * 120) / (liberation_difficulty_modifier * liberation_csat_aggressivity);

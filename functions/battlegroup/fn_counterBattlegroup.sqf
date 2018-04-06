@@ -6,7 +6,7 @@ if ( isNil "air_weight" ) then { air_weight = 33 };
 
 sleep 1800;
 
-while { liberation_csat_aggressivity >= 0.9 && GRLIB_endgame == 0 } do {
+while { liberation_csat_aggressivity >= 0.9 && LIB_endgame == 0 } do {
 
 	_sleeptime = (1800 + (random 1800)) / (([] call  grad_liberation_shared_fnc_adaptiveOpforFactor) * liberation_csat_aggressivity);
 

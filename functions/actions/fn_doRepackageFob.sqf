@@ -16,8 +16,8 @@ if ( dorepackage > 0 ) then {
 	_fob = [] call grad_liberation_shared_fnc_getNearestFob;
 
 	if ( count _fob > 0 ) then {
-		GRLIB_all_fobs = GRLIB_all_fobs - [ _fob ];
-		publicVariable "GRLIB_all_fobs";
+		LIB_all_fobs = LIB_all_fobs - [ _fob ];
+		publicVariable "LIB_all_fobs";
 	};
 
 	{ deleteVehicle _x }  foreach ( [ ( (getpos player) nearobjects [ FOB_typename, 250 ] ) , { getObjectType _x >= 8 } ] call BIS_fnc_conditionalSelect );

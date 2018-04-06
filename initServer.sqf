@@ -53,7 +53,7 @@ wait_to_spawn_sector = compileFinal preprocessFileLineNumbers "scripts\server\se
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\cleanup_vehicles.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\fucking_set_fog.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\manage_time.sqf";
-if (!KP_liberation_ace) then {[] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\manage_weather.sqf";};
+if (!liberation_ace) then {[] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\manage_weather.sqf";};
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\periodic_save.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\playtime.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\save_manager.sqf";
@@ -86,7 +86,7 @@ if (liberation_ailogistics) then {[] spawn compileFinal preprocessFileLineNumber
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\asymmetric\init_module.sqf";
 
 {
-	if ( (_x != player) && (_x distance (getmarkerpos GRLIB_respawn_marker) < 200 ) ) then {
+	if ( (_x != player) && (_x distance (getmarkerpos LIB_respawn_marker) < 200 ) ) then {
 		deleteVehicle _x;
 	};
 } foreach allUnits;

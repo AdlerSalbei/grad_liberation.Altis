@@ -7,14 +7,14 @@ if (liberation_sectorspawn_debug > 0) then {diag_log format ["[KP LIBERATION] [S
 
 private _timer = 0;
 
-while {GRLIB_endgame == 0} do {
+while {LIB_endgame == 0} do {
 	{
 		private _nextsector = _x;
 		private _opforcount =  [] call grad_liberation_shared_fnc_opforCap;
 
-		if (_opforcount < GRLIB_sector_cap) then {
+		if (_opforcount < LIB_sector_cap) then {
 
-			if (([getmarkerpos _nextsector, [_opforcount] call grad_liberation_shared_fnc_getCorrectedSectorRange, GRLIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount > 0) && !(_nextsector in active_sectors)) then {
+			if (([getmarkerpos _nextsector, [_opforcount] call grad_liberation_shared_fnc_getCorrectedSectorRange, LIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount > 0) && !(_nextsector in active_sectors)) then {
 
 				_hc = [] call grad_liberation_shared_fnc_lessLoadedHC;
 

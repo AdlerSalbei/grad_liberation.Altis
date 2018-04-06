@@ -2,9 +2,9 @@ params ["_squadpos"];
 
 private _spawned_units_local = [];
 
-private _allposts = [nearestObjects [_squadpos, ["Land_Cargo_Patrol_V1_F","Land_Cargo_Patrol_V2_F","Land_Cargo_Patrol_V3_F","Land_Cargo_Patrol_V4_F"], GRLIB_capture_size] , {alive _x}] call BIS_fnc_conditionalSelect;
+private _allposts = [nearestObjects [_squadpos, ["Land_Cargo_Patrol_V1_F","Land_Cargo_Patrol_V2_F","Land_Cargo_Patrol_V3_F","Land_Cargo_Patrol_V4_F"], LIB_capture_size] , {alive _x}] call BIS_fnc_conditionalSelect;
 if (count _allposts > 0) then {
-	private _grp = createGroup GRLIB_side_enemy;
+	private _grp = createGroup LIB_side_enemy;
 
 	{
 		private _building_positions = [_x] call BIS_fnc_buildingPositions;
@@ -13,7 +13,7 @@ if (count _allposts > 0) then {
 		if (random 100 > 60) then {
 			_unitclasspost = opfor_machinegunner;
 		};
-		_unitclasspost createUnit [_squadpos, _grp, "nextunit_post = this; this addMPEventHandler [""MPKilled"", {_this spawn kill_manager}]"];
+		_unitclasspost createUnit [_squadpos, _grp, "nextunit_post = this; this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]"];
 		nextunit_post setdir (180 + (getdir _x));
 		nextunit_post setpos (_building_positions select 1);
 

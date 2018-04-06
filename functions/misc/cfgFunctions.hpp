@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_misc {
     class misc {
         class broadcastSquadColors {};
         class disableRemoteSensors {};

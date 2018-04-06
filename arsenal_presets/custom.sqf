@@ -1,16 +1,16 @@
 // Custom Arsenal Preset
-GRLIB_arsenal_weapons = [
+LIB_arsenal_weapons = [
 
 ];
 
-GRLIB_arsenal_magazines = [
+LIB_arsenal_magazines = [
 
 ];
 
-GRLIB_arsenal_items = [
+LIB_arsenal_items = [
 
 ];
 
-GRLIB_arsenal_backpacks = [
+LIB_arsenal_backpacks = [
 
 ];

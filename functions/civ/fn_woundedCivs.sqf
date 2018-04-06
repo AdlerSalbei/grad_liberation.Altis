@@ -5,7 +5,7 @@ if (!(_sector in sectors_bigtown) && !(_sector in sectors_capture)) exitWith {};
 if (liberation_civrep_debug > 0) then {diag_log format ["[KP LIBERATION] [CIVREP] civrep_wounded_civs.sqf -> Spawned for %1 on: %2 - Time: %3", markerText _sector, debug_source, time];};
 
 private _count = 2 + (ceil (random 2));
-private _grp = creategroup GRLIB_side_civilian;
+private _grp = creategroup LIB_side_civilian;
 private _civs = [];
 private _markers = [];
 
@@ -15,13 +15,13 @@ for "_i" from 1 to _count do {
 		_pos = (markerPos _sector) getPos [(50 + (random 200)), (random 360)];
 	};
 	private _civ = _grp createUnit [(selectRandom civilians), _pos, [], 0, "NONE"];
-	_civ addMPEventHandler ["MPKilled", {_this spawn kill_manager}];
+	_civ addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}];
 	_civ setDir (random 360);
 	{_civ disableAI _x} forEach ["ANIM", "TARGET", "AUTOTARGET", "MOVE"];
 	removeAllItems _civ;
 	_civ setDamage 0.5;
 	_civ call F_cr_woundedAnim;
-	if (KP_liberation_ace) then {[_civ] remoteExec ["grad_liberation_shared_fnc_aceAction"];};
+	if (liberation_ace) then {[_civ] remoteExec ["grad_liberation_shared_fnc_aceAction"];};
 	_civs pushBack _civ;
 	private _marker = createMarker ["wounded_marker_" + str _i, [((_pos select 0) - 20 + (random 40)),((_pos select 1) - 20 + (random 40))]];
 	_marker setMarkerShape "ELLIPSE";
@@ -33,11 +33,11 @@ for "_i" from 1 to _count do {
 
 if (liberation_civrep_debug > 0) then {diag_log format ["[KP LIBERATION] [CIVREP] civrep_wounded_civs.sqf -> Spawned %1 wounded civilians at %2 - Time: %3", _count, markerText _sector, time];};
 
-private _units_near = [markerPos _sector, 300, GRLIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount;
+private _units_near = [markerPos _sector, 300, LIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount;
 private _healed_civs = [];
 
 while {_units_near > 0} do {
-	_units_near = [markerPos _sector, 300, GRLIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount;
+	_units_near = [markerPos _sector, 300, LIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount;
 	{
 		if (((damage _x) < 0.5) && !(_x in _healed_civs)) then {
 			(_markers select _forEachIndex) setMarkerAlpha 0;

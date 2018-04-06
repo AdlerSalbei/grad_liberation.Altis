@@ -32,7 +32,7 @@ private _filtered_possible_sectors = [];
 				_current_sector_distance = ((markerpos _current_sector ) distance (_x));
 			};
 		};
-	} forEach GRLIB_all_fobs;
+	} forEach LIB_all_fobs;
 
 	if (_accept_current_sector) then {
 		{
@@ -55,7 +55,7 @@ private _filtered_possible_sectors = [];
 	};
 
 	if (_accept_current_sector) then {
-		if (([markerpos _current_sector, _mindist, GRLIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount) != 0) then {
+		if (([markerpos _current_sector, _mindist, LIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount) != 0) then {
 			_accept_current_sector = false;
 		};
 	};

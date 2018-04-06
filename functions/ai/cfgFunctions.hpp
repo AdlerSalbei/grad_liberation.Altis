@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_ai {
     class ai {
         class addCivWaypoints {};
         class addDefenseWaypoints {};

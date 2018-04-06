@@ -3,8 +3,8 @@ sleep 5;
 _blufor_bigtowns = [ blufor_sectors, { _x in sectors_bigtown } ] call BIS_fnc_conditionalSelect;
 
 if ( count _blufor_bigtowns == count sectors_bigtown ) then {
-	GRLIB_endgame = 1;
-	publicVariable "GRLIB_endgame";
+	LIB_endgame = 1;
+	publicVariable "LIB_endgame";
 	{ _x allowDamage false; (vehicle _x) allowDamage false; } foreach allPlayers;
 
 	publicstats = [];

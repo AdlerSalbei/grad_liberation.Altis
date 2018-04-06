@@ -1,9 +1,9 @@
 private [ "_dialog", "_backpack", "_backpackcontents" ];
 
-if ( isNil "GRLIB_last_halo_jump" ) then { GRLIB_last_halo_jump = -6000; };
+if ( isNil "LIB_last_halo_jump" ) then { LIB_last_halo_jump = -6000; };
 
-if ( liberation_halo_param > 1 && ( GRLIB_last_halo_jump + ( liberation_halo_param * 60 ) ) >= time ) exitWith {
-	hint format [ localize "STR_HALO_DENIED_COOLDOWN", ceil ( ( ( GRLIB_last_halo_jump + ( liberation_halo_param * 60 ) ) - time ) / 60 ) ];
+if ( liberation_halo_param > 1 && ( LIB_last_halo_jump + ( liberation_halo_param * 60 ) ) >= time ) exitWith {
+	hint format [ localize "STR_HALO_DENIED_COOLDOWN", ceil ( ( ( LIB_last_halo_jump + ( liberation_halo_param * 60 ) ) - time ) / 60 ) ];
 };
 
 _dialog = createDialog "liberation_halo";
@@ -34,9 +34,9 @@ if ( dialog ) then {
 [ "halo_map_event", "onMapSingleClick" ] call BIS_fnc_removeStackedEventHandler;
 
 if ( dojump > 0 ) then {
-	GRLIB_last_halo_jump = time;
+	LIB_last_halo_jump = time;
 	halo_position = [ halo_position, random 250, random 360 ] call BIS_fnc_relPos;
-	halo_position = [ halo_position select 0, halo_position select 1, GRLIB_halo_altitude + (random 200) ];
+	halo_position = [ halo_position select 0, halo_position select 1, LIB_halo_altitude + (random 200) ];
 	halojumping = true;
 	sleep 0.1;
 	cutRsc ["fasttravel", "PLAIN", 1];

@@ -14,7 +14,7 @@ _building_classnames = [];
 if (((typeOf _vehtorecycle) in _building_classnames) ||
 	((typeOf _vehtorecycle) in KP_liberation_storage_buildings) ||
 	((typeOf _vehtorecycle) in KP_liberation_upgrade_buildings) ||
-	((typeOf _vehtorecycle) in KP_liberation_ace_crates) ||
+	((typeOf _vehtorecycle) in liberation_ace_crates) ||
 	((typeOf _vehtorecycle) == "B_Slingload_01_Repair_F") ||
 	((typeOf _vehtorecycle) == "B_Slingload_01_Fuel_F") ||
 	((typeOf _vehtorecycle) == "B_Slingload_01_Ammo_F")) then {
@@ -62,9 +62,9 @@ if ((typeOf _vehtorecycle) in all_hostile_classnames) then {
 } else {
 	_objectinfo = ([(light_vehicles + heavy_vehicles + air_vehicles + static_vehicles + support_vehicles + buildings), {(typeOf _vehtorecycle) == (_x select 0)}] call BIS_fnc_conditionalSelect) select 0;
 	_disName = getText (_cfg >> (_objectinfo select 0) >> "displayName");
-	_price_s = round ((_objectinfo select 1) * GRLIB_recycling_percentage * _suppMulti);
-	_price_a = round ((_objectinfo select 2) * GRLIB_recycling_percentage * _ammoMulti);
-	_price_f = round ((_objectinfo select 3) * GRLIB_recycling_percentage * _fuelMulti);
+	_price_s = round ((_objectinfo select 1) * LIB_recycling_percentage * _suppMulti);
+	_price_a = round ((_objectinfo select 2) * LIB_recycling_percentage * _ammoMulti);
+	_price_f = round ((_objectinfo select 3) * LIB_recycling_percentage * _fuelMulti);
 };
 
 waitUntil { dialog };
@@ -88,7 +88,7 @@ if ( dorecycle == 1 && !(isnull _vehtorecycle) && alive _vehtorecycle) then {
 
 	if (!(KP_liberation_recycle_building_near) && ((_price_s + _price_a + _price_f) > 0)) exitWith {hint localize "STR_NORECBUILDING_ERROR";};
 
-	_storage_areas = [_nearfob nearobjects (GRLIB_fob_range * 2), {(_x getVariable ["KP_liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
+	_storage_areas = [_nearfob nearobjects (LIB_fob_range * 2), {(_x getVariable ["KP_liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
 
 	_supplyCrates = ceil (_price_s / 100);
 	_ammoCrates = ceil (_price_a / 100);

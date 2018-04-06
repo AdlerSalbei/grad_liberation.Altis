@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_battlegroup {
     class battlegroup {
         class counterBattlegroup {};
         class randomBattlegroup {};

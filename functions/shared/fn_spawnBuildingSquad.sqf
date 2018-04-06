@@ -9,7 +9,7 @@ if (_infsquad == "militia") then {
 	_infsquad_classnames = (["army"] call grad_liberation_shared_fnc_getAdaptiveSquadComp);
 };
 
-if (_building_ai_max > floor ((count _buildingpositions) * GRLIB_defended_buildingpos_part)) then {_building_ai_max = floor ((count _buildingpositions) * GRLIB_defended_buildingpos_part)};
+if (_building_ai_max > floor ((count _buildingpositions) * LIB_defended_buildingpos_part)) then {_building_ai_max = floor ((count _buildingpositions) * LIB_defended_buildingpos_part)};
 private _squadtospawn = [];
 while {(count _squadtospawn) < _building_ai_max} do {_squadtospawn pushback (selectRandom _infsquad_classnames);};
 
@@ -22,12 +22,12 @@ while {count _position_indexes < count _squadtospawn} do {
 	};
 };
 
-private _grp = createGroup GRLIB_side_enemy;
+private _grp = createGroup LIB_side_enemy;
 private _idxposit = 0;
 {
 	_x createUnit [_sectorpos, _grp];
 	private _nextunit = (units _grp) select ((count (units _grp)) -1);
-	_nextunit addMPEventHandler ["MPKilled", {_this spawn kill_manager}];
+	_nextunit addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}];
 	_nextunit setdir (random 360);
 	_nextunit setpos (_buildingpositions select (_position_indexes select _idxposit));
 	[_nextunit, _sector] spawn building_defence_ai;
@@ -36,7 +36,7 @@ private _idxposit = 0;
 
 	if (count units _grp > 10) then {
 		_everythingspawned = _everythingspawned + (units _grp);
-		_grp = createGroup GRLIB_side_enemy;
+		_grp = createGroup LIB_side_enemy;
 	};
 } forEach _squadtospawn;
 

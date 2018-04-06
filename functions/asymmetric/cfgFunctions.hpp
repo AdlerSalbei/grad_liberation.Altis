@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_asymmetric {
     class asymmetric {
         class asymmetricLoop {};
         class asymmNotifications {};

@@ -13,10 +13,10 @@ _veh setDir (getDir _roadObj);
 	};
 } forEach ((getAllHitPointsDamage _veh) select 0);
 
-private _grp = createGroup GRLIB_side_enemy;
+private _grp = createGroup LIB_side_enemy;
 private _hvt = _grp createUnit [opfor_officer, getPos _roadObj, [], 30, "NONE"];
 for "_i" from 1 to 4 do {
-	(selectRandom militia_squad) createUnit [_grp, _grp, "this addMPEventHandler [""MPKilled"", {_this spawn kill_manager}]"];
+	(selectRandom militia_squad) createUnit [_grp, _grp, "this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]"];
 	sleep 0.1;
 };
 

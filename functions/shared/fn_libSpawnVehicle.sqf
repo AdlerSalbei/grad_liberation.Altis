@@ -38,15 +38,15 @@ if(liberation_clear_cargo) then {
 if ( _classname in militia_vehicles ) then {
 	[ _newvehicle ] call grad_liberation_shared_fnc_libSpawnMilitiaCrew;
 } else {
-	_grp = createGroup GRLIB_side_enemy; //TODO test
+	_grp = createGroup LIB_side_enemy; //TODO test
 	createVehicleCrew _newvehicle;
 	(crew _newvehicle) joinSilent _grp;
 
 	sleep 0.1;
-	{ _x addMPEventHandler ['MPKilled', {_this spawn kill_manager}]; } foreach (crew _newvehicle);
+	{ _x addMPEventHandler ['MPKilled', {_this spawn [] call grad_liberation_shared_fnc_killManager}]; } foreach (crew _newvehicle);
 };
 
-_newvehicle addMPEventHandler ['MPKilled', {_this spawn kill_manager}];
+_newvehicle addMPEventHandler ['MPKilled', {_this spawn [] call grad_liberation_shared_fnc_killManager}];
 if ( _random_rotate ) then {
 	_newvehicle setdir (random 360);
 };

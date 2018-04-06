@@ -1,5 +1,5 @@
 /*
-kp_fuel_consumption.sqf
+[] call grad_liberation_shared_fnc_fuelConsumption.sqf
 Author: Wyqer
 Website: www.killahpotatoes.de
 Date: 2017-02-02
@@ -14,7 +14,7 @@ Method:
 execVM
 
 Example for initPlayerLocal.sqf:
-player addEventHandler ["GetInMan", {[ _this select 2] execVM "scripts\kp_fuel_consumption.sqf";}];
+player addEventHandler ["GetInMan", {[ _this select 2] execVM "scripts\[] call grad_liberation_shared_fnc_fuelConsumption.sqf";}];
 */
 
 //CONFIG
@@ -29,12 +29,12 @@ private _kp_max_consumption = KP_liberation_fuel_max;
 DO NOT EDIT BELOW
 */
 
-if (isNil "kp_fuel_consumption_vehicles") then {
-	kp_fuel_consumption_vehicles = [];
+if (isNil "[] call grad_liberation_shared_fnc_fuelConsumption_vehicles") then {
+	[] call grad_liberation_shared_fnc_fuelConsumption_vehicles = [];
 };
 
-if (!((_this select 0) in kp_fuel_consumption_vehicles)) then {
-	kp_fuel_consumption_vehicles pushBack (_this select 0);
+if (!((_this select 0) in [] call grad_liberation_shared_fnc_fuelConsumption_vehicles)) then {
+	[] call grad_liberation_shared_fnc_fuelConsumption_vehicles pushBack (_this select 0);
 	while {local (_this select 0)} do {
 		if (isEngineOn (_this select 0)) then {
 			if (speed (_this select 0) > 5) then {
@@ -49,5 +49,5 @@ if (!((_this select 0) in kp_fuel_consumption_vehicles)) then {
 		};
 		uiSleep 1;
 	};
-	kp_fuel_consumption_vehicles deleteAt (kp_fuel_consumption_vehicles find (_this select 0));
+	[] call grad_liberation_shared_fnc_fuelConsumption_vehicles deleteAt ([] call grad_liberation_shared_fnc_fuelConsumption_vehicles find (_this select 0));
 };

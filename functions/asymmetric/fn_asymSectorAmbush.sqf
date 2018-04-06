@@ -37,7 +37,7 @@ if (liberation_asymmetric_debug > 0) then {private _text = format ["[KP LIBERATI
 private _attack = false;
 
 while {(_sector in KP_liberation_asymmetric_sectors) && (!isNull _grp)} do {
-	private _blufor_near = {alive _x && side _x == GRLIB_side_friendly} count ((getpos (leader _grp)) nearEntities [["LAND"], 140]);
+	private _blufor_near = {alive _x && side _x == LIB_side_friendly} count ((getpos (leader _grp)) nearEntities [["LAND"], 140]);
 	if ((_blufor_near > 0) && !_attack) then {
 		_attack = true;
 		{

@@ -4,7 +4,7 @@ if (liberation_asymmetric_debug > 0) then {private _text = format ["[KP LIBERATI
 
 private _startpos = (markerPos _sector) getPos [(1200 + (round (random 400))), (random 360)];
 
-while {(([_startpos, 500, GRLIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount) > 0) || (surfaceIsWater _startpos)} do {
+while {(([_startpos, 500, LIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount) > 0) || (surfaceIsWater _startpos)} do {
 	_startpos = (markerPos _sector) getPos [(1200 + (round (random 400))), (random 360)];
 };
 

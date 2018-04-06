@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_game {
     class game {
         class applyDefaultPermissions {};
         class applySavedScores {};

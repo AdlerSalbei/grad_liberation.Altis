@@ -15,15 +15,15 @@ while {true} do {
 
 	if (liberation_civinfo_debug > 0) then {private _text = "[KP LIBERATION] [CIVINFO] Informant waitUntil passed";_text remoteExec ["diag_log",2];};
 
-	if ((KP_liberation_civinfo_chance >= (random 100)) && GRLIB_endgame == 0) then {
+	if ((KP_liberation_civinfo_chance >= (random 100)) && LIB_endgame == 0) then {
 		private _sector = selectRandom ([blufor_sectors, {_x in sectors_capture || _x in sectors_bigtown}] call BIS_fnc_conditionalSelect);
 		private _house = (nearestObjects [[((getMarkerPos _sector select 0) - 100 + (random 200)), ((getMarkerPos _sector select 1) - 100 + (random 200))],["House", "Building"], 100]) select 0;
 		
-		private _grp = createGroup GRLIB_side_civilian;
+		private _grp = createGroup LIB_side_civilian;
 		private _informant = _grp createUnit [(selectRandom civilians), getMarkerPos _sector, [], 0, "NONE"];
 		private _waiting_time = KP_liberation_civinfo_duration;
 
-		_informant addMPEventHandler ["MPKilled", {_this spawn kill_manager}];
+		_informant addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}];
 		_informant setPos (selectRandom (_house buildingPos -1));
 		_informant setUnitPos "UP";
 		sleep 1;
@@ -37,7 +37,7 @@ while {true} do {
 
 		[0, getPos _informant] remoteExec ["civinfo_notifications"];
 
-		while {alive _informant && ((side (group _informant)) == GRLIB_side_civilian) && _waiting_time > 0} do {
+		while {alive _informant && ((side (group _informant)) == LIB_side_civilian) && _waiting_time > 0} do {
 			uiSleep 1;			
 			private _player_near = false;
 			{

@@ -1,5 +1,5 @@
 if ( isNil "active_sectors" ) then { active_sectors = [] };
-if ( isNil "GRLIB_all_fobs" ) then { GRLIB_all_fobs = [] };
+if ( isNil "LIB_all_fobs" ) then { LIB_all_fobs = [] };
 
 cinematic_camera_started = true;
 private _last_transition = -1;
@@ -24,9 +24,9 @@ while { cinematic_camera_started } do {
 		private _positions = [ getpos startbase ];
 		if ( !first_camera_round ) then {
 
-			if ( count GRLIB_all_fobs > 0 ) then {
+			if ( count LIB_all_fobs > 0 ) then {
 				for [ {_idx=0},{_idx < 2},{_idx=_idx+1} ] do {
-					_positions pushback (selectRandom GRLIB_all_fobs);
+					_positions pushback (selectRandom LIB_all_fobs);
 				};
 			};
 
@@ -40,8 +40,8 @@ while { cinematic_camera_started } do {
 				};
 			};
 
-			if ( GRLIB_endgame == 0 ) then {
-				 _activeplayers = ( [ allPlayers , { alive _x && ( _x distance ( getmarkerpos GRLIB_respawn_marker ) ) > 100 } ] call BIS_fnc_conditionalSelect );
+			if ( LIB_endgame == 0 ) then {
+				 _activeplayers = ( [ allPlayers , { alive _x && ( _x distance ( getmarkerpos LIB_respawn_marker ) ) > 100 } ] call BIS_fnc_conditionalSelect );
 				 if ( count _activeplayers > 0 ) then {
 				 	for [ {_idx=0},{_idx < 3},{_idx=_idx+1} ] do {
 						_positions pushback (getpos (selectRandom _activeplayers));
@@ -256,9 +256,9 @@ while { cinematic_camera_started } do {
 					if ( _nearest_sector != "" ) then {
 						_nearest_sector = markertext _nearest_sector;
 					} else {
-						_nearfobs = [ GRLIB_all_fobs, { _x distance _position < 300 } ] call BIS_fnc_conditionalSelect;
+						_nearfobs = [ LIB_all_fobs, { _x distance _position < 300 } ] call BIS_fnc_conditionalSelect;
 						if ( count _nearfobs > 0 ) then {
-							_nearest_sector = format [ "FOB %1", military_alphabet select ( GRLIB_all_fobs find ( _nearfobs select 0 ) ) ];
+							_nearest_sector = format [ "FOB %1", military_alphabet select ( LIB_all_fobs find ( _nearfobs select 0 ) ) ];
 						};
 					};
 				};

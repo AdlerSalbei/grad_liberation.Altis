@@ -1,4 +1,4 @@
-kill_manager = compileFinal preprocessFileLineNumbers "scripts\shared\kill_manager.sqf";
+[] call grad_liberation_shared_fnc_killManager = compileFinal preprocessFileLineNumbers "scripts\shared\[] call grad_liberation_shared_fnc_killManager.sqf";
 
 build_remote_call = compileFinal preprocessFileLineNumbers "scripts\server\remotecall\build_remote_call.sqf";
 build_fob_remote_call = compileFinal preprocessFileLineNumbers "scripts\server\remotecall\build_fob_remote_call.sqf";
@@ -40,4 +40,4 @@ asymm_notifications = compileFinal preprocessFileLineNumbers "scripts\client\asy
 
 [] spawn compileFinal preprocessFileLineNumbers "scripts\shared\scan_skill.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\shared\diagnostics.sqf";
-if (!KP_liberation_ace) then {[] spawn compileFinal preprocessFileLineNumbers "scripts\shared\manage_weather.sqf";};
+if (!liberation_ace) then {[] spawn compileFinal preprocessFileLineNumbers "scripts\shared\manage_weather.sqf";};

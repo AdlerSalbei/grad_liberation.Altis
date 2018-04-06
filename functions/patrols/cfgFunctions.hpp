@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_patrols {
     class patrols {
         class civilianPatrols {};
         class manageOneCivilianPatrol {};

@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_build {
     class build {
         class buildCancel {};
         class buildOverlay {};

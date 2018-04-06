@@ -3,7 +3,7 @@
 // Mods needed:
 // RHS USAF
 
-GRLIB_arsenal_weapons = [
+LIB_arsenal_weapons = [
 	"lerca_1200_black",
 	"lerca_1200_tan",
 	"Leupold_Mk4",
@@ -119,11 +119,11 @@ GRLIB_arsenal_weapons = [
 	"rhsusf_weap_MP7A2_winter"
 ];
 
-GRLIB_arsenal_magazines = [
+LIB_arsenal_magazines = [
 
 ];
 
-GRLIB_arsenal_items = [
+LIB_arsenal_items = [
 	"B_UavTerminal",
 	"Binocular",
 	"ItemCompass",
@@ -419,7 +419,7 @@ GRLIB_arsenal_items = [
 	"rhs_weap_optic_smaw"
 ];
 
-GRLIB_arsenal_backpacks = [
+LIB_arsenal_backpacks = [
 	"B_Carryall_cbr",
 	"B_Parachute",
 	"rhsusf_assault_eagleaiii_coy",

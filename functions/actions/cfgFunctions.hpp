@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_actions {
     class actions {
         class actionManager {};
         class doCapture {};

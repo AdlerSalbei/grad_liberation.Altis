@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_markers {
     class markers {
         class emptyVehiclesMarker {};
         class fobMarkers {};

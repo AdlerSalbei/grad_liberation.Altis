@@ -16,7 +16,7 @@ while {true} do {
 		_source,
 		((round (diag_fps * 100.0)) / 100.0),
 		count allUnits,
-		{side group _x == GRLIB_side_enemy} count allUnits,
+		{side group _x == LIB_side_enemy} count allUnits,
 		{local _x} count allUnits,
 		count vehicles,
 		count active_sectors];

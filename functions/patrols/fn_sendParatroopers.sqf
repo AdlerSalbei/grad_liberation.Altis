@@ -12,16 +12,16 @@ private _newvehicle = createVehicle [_chopper_type, markerpos _spawnsector, [], 
 createVehicleCrew _newvehicle;
 sleep 0.1;
 
-private _pilot_group = createGroup GRLIB_side_enemy;
+private _pilot_group = createGroup LIB_side_enemy;
 (crew _newvehicle) joinSilent _pilot_group;
 
-private _para_group = createGroup GRLIB_side_enemy;
+private _para_group = createGroup LIB_side_enemy;
 
-_newvehicle addMPEventHandler ["MPKilled", {_this spawn kill_manager}];
-{_x addMPEventHandler ["MPKilled", {_this spawn kill_manager}];} forEach (crew _newvehicle);
+_newvehicle addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}];
+{_x addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}];} forEach (crew _newvehicle);
 
 while {(count (units _para_group)) < 8} do {
-	opfor_paratrooper createUnit [getmarkerpos _spawnsector, _para_group, "this addMPEventHandler [""MPKilled"", {_this spawn kill_manager}]"];
+	opfor_paratrooper createUnit [getmarkerpos _spawnsector, _para_group, "this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]"];
 };
 
 {removeBackpack _x; _x addBackPack "B_parachute"; _x moveInCargo _newvehicle;} forEach (units _para_group);

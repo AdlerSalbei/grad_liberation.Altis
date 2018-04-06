@@ -4,7 +4,7 @@ if ( isNil "group_owners" ) then { group_owners = []; };
 
 while { true } do {
 
-	if ( GRLIB_offload_diag ) then {
+	if ( LIB_offload_diag ) then {
 
 		_hint_string = "";
 		{

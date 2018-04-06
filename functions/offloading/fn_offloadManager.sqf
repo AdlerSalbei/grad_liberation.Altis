@@ -1,6 +1,6 @@
 private [ "_blufor_ai_groups", "_localgroup", "_is_ai_only", "_commander" ];
 
-while { GRLIB_endgame == 0 } do {
+while { LIB_endgame == 0 } do {
 
 	_commander = [] call grad_liberation_shared_fnc_getCommander;
 
@@ -9,7 +9,7 @@ while { GRLIB_endgame == 0 } do {
 		_blufor_ai_groups = [];
 
 		{
-			if ( side _x == GRLIB_side_friendly ) then {
+			if ( side _x == LIB_side_friendly ) then {
 				_localgroup = _x;
 				_is_ai_only = true;
 

@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_resources {
     class resources {
         class manageLogistics {};
         class manageResources {};

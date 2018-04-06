@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_ui {
     class ui {
         class cinematicCamera {};
         class endScreen {};

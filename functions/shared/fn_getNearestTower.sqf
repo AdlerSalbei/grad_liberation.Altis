@@ -4,7 +4,7 @@ private [ "_sector_to_return", "_sectors_to_search", "_sectors_to_search_sorted"
 _sector_to_return = '';
 _sectors_to_search = [];
 waitUntil {!isNil "blufor_sectors"};
-if ( _side == GRLIB_side_enemy ) then {
+if ( _side == LIB_side_enemy ) then {
 	_sectors_to_search = (sectors_tower - blufor_sectors);
 } else {
 	_sectors_to_search = [ blufor_sectors , { _x in sectors_tower } ] call BIS_fnc_conditionalSelect;

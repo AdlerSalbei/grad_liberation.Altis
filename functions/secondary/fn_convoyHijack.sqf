@@ -24,7 +24,7 @@ private _boxes_amount = 0;
 
 if ( _boxes_amount == 0 ) exitWith { diag_log "[KP LIBERATION] [ERROR] Opfor ammobox truck classname doesn't allow for ammobox transport, correct your classnames.sqf"; };
 
-GRLIB_secondary_in_progress = 1; publicVariable "GRLIB_secondary_in_progress";
+LIB_secondary_in_progress = 1; publicVariable "LIB_secondary_in_progress";
 
 private _boxes_loaded = 0;
 
@@ -48,7 +48,7 @@ private _convoy_group = group driver _scout_vehicle;
 sleep 0.5;
 
 {
-	_x addEventHandler ["HandleDamage", { private [ "_damage" ]; if ( side (_this select 3) != GRLIB_side_friendly ) then { _damage = 0 } else { _damage = _this select 2 }; _damage } ];
+	_x addEventHandler ["HandleDamage", { private [ "_damage" ]; if ( side (_this select 3) != LIB_side_friendly ) then { _damage = 0 } else { _damage = _this select 2 }; _damage } ];
 } foreach [ _scout_vehicle, _escort_vehicle, _transport_vehicle, _troop_vehicle ];
 
 _convoy_group setFormation "FILE";
@@ -75,14 +75,14 @@ _waypoint = _convoy_group addWaypoint [_convoy_destinations select 0, 0];
 _waypoint setWaypointType "CYCLE";
 _waypoint setWaypointCompletionRadius 50;
 
-private _troops_group = createGroup GRLIB_side_enemy;
-{_x createUnit [_spawnpos, _troops_group,"this addMPEventHandler [""MPKilled"", {_this spawn kill_manager}]", 0.5, "private"];} foreach (["army"] call grad_liberation_shared_fnc_getAdaptiveSquadComp);
+private _troops_group = createGroup LIB_side_enemy;
+{_x createUnit [_spawnpos, _troops_group,"this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]", 0.5, "private"];} foreach (["army"] call grad_liberation_shared_fnc_getAdaptiveSquadComp);
 {_x moveInCargo _troop_vehicle} foreach (units _troops_group);
 
 private _convoy_marker = createMarkerLocal [ format [ "convoymarker%1", round time], getpos _transport_vehicle ];
 _convoy_marker setMarkerText (localize "STR_SECONDARY_CSAT_CONVOY");
 _convoy_marker setMarkerType "o_armor";
-_convoy_marker setMarkerColor GRLIB_color_enemy_bright;
+_convoy_marker setMarkerColor LIB_color_enemy_bright;
 
 private _convoy_marker_wp1 = createMarkerLocal [ format [ "convoymarkerwp1%1", round time], _convoy_destinations select 0];
 private _convoy_marker_wp2 = createMarkerLocal [ format [ "convoymarkerwp2%1", round time], _convoy_destinations select 1];
@@ -91,7 +91,7 @@ private _convoy_marker_wp3 = createMarkerLocal [ format [ "convoymarkerwp3%1", r
 {
 	_x setMarkerText (localize "STR_SECONDARY_CSAT_CONVOY_WP");
 	_x setMarkerType "o_armor";
-	_x setMarkerColor GRLIB_color_enemy_bright;
+	_x setMarkerColor LIB_color_enemy_bright;
 	_x setMarkerSize [0.6, 0.6];
 } foreach [_convoy_marker_wp1, _convoy_marker_wp2, _convoy_marker_wp3];
 
@@ -119,7 +119,7 @@ while { _mission_in_progress } do {
 		_disembark_troops = true;
 
 		if (alive (driver _troop_vehicle)) then {
-			private _troop_driver_group = (createGroup GRLIB_side_enemy);
+			private _troop_driver_group = (createGroup LIB_side_enemy);
 			[ driver _troop_vehicle ] joinSilent _troop_driver_group;
 			sleep 1;
 			while {(count (waypoints _troop_driver_group)) != 0} do {deleteWaypoint ((waypoints _troop_driver_group) select 0);};
@@ -157,6 +157,6 @@ deleteMarker _convoy_marker;
 combat_readiness = round (combat_readiness * 0.85);
 stats_secondary_objectives = stats_secondary_objectives + 1;
 [5] remoteExec ["remote_call_intel"];
-GRLIB_secondary_in_progress = -1; publicVariable "GRLIB_secondary_in_progress";
+LIB_secondary_in_progress = -1; publicVariable "LIB_secondary_in_progress";
 sleep 1;
 trigger_server_save = true;

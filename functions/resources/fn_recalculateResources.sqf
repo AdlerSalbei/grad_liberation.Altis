@@ -25,7 +25,7 @@ while {true} do {
 	private _local_infantry_cap = 50 * liberation_resources_multiplier;
 	
 	{
-		private _fob_buildings = _x nearobjects (GRLIB_fob_range * 2);
+		private _fob_buildings = _x nearobjects (LIB_fob_range * 2);
 		private _storage_areas = [_fob_buildings, {(_x getVariable ["KP_liberation_storage_type",-1]) == 0}] call BIS_fnc_conditionalSelect;
 		private _heliSlots = {(typeOf _x) == KP_liberation_heli_slot_building;} count _fob_buildings;
 		private _planeSlots = {(typeOf _x) == KP_liberation_plane_slot_building;} count _fob_buildings;
@@ -55,7 +55,7 @@ while {true} do {
 		_local_fuel_global = _local_fuel_global + _fuelValue;
 		_local_heli_slots = _local_heli_slots + _heliSlots;
 		_local_plane_slots = _local_plane_slots + _planeSlots;
-	} forEach GRLIB_all_fobs;	
+	} forEach LIB_all_fobs;	
 	
 	{
 		if ( _x in sectors_capture ) then {

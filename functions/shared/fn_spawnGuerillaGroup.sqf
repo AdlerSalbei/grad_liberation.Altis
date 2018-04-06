@@ -16,7 +16,7 @@ GROUP
 
 params ["_pos"];
 
-private _grp = createGroup GRLIB_side_resistance;
+private _grp = createGroup LIB_side_resistance;
 private _tier = [] call grad_liberation_shared_fnc_getResistanceTier;
 private _cr_multi = [] call grad_liberation_shared_fnc_getMulti;
 private _amount = (4 + (round (random _cr_multi)) + (round (random _tier)));
@@ -27,7 +27,7 @@ private _headgear = missionNamespace getVariable ("KP_liberation_guerilla_headge
 
 while {(count (units _grp) < _amount)} do {
 	private _unit = _grp createUnit [(selectRandom KP_liberation_guerilla_units), _pos, [], 5, "NONE"];
-	_unit addMPEventHandler ["MPKilled", {_this spawn kill_manager}];
+	_unit addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}];
 	private _weapon = selectRandom _weapons;
 
 	removeAllWeapons _unit;

@@ -1,4 +1,4 @@
-if ( GRLIB_endgame == 1 ) exitWith {};
+if ( LIB_endgame == 1 ) exitWith {};
 
 private [ "_bg_groups", "_target_size", "_vehicle_pool" ];
 _bg_groups = [];
@@ -19,10 +19,10 @@ if ( combat_readiness < 50 ) then {
 
 if ( _spawn_marker != "" ) then {
 
-	GRLIB_last_battlegroup_time = time;
+	LIB_last_battlegroup_time = time;
 
 	_selected_opfor_battlegroup = [];
-	_target_size = GRLIB_battlegroup_size * ([] call grad_liberation_shared_fnc_adaptiveOpforFactor) * (sqrt liberation_csat_aggressivity);
+	_target_size = LIB_battlegroup_size * ([] call grad_liberation_shared_fnc_adaptiveOpforFactor) * (sqrt liberation_csat_aggressivity);
 	if ( _target_size >= 16 ) then { _target_size = 16; };
 	if ( combat_readiness < 60 ) then { _target_size = round (_target_size * 0.65) };
 	while { count _selected_opfor_battlegroup < _target_size } do {
@@ -32,13 +32,13 @@ if ( _spawn_marker != "" ) then {
 	[_spawn_marker] remoteExec ["remote_call_battlegroup"];
 
 	{
-		_nextgrp = createGroup GRLIB_side_enemy;
+		_nextgrp = createGroup LIB_side_enemy;
 		_vehicle = [markerpos _spawn_marker, _x] call grad_liberation_shared_fnc_libSpawnVehicle;
 		sleep 0.5;
 		(crew _vehicle) joinSilent _nextgrp;
 		[_nextgrp] spawn battlegroup_ai;
 		_bg_groups pushback _nextgrp;
-		if ( ( _x in opfor_troup_transports ) &&  ( [] call grad_liberation_shared_fnc_opforCap < GRLIB_battlegroup_cap ) ) then {
+		if ( ( _x in opfor_troup_transports ) &&  ( [] call grad_liberation_shared_fnc_opforCap < LIB_battlegroup_cap ) ) then {
 			[_vehicle] spawn troup_transport;
 		};
 		last_battlegroup_size = last_battlegroup_size + 1;

@@ -10,7 +10,7 @@ private _spawncivs = false;
 private _building_ai_max = 0;
 private _infsquad = "militia";
 private _building_range = 50;
-private _local_capture_size = GRLIB_capture_size;
+private _local_capture_size = LIB_capture_size;
 private _iedcount = 0;
 private _vehtospawn = [];
 private _managed_units = [];
@@ -32,7 +32,7 @@ active_sectors pushback _sector; publicVariable "active_sectors";
 private _opforcount = [] call grad_liberation_shared_fnc_opforCap;
 [_sector, _opforcount] call wait_to_spawn_sector;
 
-if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] call grad_liberation_shared_fnc_getCorrectedSectorRange, GRLIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount) > 0)) then {
+if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] call grad_liberation_shared_fnc_getCorrectedSectorRange, LIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount) > 0)) then {
 
 	if (_sector in sectors_bigtown) then {	
 		if (combat_readiness > 30) then {_infsquad = "army";};
@@ -234,7 +234,7 @@ if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] cal
 	if (liberation_sectorspawn_debug > 0) then {private _text = format ["[KP LIBERATION] [SECTORSPAWN] Sector %1 (%2) - populating done at %3", (markerText _sector), _sector, time];_text remoteExec ["diag_log",2];};
 
 	while {!_stopit} do {
-		if (([_sectorpos, _local_capture_size] call grad_liberation_shared_fnc_sectorOwnership == GRLIB_side_friendly) && (GRLIB_endgame == 0)) then {
+		if (([_sectorpos, _local_capture_size] call grad_liberation_shared_fnc_sectorOwnership == LIB_side_friendly) && (LIB_endgame == 0)) then {
 			if (isServer) then {
 				[_sector] spawn sector_liberated_remote_call;
 			} else {
@@ -253,7 +253,7 @@ if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] cal
 
 			{
 				if (_x isKindOf "Man") then {
-					if (side group _x != GRLIB_side_friendly) then {
+					if (side group _x != LIB_side_friendly) then {
 						deleteVehicle _x;
 					};
 				} else {
@@ -261,7 +261,7 @@ if ((!(_sector in blufor_sectors)) && (([getmarkerpos _sector, [_opforcount] cal
 				};
 			} forEach _managed_units;
 		} else {
-			if (([_sectorpos, (([_opforcount] call grad_liberation_shared_fnc_getCorrectedSectorRange) + 300), GRLIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount) == 0) then {
+			if (([_sectorpos, (([_opforcount] call grad_liberation_shared_fnc_getCorrectedSectorRange) + 300), LIB_side_friendly] call grad_liberation_shared_fnc_getUnitsCount) == 0) then {
 				_sector_despawn_tickets = _sector_despawn_tickets - 1;
 			} else {
 				_sector_despawn_tickets = 12;

@@ -5,7 +5,7 @@
 // ACRE2
 // RHS USAF
 
-GRLIB_arsenal_weapons = [
+LIB_arsenal_weapons = [
 	"ACE_VMH3",
 	"ACE_VMM3",
 	"MineDetector",
@@ -125,11 +125,11 @@ GRLIB_arsenal_weapons = [
 
 ];
 
-GRLIB_arsenal_magazines = [
+LIB_arsenal_magazines = [
 
 ];
 
-GRLIB_arsenal_items = [
+LIB_arsenal_items = [
 	"ACE_ATragMX",
 	"ACE_Altimeter",
 	"ACE_CableTie",
@@ -494,7 +494,7 @@ GRLIB_arsenal_items = [
 	"rhs_weap_optic_smaw"
 ];
 
-GRLIB_arsenal_backpacks = [
+LIB_arsenal_backpacks = [
 	"ACE_NonSteerableParachute",
 	"ACE_TacticalLadder_Pack",
 	"ace_gunbag",

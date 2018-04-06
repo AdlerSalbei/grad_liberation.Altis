@@ -1,11 +1,11 @@
 private [ "_minfobdist", "_minsectordist", "_distfob", "_clearedtobuildfob", "_distsector", "_clearedtobuildsector", "_idx" ];
 
-if ( count GRLIB_all_fobs >= liberation_maximum_fobs ) exitWith {
+if ( count LIB_all_fobs >= liberation_maximum_fobs ) exitWith {
 	hint format [ localize "STR_HINT_FOBS_EXCEEDED", liberation_maximum_fobs ];
 };
 
 _minfobdist = 1000;
-_minsectordist = GRLIB_capture_size + GRLIB_fob_range;
+_minsectordist = LIB_capture_size + LIB_fob_range;
 _distfob = 1;
 _clearedtobuildfob = true;
 _distsector = 1;
@@ -15,10 +15,10 @@ FOB_build_in_progress = true;
 publicVariable "FOB_build_in_progress";
 
 _idx = 0;
-while { (_idx < (count GRLIB_all_fobs)) && _clearedtobuildfob } do {
-	if ( player distance (GRLIB_all_fobs select _idx) < _minfobdist ) then {
+while { (_idx < (count LIB_all_fobs)) && _clearedtobuildfob } do {
+	if ( player distance (LIB_all_fobs select _idx) < _minfobdist ) then {
 		_clearedtobuildfob = false;
-		_distfob = player distance (GRLIB_all_fobs select _idx);
+		_distfob = player distance (LIB_all_fobs select _idx);
 	};
 	_idx = _idx + 1;
 };

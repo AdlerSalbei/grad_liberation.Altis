@@ -4,13 +4,13 @@ private [ "_headless_client" ];
 waitUntil { !isNil "blufor_sectors" };
 waitUntil { !isNil "combat_readiness" };
 
-while { GRLIB_endgame == 0 } do {
+while { LIB_endgame == 0 } do {
 	waitUntil { sleep 0.3; count blufor_sectors >= 3; };
 	waitUntil { sleep 0.3; combat_readiness >= (_minimum_readiness / liberation_difficulty_modifier); };
 
 	sleep (random 30);
 
-	while {  [] call grad_liberation_shared_fnc_opforCap > GRLIB_patrol_cap } do {
+	while {  [] call grad_liberation_shared_fnc_opforCap > LIB_patrol_cap } do {
 			sleep (random 30);
 	};
 
@@ -27,10 +27,10 @@ while { GRLIB_endgame == 0 } do {
 	_sector_spawn_pos = [(((markerpos _spawn_marker) select 0) - 500) + (random 1000),(((markerpos _spawn_marker) select 1) - 500) + (random 1000),0];
 
 	if (_is_infantry) then {
-		_grp = createGroup GRLIB_side_enemy;
+		_grp = createGroup LIB_side_enemy;
 		_squad = ["army"] call grad_liberation_shared_fnc_getAdaptiveSquadComp;
 		{
-			_x createUnit [_sector_spawn_pos, _grp,"this addMPEventHandler [""MPKilled"", {_this spawn kill_manager}]", 0.5, "private"];
+			_x createUnit [_sector_spawn_pos, _grp,"this addMPEventHandler [""MPKilled"", {_this spawn [] call grad_liberation_shared_fnc_killManager}]", 0.5, "private"];
 		} foreach _squad;
 	} else {
 
@@ -63,7 +63,7 @@ while { GRLIB_endgame == 0 } do {
 			_patrol_continue = false;
 		} else {
 			if ( time - _started_time > 900 ) then {
-				if ( [ getpos (leader _grp) , 4000 , GRLIB_side_friendly ] call grad_liberation_shared_fnc_getUnitsCount == 0 ) then {
+				if ( [ getpos (leader _grp) , 4000 , LIB_side_friendly ] call grad_liberation_shared_fnc_getUnitsCount == 0 ) then {
 					_patrol_continue = false;
 					{
 						if ( vehicle _x != _x ) then {

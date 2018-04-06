@@ -4,7 +4,7 @@ private [ "_attacktime", "_ownership", "_grp", "_squad_type" ];
 sleep 5;
 
 _ownership = [ markerpos _sector ] call grad_liberation_shared_fnc_sectorOwnership;
-if ( _ownership != GRLIB_side_enemy ) exitWith {};
+if ( _ownership != LIB_side_enemy ) exitWith {};
 
 _squad_type = blufor_squad_inf_light;
 if ( _sector in sectors_military ) then {
@@ -12,8 +12,8 @@ if ( _sector in sectors_military ) then {
 };
 
 if ( liberation_blufor_defenders ) then {
-	_grp = creategroup GRLIB_side_friendly;
-	{ _x createUnit [ markerpos _sector, _grp,'this addMPEventHandler ["MPKilled", {_this spawn kill_manager}]']; } foreach _squad_type;
+	_grp = creategroup LIB_side_friendly;
+	{ _x createUnit [ markerpos _sector, _grp,'this addMPEventHandler ["MPKilled", {_this spawn [] call grad_liberation_shared_fnc_killManager}]']; } foreach _squad_type;
 	sleep 3;
 	_grp setBehaviour "COMBAT";
 };
@@ -21,7 +21,7 @@ if ( liberation_blufor_defenders ) then {
 sleep 60;
 
 _ownership = [ markerpos _sector ] call grad_liberation_shared_fnc_sectorOwnership;
-if ( _ownership == GRLIB_side_friendly ) exitWith {
+if ( _ownership == LIB_side_friendly ) exitWith {
 	if ( liberation_blufor_defenders ) then {
 		{
 			if ( alive _x ) then { deleteVehicle _x };
@@ -30,9 +30,9 @@ if ( _ownership == GRLIB_side_friendly ) exitWith {
 };
 
 [_sector, 1] remoteExec ["remote_call_sector"];
-_attacktime = GRLIB_vulnerability_timer;
+_attacktime = LIB_vulnerability_timer;
 
-while { _attacktime > 0 && ( _ownership == GRLIB_side_enemy || _ownership == GRLIB_side_resistance ) } do {
+while { _attacktime > 0 && ( _ownership == LIB_side_enemy || _ownership == LIB_side_resistance ) } do {
 	_ownership = [markerpos _sector] call grad_liberation_shared_fnc_sectorOwnership;
 	_attacktime = _attacktime - 1;
 	sleep 1;
@@ -40,11 +40,11 @@ while { _attacktime > 0 && ( _ownership == GRLIB_side_enemy || _ownership == GRL
 
 waitUntil {
 	sleep 1;
-	[markerpos _sector] call grad_liberation_shared_fnc_sectorOwnership != GRLIB_side_resistance;
+	[markerpos _sector] call grad_liberation_shared_fnc_sectorOwnership != LIB_side_resistance;
 };
 
-if ( GRLIB_endgame == 0 ) then {
-	if ( _attacktime <= 1 && ( [markerpos _sector] call grad_liberation_shared_fnc_sectorOwnership == GRLIB_side_enemy ) ) then {
+if ( LIB_endgame == 0 ) then {
+	if ( _attacktime <= 1 && ( [markerpos _sector] call grad_liberation_shared_fnc_sectorOwnership == LIB_side_enemy ) ) then {
 		blufor_sectors = blufor_sectors - [ _sector ];
 		publicVariable "blufor_sectors";
 		[_sector, 2] remoteExec ["remote_call_sector"];
@@ -66,7 +66,7 @@ if ( GRLIB_endgame == 0 ) then {
 		} forEach KP_liberation_production;
 	} else {
 		[_sector, 3] remoteExec ["remote_call_sector"];
-		{ [_x] spawn prisonner_ai; } foreach ( [ (markerpos _sector) nearEntities [ "Man", GRLIB_capture_size * 0.8 ], { side group _x == GRLIB_side_enemy } ] call BIS_fnc_conditionalSelect );
+		{ [_x] spawn prisonner_ai; } foreach ( [ (markerpos _sector) nearEntities [ "Man", LIB_capture_size * 0.8 ], { side group _x == LIB_side_enemy } ] call BIS_fnc_conditionalSelect );
 	};
 };
 

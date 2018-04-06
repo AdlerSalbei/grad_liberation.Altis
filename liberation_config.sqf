@@ -21,7 +21,7 @@ KP_liberation_medical_vehicles = [
 ];
 
 // Classnames of ACE3 crates (which have to be in the unit preset as well).
-KP_liberation_ace_crates = [
+liberation_ace_crates = [
 	"ACE_Box_82mm_Mo_HE",
 	"ACE_Box_82mm_Mo_Smoke",
 	"ACE_Box_82mm_Mo_Illum",
@@ -84,40 +84,40 @@ KP_liberation_fuel_max = 45;
 
 /* - Gameplay constant settings.
 Name of the savegame namespace inside of the [ServerProfileName].vars.Arma3Profile file.	*/
-GRLIB_save_key = "KP_LIBERATION_" + (toUpper worldName) + "_SAVEGAME";
+LIB_save_key = "KP_LIBERATION_" + (toUpper worldName) + "_SAVEGAME";
 
-GRLIB_side_friendly = WEST;																						// Friendly side.
-GRLIB_side_enemy = EAST;																						// Enemy side.
-GRLIB_side_resistance = RESISTANCE;																				// Resistance side.
-GRLIB_side_civilian = CIVILIAN;																					// Civilian side.
-GRLIB_respawn_marker = "respawn";																				// Respawn marker name.
+LIB_side_friendly = WEST;																						// Friendly side.
+LIB_side_enemy = EAST;																						// Enemy side.
+LIB_side_resistance = RESISTANCE;																				// Resistance side.
+LIB_side_civilian = CIVILIAN;																					// Civilian side.
+LIB_respawn_marker = "respawn";																				// Respawn marker name.
 
-GRLIB_color_friendly = "ColorBLUFOR";																			// Friendly sector marker color.
-GRLIB_color_enemy = "ColorOPFOR";																				// Enemy sector marker color.
-GRLIB_color_enemy_bright = "ColorRED";																			// Enemy sector marker color (activated).
+LIB_color_friendly = "ColorBLUFOR";																			// Friendly sector marker color.
+LIB_color_enemy = "ColorOPFOR";																				// Enemy sector marker color.
+LIB_color_enemy_bright = "ColorRED";																			// Enemy sector marker color (activated).
 
-GRLIB_fob_range = 125;																							// Build range around the main FOB building.
-GRLIB_halo_altitude = 8000;																						// Altitude in metres for the HALO jump.
-GRLIB_secondary_missions_costs = [15, 10, 8];																	// Intel price for the secondary missions [FOB hunting, Convoy ambush, SAR].
-GRLIB_secondary_objective_impact = 0.6;																			// The percentage impact against enemy combat readiness for a successful FOB hunt.
-GRLIB_recycling_percentage = 0.5;																				// Percentage of resources you get back from recycling.
+LIB_fob_range = 125;																							// Build range around the main FOB building.
+LIB_halo_altitude = 8000;																						// Altitude in metres for the HALO jump.
+LIB_secondary_missions_costs = [15, 10, 8];																	// Intel price for the secondary missions [FOB hunting, Convoy ambush, SAR].
+LIB_secondary_objective_impact = 0.6;																			// The percentage impact against enemy combat readiness for a successful FOB hunt.
+LIB_recycling_percentage = 0.5;																				// Percentage of resources you get back from recycling.
 KP_liberation_production_interval = 30				/ liberation_resources_multiplier;								// Time in minutes until a production process is finished, when resources multiplier is set to 1.
 
-GRLIB_sector_size = 1000;																						// Range to activate a sector.
-GRLIB_capture_size = 175;																						// Range to capture a sector.
-GRLIB_defended_buildingpos_part = 0.4;																			// Multiplier for defenders in buildings.
-GRLIB_battlegroup_size = 6							* (sqrt liberation_unitcap) * (sqrt liberation_csat_aggressivity);	// Size of enemy battlegroups.
-GRLIB_vulnerability_timer = 1200;																				// Time in seconds how long a captured sector is vulnerable to enemy troops.
-GRLIB_radiotower_size = 2500;																					// Radio Tower scanning range.
-GRLIB_surrender_chance = 80;																					// Chance that enemy infantry will surrender after heavy losses are encountered.
+LIB_sector_size = 1000;																						// Range to activate a sector.
+LIB_capture_size = 175;																						// Range to capture a sector.
+LIB_defended_buildingpos_part = 0.4;																			// Multiplier for defenders in buildings.
+LIB_battlegroup_size = 6							* (sqrt liberation_unitcap) * (sqrt liberation_csat_aggressivity);	// Size of enemy battlegroups.
+LIB_vulnerability_timer = 1200;																				// Time in seconds how long a captured sector is vulnerable to enemy troops.
+LIB_radiotower_size = 2500;																					// Radio Tower scanning range.
+LIB_surrender_chance = 80;																					// Chance that enemy infantry will surrender after heavy losses are encountered.
 
-GRLIB_civilians_amount = 10 						* liberation_civilian_activity;									// Civilian count multiplier.
-GRLIB_cleanup_delay = 1200;																						// Time in seconds until bodies of dead soldiers are cleaned up.
+LIB_civilians_amount = 10 						* liberation_civilian_activity;									// Civilian count multiplier.
+LIB_cleanup_delay = 1200;																						// Time in seconds until bodies of dead soldiers are cleaned up.
 
-GRLIB_blufor_cap = 100								* liberation_unitcap;											// Cap for BLUFOR.
-GRLIB_sector_cap = 180								* liberation_unitcap;											// Cap for sector defenders.
-GRLIB_battlegroup_cap = 150							* liberation_unitcap;											// Cap for enemy battlegroups.
-GRLIB_patrol_cap = 150								* liberation_unitcap;											// Cap for enemy patrols.
+LIB_blufor_cap = 100								* liberation_unitcap;											// Cap for BLUFOR.
+LIB_sector_cap = 180								* liberation_unitcap;											// Cap for sector defenders.
+LIB_battlegroup_cap = 150							* liberation_unitcap;											// Cap for enemy battlegroups.
+LIB_patrol_cap = 150								* liberation_unitcap;											// Cap for enemy patrols.
 
 KP_liberation_cr_kill_penalty = 5;																				// Civil Reputation penalty for killing a civilian.
 KP_liberation_cr_building_penalty = 3;																			// Civil Reputation penalty for destroying/damaging a building.
@@ -542,8 +542,8 @@ KP_liberation_small_storage_positions = [
 ];
 
 // DO NOT CHANGE (unless you know what you are doing).
-GRLIB_endgame = 0;
-if ( GRLIB_blufor_cap > 100 ) then { GRLIB_blufor_cap = 100 };
-GRLIB_offload_diag = false;
+LIB_endgame = 0;
+if ( LIB_blufor_cap > 100 ) then { LIB_blufor_cap = 100 };
+LIB_offload_diag = false;
 
 KP_liberation_production_interval = ceil KP_liberation_production_interval;

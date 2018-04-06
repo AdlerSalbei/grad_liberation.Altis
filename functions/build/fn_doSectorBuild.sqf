@@ -8,7 +8,7 @@ if (((_this select 3) select 0) == KP_liberation_small_storage_building) then {
 	build_invalid = 0;
 	KP_vector = true;
 	
-	_sectorpos = getMarkerPos ([GRLIB_fob_range] call grad_liberation_shared_fnc_getNearestSector);
+	_sectorpos = getMarkerPos ([LIB_fob_range] call grad_liberation_shared_fnc_getNearestSector);
 
 	_idactcancel = player addAction ["<t color='#B0FF00'>" + localize "STR_CANCEL" + "</t> <img size='2' image='res\ui_cancel.paa'/>",{build_confirmed = 3;},"",-725,false,true,"","build_confirmed == 1"];
 	_idactplace = player addAction ["<t color='#B0FF00'>" + localize "STR_PLACEMENT" + "</t> <img size='2' image='res\ui_confirm.paa'/>",{build_confirmed = 2;},"",-775,false,true,"","build_invalid == 0 && build_confirmed == 1"];
@@ -33,16 +33,16 @@ if (((_this select 3) select 0) == KP_liberation_small_storage_building) then {
 		_truedir = 90 - (getdir player);
 		_truepos = [((getpos player) select 0) + (_dist * (cos _truedir)), ((getpos player) select 1) + (_dist * (sin _truedir)),0];
 
-		if ((surfaceIsWater _truepos) || (surfaceIsWater getpos player) || ((_truepos distance _sectorpos) > GRLIB_fob_range)) then {
+		if ((surfaceIsWater _truepos) || (surfaceIsWater getpos player) || ((_truepos distance _sectorpos) > LIB_fob_range)) then {
 			_building setpos _ghost_spot;
 			build_invalid = 1;
 			
 			if(((surfaceIsWater _truepos) || (surfaceIsWater getpos player))) then {
-				GRLIB_ui_notif = localize "STR_BUILD_ERROR_WATER";
+				LIB_ui_notif = localize "STR_BUILD_ERROR_WATER";
 			};
 
-			if((_truepos distance _sectorpos) > GRLIB_fob_range) then {
-				GRLIB_ui_notif = format [localize "STR_BUILD_ERROR_DISTANCE",GRLIB_fob_range];
+			if((_truepos distance _sectorpos) > LIB_fob_range) then {
+				LIB_ui_notif = format [localize "STR_BUILD_ERROR_DISTANCE",LIB_fob_range];
 			};
 		} else {
 			_building setdir (getDir player);

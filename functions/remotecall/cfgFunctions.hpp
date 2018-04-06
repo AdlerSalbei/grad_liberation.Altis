@@ -1,0 +1,32 @@
+class grad_liberation_remotecall {
+    class remotecall {
+        class abortLogiRemoteCall {};
+        class addLogiGroupRemoteCall {};
+        class addLogiTruckRemoteCall {};
+        class buildFacRemoteCall {};
+        class buildFobRemoteCall {};
+        class buildRemoteCall {};
+        class cancelBuildRemoteCall {};
+        class changeProdRemoteCall {};
+        class checkSectorRessRemoteCall {};
+        class delLogiGroupRemoteCall {};
+        class delLogiTruckRemoteCall {};
+        class intelRemoteCall {};
+        class prisonnerRemoteCall {};
+        class recycleRemoteCall {};
+        class reinforcementsRemoteCall {};
+        class remoteCallBattlegroup {};
+        class remoteCallEndgame {};
+        class remoteCallFob {};
+        class remoteCallIncoming {};
+        class remoteCallIntel {};
+        class remoteCallPrisonner {};
+        class remoteCallRemoveSuppReq {};
+        class remoteCallSector {};
+        class remoteCallSwitchmove {};
+        class saveLogiRemoteCall {};
+        class sectorLiberatedRemoteCall {};
+        class startSecondaryRemoteCall {};
+        class zeusRemoteCall {};
+    };
+};

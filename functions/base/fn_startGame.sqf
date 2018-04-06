@@ -1,8 +1,8 @@
 waitUntil {time > 1};
-waitUntil {!isNil "GRLIB_all_fobs"};
+waitUntil {!isNil "LIB_all_fobs"};
 waitUntil {!isNil "save_is_loaded"};
 
-if (count GRLIB_all_fobs == 0) then {
+if (count LIB_all_fobs == 0) then {
 
 	if (liberation_build_first_fob) then {
 		_potentialplaces = [];
@@ -25,7 +25,7 @@ if (count GRLIB_all_fobs == 0) then {
 	} else {
 		private _fobbox = objNull;
 		
-		while {count GRLIB_all_fobs == 0} do {
+		while {count LIB_all_fobs == 0} do {
 			_fobbox = FOB_box_typename createVehicle (getposATL base_boxspawn);
 			_fobbox setdir getDir base_boxspawn;
 			_fobbox setposATL (getposATL base_boxspawn);	
@@ -36,14 +36,14 @@ if (count GRLIB_all_fobs == 0) then {
 
 			waitUntil {
 				sleep 1;
-				!(alive _fobbox) || ((count GRLIB_all_fobs) > 0) || (((getPosASL _fobbox) select 2) < 0)
+				!(alive _fobbox) || ((count LIB_all_fobs) > 0) || (((getPosASL _fobbox) select 2) < 0)
 			};
 			sleep 15;			
 		};
 		deleteVehicle _fobbox;
 	};
 
-	waitUntil {sleep 5; (count GRLIB_all_fobs) > 0};
+	waitUntil {sleep 5; (count LIB_all_fobs) > 0};
 
 	private _crateArray = [];
 
@@ -52,7 +52,7 @@ if (count GRLIB_all_fobs == 0) then {
 	for [{_i = 0;}, {_i < 6}, {_i = _i + 1;}] do {
 		private _crate = createVehicle [
 			(KP_liberation_crates select (_i % 3)),
-			[((GRLIB_all_fobs select 0) select 0), ((GRLIB_all_fobs select 0) select 1), 150],
+			[((LIB_all_fobs select 0) select 0), ((LIB_all_fobs select 0) select 1), 150],
 			[],
 			80,
 			"FLY"
@@ -64,7 +64,7 @@ if (count GRLIB_all_fobs == 0) then {
 		_crate setVariable ["KP_liberation_crate_value", 100, true];
 		[_crate, 500] remoteExec ["grad_liberation_shared_fnc_setMass",_crate];
 		[objNull, _crate] call BIS_fnc_curatorObjectEdited;
-		if(KP_liberation_ace) then {[_crate, true, [0, 1.5, 0], 0] remoteExec ["ace_dragging_fnc_setCarryable"];};
+		if(liberation_ace) then {[_crate, true, [0, 1.5, 0], 0] remoteExec ["ace_dragging_fnc_setCarryable"];};
 		_crateArray pushBack _crate;
 	};
 	uiSleep 25;

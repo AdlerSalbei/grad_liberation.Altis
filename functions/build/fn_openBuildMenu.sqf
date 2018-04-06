@@ -1,6 +1,6 @@
 private [ "_oldbuildtype", "_cfg", "_initindex", "_dialog", "_iscommandant", "_squadname", "_buildpages", "_build_list", "_classnamevar", "_entrytext", "_icon", "_affordable", "_affordable_crew", "_selected_item", "_linked", "_linked_unlocked", "_base_link", "_link_color", "_link_str", "_nearfob", "_actual_fob"];
 
-if (([ getpos player , 500 , GRLIB_side_enemy ] call grad_liberation_shared_fnc_getUnitsCount ) > 4 ) exitWith { hint localize "STR_BUILD_ENEMIES_NEARBY";};
+if (([ getpos player , 500 , LIB_side_enemy ] call grad_liberation_shared_fnc_getUnitsCount ) > 4 ) exitWith { hint localize "STR_BUILD_ENEMIES_NEARBY";};
 
 if (isNil "buildtype") then {buildtype = 1};
 if (isNil "buildindex") then {buildindex = -1};
@@ -34,7 +34,7 @@ localize "STR_BUILD8"
 ];
 
 _nearfob = [] call grad_liberation_shared_fnc_getNearestFob;
-_actual_fob = [KP_liberation_fob_resources, {((_x select 0) distance _nearfob) < GRLIB_fob_range}] call BIS_fnc_conditionalSelect;
+_actual_fob = [KP_liberation_fob_resources, {((_x select 0) distance _nearfob) < LIB_fob_range}] call BIS_fnc_conditionalSelect;
 
 while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 	_build_list = build_lists select buildtype;
@@ -141,7 +141,7 @@ while {dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 		};				
 
 		if ( buildtype != 8 ) then {
-			{ if ( ( _build_item select 0 ) == ( _x select 0 ) ) exitWith { _base_link = _x select 1; _linked = true; } } foreach GRLIB_vehicle_to_military_base_links;
+			{ if ( ( _build_item select 0 ) == ( _x select 0 ) ) exitWith { _base_link = _x select 1; _linked = true; } } foreach LIB_vehicle_to_military_base_links;
 
 			if ( _linked ) then {
 				if ( !(_base_link in blufor_sectors) ) then { _linked_unlocked = false };

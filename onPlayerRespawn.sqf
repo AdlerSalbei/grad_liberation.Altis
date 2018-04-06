@@ -1,4 +1,4 @@
-if ( isNil "GRLIB_respawn_loadout" ) then {
+if ( isNil "LIB_respawn_loadout" ) then {
 	removeAllWeapons player;
 	removeAllItems player;
 	removeAllAssignedItems player;
@@ -12,5 +12,5 @@ if ( isNil "GRLIB_respawn_loadout" ) then {
 	player linkItem "ItemRadio";
 } else {
 	sleep 4;
-	[ player, GRLIB_respawn_loadout ] call grad_liberation_shared_fnc_setLoadout;
+	[ player, LIB_respawn_loadout ] call grad_liberation_shared_fnc_setLoadout;
 };

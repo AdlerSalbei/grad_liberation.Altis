@@ -108,7 +108,7 @@ if (liberation_param_buildings == 1) then {liberation_param_buildings = true} el
 if (liberation_clear_cargo == 1) then {liberation_clear_cargo = true} else {liberation_clear_cargo = false};
 
 // Check if ACE is running
-if (isClass (configFile >> "CfgVehicles" >> "ACE_module")) then {KP_liberation_ace = true; diag_log "[KP LIBERATION] ACE detected. Deactivating resupply and weather scripts from Liberation."} else {KP_liberation_ace = false};
+if (isClass (configFile >> "CfgVehicles" >> "ACE_module")) then {liberation_ace = true; diag_log "[KP LIBERATION] ACE detected. Deactivating resupply and weather scripts from Liberation."} else {liberation_ace = false};
 
 // Fix for not working float values in mission params
 switch (liberation_unitcap) do {

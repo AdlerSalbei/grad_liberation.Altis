@@ -4,18 +4,18 @@ if (isServer) then {
 
 	if (liberation_kill_debug > 0) then {diag_log format ["[KP LIBERATION] [KILL] Kill Manager executed - _unit: %1 (%2) - _killer: %3 (%4)", typeOf _unit, _unit, typeOf _killer, _killer];};
 
-	if (KP_liberation_ace) then {
+	if (liberation_ace) then {
 		if (local _unit) then {
 			_killer = _unit getVariable ["ace_medical_lastDamageSource", _killer];
 			if (liberation_kill_debug > 0) then {diag_log format ["[KP LIBERATION] [KILL] _unit is local to %1", debug_source];};
 		} else {
 			if (liberation_kill_debug > 0) then {diag_log format ["[KP LIBERATION] [KILL] _unit is not local to %1", debug_source];};
-			if (isNil "KP_liberation_ace_killer") then {KP_liberation_ace_killer = objNull;};
-			waitUntil {sleep 0.5; !(isNull KP_liberation_ace_killer)};
-			if (liberation_kill_debug > 0) then {diag_log format ["[KP LIBERATION] [KILL] KP_liberation_ace_killer received on %1", debug_source];};
-			_killer = KP_liberation_ace_killer;
-			KP_liberation_ace_killer = objNull;
-			publicVariable "KP_liberation_ace_killer";
+			if (isNil "liberation_ace_killer") then {liberation_ace_killer = objNull;};
+			waitUntil {sleep 0.5; !(isNull liberation_ace_killer)};
+			if (liberation_kill_debug > 0) then {diag_log format ["[KP LIBERATION] [KILL] liberation_ace_killer received on %1", debug_source];};
+			_killer = liberation_ace_killer;
+			liberation_ace_killer = objNull;
+			publicVariable "liberation_ace_killer";
 		};
 	};
 
@@ -25,7 +25,7 @@ if (isServer) then {
 	if (isNil "armor_weight") then {armor_weight = 33};
 	if (isNil "air_weight") then {air_weight = 33};
 
-	if ((side _killer) == GRLIB_side_friendly) then {
+	if ((side _killer) == LIB_side_friendly) then {
 
 		private _nearby_bigtown = [sectors_bigtown, {!(_x in blufor_sectors) && (_unit distance (markerpos _x) < 250) } ] call BIS_fnc_conditionalSelect;
 		if (count _nearby_bigtown > 0) then {
@@ -73,9 +73,9 @@ if (isServer) then {
 	};
 
 	if (_unit isKindOf "Man") then {
-		if (side (group _unit) == GRLIB_side_civilian) then {
+		if (side (group _unit) == LIB_side_civilian) then {
 			stats_civilians_killed = stats_civilians_killed + 1;
-			if (side _killer == GRLIB_side_friendly) then {
+			if (side _killer == LIB_side_friendly) then {
 				if (liberation_civrep_debug > 0) then {diag_log format ["[KP LIBERATION] [CIVREP] Civilian killed by: %1", name _killer];};
 				[2, [(name _unit)]] remoteExec ["grad_liberation_shared_fnc_globalMsg"];
 				[KP_liberation_cr_kill_penalty, true] spawn F_cr_changeCR;
@@ -85,26 +85,26 @@ if (isServer) then {
 			};
 		};
 
-		if (side _killer == GRLIB_side_friendly) then {
-			if (side (group _unit) == GRLIB_side_enemy) then {
+		if (side _killer == LIB_side_friendly) then {
+			if (side (group _unit) == LIB_side_enemy) then {
 				stats_opfor_soldiers_killed = stats_opfor_soldiers_killed + 1;
 				if (isplayer _killer) then {
 					stats_opfor_killed_by_players = stats_opfor_killed_by_players + 1;
 				};
 			};
 
-			if (side (group _unit) == GRLIB_side_friendly) then {
+			if (side (group _unit) == LIB_side_friendly) then {
 				stats_blufor_teamkills = stats_blufor_teamkills + 1;
 			};
 
-			if (side (group _unit) == GRLIB_side_friendly) then {
+			if (side (group _unit) == LIB_side_friendly) then {
 				stats_blufor_teamkills = stats_blufor_teamkills + 1;
 			};
 		};
 
-		if (side (group _unit) == GRLIB_side_resistance) then {
+		if (side (group _unit) == LIB_side_resistance) then {
 			KP_liberation_guerilla_strength = KP_liberation_guerilla_strength - 1;
-			if (((GRLIB_side_friendly getFriend GRLIB_side_resistance) >= 0.6) && (side _killer == GRLIB_side_friendly)) then {
+			if (((LIB_side_friendly getFriend LIB_side_resistance) >= 0.6) && (side _killer == LIB_side_friendly)) then {
 				if (liberation_asymmetric_debug > 0) then {diag_log format ["[KP LIBERATION] [ASYMMETRIC] Guerilla unit killed by: %1", name _killer];};
 				[3, [(name _unit)]] remoteExec ["grad_liberation_shared_fnc_globalMsg"];
 				[KP_liberation_cr_resistance_penalty, true] spawn F_cr_changeCR;
@@ -121,10 +121,10 @@ if (isServer) then {
 		};
 	};
 } else {
-	if (KP_liberation_ace && local _unit) then {
+	if (liberation_ace && local _unit) then {
 		if (liberation_kill_debug > 0) then {private _text = format ["[KP LIBERATION] [KILL] _unit is local to: %1", debug_source];_text remoteExec ["diag_log",2];};
-		KP_liberation_ace_killer = _unit getVariable ["ace_medical_lastDamageSource", _killer];
-		publicVariable "KP_liberation_ace_killer";
+		liberation_ace_killer = _unit getVariable ["ace_medical_lastDamageSource", _killer];
+		publicVariable "liberation_ace_killer";
 	};
 };
 
@@ -133,7 +133,7 @@ if (isServer && !isplayer _unit) then {
 		("R_80mm_HE" createVehicle (getPosATL _unit)) setVelocity [0, 0, -200];
 		deleteVehicle _unit;
 	} else {
-		sleep GRLIB_cleanup_delay;
+		sleep LIB_cleanup_delay;
 		hidebody _unit;
 		sleep 10;
 		deleteVehicle _unit;

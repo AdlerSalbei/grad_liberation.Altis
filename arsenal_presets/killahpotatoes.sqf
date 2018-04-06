@@ -7,7 +7,7 @@
 // RHS AFRF
 // RHS USAF
 
-GRLIB_arsenal_weapons = [
+LIB_arsenal_weapons = [
 	"arifle_AK12_F",
 	"arifle_AK12_GL_F",
 	"arifle_AKM_F",
@@ -195,11 +195,11 @@ GRLIB_arsenal_weapons = [
 	"rhs_weap_M107_w"
 ];
 
-GRLIB_arsenal_magazines = [
+LIB_arsenal_magazines = [
 
 ];
 
-GRLIB_arsenal_items = [
+LIB_arsenal_items = [
 	"optic_ACO_grn",
 	"optic_Aco",
 	"optic_ACO_grn_smg",
@@ -716,7 +716,7 @@ GRLIB_arsenal_items = [
 	"BWA3_Vest_JPC_Rifleman_Tropen"
 ];
 
-GRLIB_arsenal_backpacks = [
+LIB_arsenal_backpacks = [
 	"B_AssaultPack_cbr",
 	"BWA3_AssaultPack_Fleck",
 	"B_AssaultPack_rgr",

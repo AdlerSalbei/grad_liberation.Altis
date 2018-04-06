@@ -4,9 +4,9 @@ private _currentnearest = [];
 private _refdistance = 99999;
 private _tpositions = [];
 
-if (count GRLIB_all_fobs != 0 || count blufor_sectors != 0) then {
+if (count LIB_all_fobs != 0 || count blufor_sectors != 0) then {
 
-	{_tpositions pushback _x;} foreach GRLIB_all_fobs;
+	{_tpositions pushback _x;} foreach LIB_all_fobs;
 
 	{
 		if (_startpos distance _x < _refdistance) then {

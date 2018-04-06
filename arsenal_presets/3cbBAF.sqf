@@ -4,7 +4,7 @@
 // 3cb BAF suite of addons - https://3cbmod.wordpress.com
 // RHS US and Russian Forces
 
-GRLIB_arsenal_weapons = [
+LIB_arsenal_weapons = [
 	"rhs_weap_fim92",
 	"rhs_weap_M136",
 	"rhs_weap_M136_hedp",
@@ -65,7 +65,7 @@ GRLIB_arsenal_weapons = [
 	"UK3CB_BAF_M6"
 ];
 
-GRLIB_arsenal_magazines = [
+LIB_arsenal_magazines = [
 	/*"UK3CB_BAF_HandGrenade_Blank",
 	"UK3CB_BAF_9_17Rnd",
 	"UK3CB_BAF_9_30Rnd",
@@ -121,7 +121,7 @@ GRLIB_arsenal_magazines = [
 	"UK3CB_BAF_1Rnd_81mm_Mo_LG"*/
 ];
 
-GRLIB_arsenal_items = [
+LIB_arsenal_items = [
 	"B_UavTerminal",
 	"MineDetector",
 	"Binocular",
@@ -476,7 +476,7 @@ GRLIB_arsenal_items = [
 	"UK3CB_BAF_H_Wool_Hat"
 ];
 
-GRLIB_arsenal_backpacks = [
+LIB_arsenal_backpacks = [
 	"UK3CB_BAF_B_Bergen_MTP_Rifleman_H_A",
 	"UK3CB_BAF_B_Bergen_MTP_Rifleman_H_B",
 	"UK3CB_BAF_B_Bergen_MTP_Rifleman_H_C",

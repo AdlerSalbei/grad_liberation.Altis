@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_ammoboxes {
     class ammoboxes {
         class ammoboxActionManager {};
         class doLoadBox {};

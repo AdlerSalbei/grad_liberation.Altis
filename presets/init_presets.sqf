@@ -42,7 +42,7 @@ squads = [
 ];
 
 // Classnames of objects which should be ignored when building
-GRLIB_ignore_colisions_when_building = [
+LIB_ignore_colisions_when_building = [
 	"Land_HelipadSquare_F",
 	"Land_TentHangar_V1_F",
 	"Land_runway_edgelight",
@@ -144,7 +144,7 @@ ammobox_transports_typenames = [];
 ammobox_transports_typenames = [ammobox_transports_typenames, {[_x] call grad_liberation_shared_fnc_checkClass}] call BIS_fnc_conditionalSelect;
 elite_vehicles = [elite_vehicles, {[_x] call grad_liberation_shared_fnc_checkClass}] call BIS_fnc_conditionalSelect;
 opfor_infantry = [opfor_sentry,opfor_rifleman,opfor_grenadier,opfor_squad_leader,opfor_team_leader,opfor_marksman,opfor_machinegunner,opfor_heavygunner,opfor_medic,opfor_rpg,opfor_at,opfor_aa,opfor_officer,opfor_sharpshooter,opfor_sniper,opfor_engineer];
-GRLIB_intel_file = "Land_File1_F";
-GRLIB_intel_laptop = "Land_Laptop_device_F";
-GRLIB_sar_wreck = "Land_Wreck_Heli_Attack_01_F";
-GRLIB_sar_fire = "test_EmptyObjectForFireBig";
+LIB_intel_file = "Land_File1_F";
+LIB_intel_laptop = "Land_Laptop_device_F";
+LIB_sar_wreck = "Land_Wreck_Heli_Attack_01_F";
+LIB_sar_fire = "test_EmptyObjectForFireBig";

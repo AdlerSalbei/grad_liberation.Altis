@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_sector {
     class sector {
         class attackInProgressFob {};
         class attackInProgressSector {};

@@ -1,4 +1,4 @@
-class grad_liberation {
+class grad_liberation_civ {
     class civ {
         class changeCR {};
         class checkVehicle {};

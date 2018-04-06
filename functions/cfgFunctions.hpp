@@ -6,7 +6,7 @@
 #include "battlegroup\cfgFunctions.hpp"
 #include "build\cfgFunctions.hpp"
 #include "civ\cfgFunctions.hpp"
-#include "commanders\cfgFunctions.hpp"
+#include "commander\cfgFunctions.hpp"
 #include "game\cfgFunctions.hpp"
 #include "markers\cfgFunctions.hpp"
 #include "misc\cfgFunctions.hpp"
